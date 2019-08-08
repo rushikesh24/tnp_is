@@ -1,0 +1,32 @@
+login	
+	student
+	employee
+		others
+
+student
+	drive yes/no
+	attendence
+	
+employee
+	tpo_admin
+		drive upload
+		update drive
+		add student
+				single
+				csv
+		update student
+		report generation
+		volunteer
+		add faculty
+		remove faculty
+	
+	tpo_coordinator
+		report generation
+		volunteer
+	
+	others
+		visualization
+		
+volunteer
+	on drive upadate round details
+	
