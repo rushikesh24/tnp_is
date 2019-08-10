@@ -63,7 +63,7 @@ form.material {
   left: 4px;
   top: 26px;
   color: darkgray;
-  -webkit-transform: scale(1.1);
+  -webkit-trans	: scale(1.1);
           transform: scale(1.1);
   transition: all 0.15s ease-out;
 }
@@ -128,7 +128,6 @@ form.material {
 <body>
 
 <div class="form-card">
-  <div class="avatar"></div>
   <form class="material" action="{% url 'registration' %}" method="post">
     <div class="material-input">
       <label>Name</label>
@@ -175,17 +174,16 @@ form.material {
       <input type="password" name="id_password2"/>
     </div>
     {% csrf_token %}
-    {{ form.as_p }}
+  </form>
   <div class="buttons">
     <button class="cancel">Cancel</button>
     <button class="update" type="submit">Create Account</button>
   </div>
-  </form>
-</div>
 </div>
 </body>
+
 <script>
-    const form = document.querySelector('form');
+const form = document.querySelector('form');
 const materialInputs = form.querySelectorAll('.material-input > input');
 
 function materialize() {
