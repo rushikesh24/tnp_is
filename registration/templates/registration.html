@@ -129,7 +129,7 @@ form.material {
 
 <div class="form-card">
   <div class="avatar"></div>
-  <form class="material" method="post">
+  <form class="material" action="{% url 'registration' %}" method="post">
     <div class="material-input">
       <label>Name</label>
       <input type="text" name="username"/>
