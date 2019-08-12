@@ -15,14 +15,14 @@ class Year_marks(models.Model):
 
 
 class Student(models.Model):
-    pnr = models.CharField(max_length=10, null=False, blank=False, primary_key=True)
+    id = models.CharField(max_length=10, null=False, blank=False, primary_key=True)
     name = models.CharField(max_length=80, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
     birthdate = models.DateField(auto_now=False, auto_now_add=False)
     tenth = models.DecimalField(max_digits=5, decimal_places=2)
     diploma_12 = models.DecimalField(max_digits=5, decimal_places=2)
     branch = models.CharField(max_length=50, null=False, blank=False)
-    gender = models.CharField(max_length=2, null=False, blank=False)
+    gender = models.CharField(max_length=2, null=False,default='Male', blank=False)
     placed = models.BooleanField(default=False)
     primary_mobile = models.CharField(max_length=10, null=False, blank=False)
     secondary_mobile = models.CharField(max_length=10, blank=True)
@@ -40,6 +40,7 @@ class Employee(models.Model):
     designation = models.CharField(max_length=50, null=False, blank=False)
     department = models.CharField(max_length=50, null=False, blank=False)
     primary_mobile = models.CharField(max_length=10, null=False, blank=False)
+    gender = models.CharField(max_length=10,default='Male', null=False, blank=False)
     secondary_mobile = models.CharField(max_length=10, blank=True)
     email = models.EmailField(max_length=50,null=False,blank=False)
 
