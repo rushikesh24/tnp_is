@@ -186,6 +186,9 @@ input[type=date]::-webkit-calendar-picker-indicator:active {
 						</div>
 					</div>
 				</form>
+				{% if error %}
+				{{ error }}
+				{% endif %}
 			</div>
 		</div>
 	</div>

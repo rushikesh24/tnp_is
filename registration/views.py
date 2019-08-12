@@ -48,27 +48,25 @@ def single_student(request):
     if request.method == 'POST':
         try:
             con = MongoClient()
+            db = con["tnp_management"]
+            collection = db["registration_student"]
+
+            data_dic = {
+                "_id": request.POST.get("pnr"),
+                "name": request.POST.get("name"),
+                "email": request.POST.get("email"),
+                "tenth": request.POST.get("percentage"),
+                "diploma_12": request.POST.get("percentage1"),
+                "branch": request.POST.get("branch"),
+                "gender": request.POST.get("gender"),
+                "primary_mobile": request.POST.get("primary_mobile"),
+                "secondary_mobile": request.POST.get("secondary_mobile"),
+                "marks": request.POST.get("marks")
+            }
+            print(data_dic)
+            rec = collection.insert_one(data_dic)
+            print(rec)
         except:
-            print("Couldn't connect to DB")
-        db = con["tnp_management"]
-
-        collection = db["registration_student"]
-
-
-        data_dic = {
-            "id": request.POST.get("pnr"),
-            "name": request.POST.get("name"),
-            "email": request.POST.get("email"),
-            "tenth": request.POST.get("percentage"),
-            "diploma_12": request.POST.get("percentage1"),
-            "branch": request.POST.get("branch"),
-            "gender": request.POST.get("gender"),
-            "primary_mobile": request.POST.get("primary_mobile"),
-            "secondary_mobile": request.POST.get("secondary_mobile"),
-            "marks": request.POST.get("marks")
-        }
-        print(data_dic)
-        rec = collection.insert_one(data_dic)
-        print(rec)
+            return render(request, 'registration/student_single.html', {"error" : "PNR number is already registered"})
     else:
         return render(request, 'registration/student_single.html', {})

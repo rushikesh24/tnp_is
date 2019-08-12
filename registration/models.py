@@ -15,7 +15,7 @@ class Year_marks(models.Model):
 
 
 class Student(models.Model):
-    id = models.CharField(max_length=10, null=False, blank=False, primary_key=True)
+    _id = models.CharField(max_length=10, null=False, blank=False, primary_key=True,unique=True)
     name = models.CharField(max_length=80, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
     birthdate = models.DateField(auto_now=False, auto_now_add=False)
