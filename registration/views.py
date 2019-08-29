@@ -12,12 +12,10 @@ from django.contrib.auth.decorators import login_required
 def special(request):
     return HttpResponse("You are logged in !")
 
-
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
-
 
 def register(request):
     registered = False
@@ -56,9 +54,11 @@ def single_student(request):
                 "name": request.POST.get("name"),
                 "email": request.POST.get("email"),
                 "tenth": request.POST.get("percentage"),
+                "birthdate": request.POST.get("dob"),
                 "diploma_12": request.POST.get("percentage1"),
+                "placed" : request.POST.get("placed"),
                 "branch": request.POST.get("branch"),
-                "gender": request.POST.get("gender"),
+                "gender": request.POST.get("Gender"),
                 "primary_mobile": request.POST.get("primary_mobile"),
                 "secondary_mobile": request.POST.get("secondary_mobile"),
                 "marks": request.POST.get("marks")
@@ -66,7 +66,8 @@ def single_student(request):
             print(data_dic)
             rec = collection.insert_one(data_dic)
             print(rec)
-        except:
-            return render(request, 'registration/student_single.html', {"error" : "PNR number is already registered"})
+            return HttpResponse("200")
+        except Exception as e:
+            return render(request, 'registration/student_single.html', {"error": "PNR number is already registered"})
     else:
         return render(request, 'registration/student_single.html', {})
