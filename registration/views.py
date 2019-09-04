@@ -71,3 +71,4 @@ def single_student(request):
             return render(request, 'registration/student_single.html', {"error": "PNR number is already registered"})
     else:
         return render(request, 'registration/student_single.html', {})
+

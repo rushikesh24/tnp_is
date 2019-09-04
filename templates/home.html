@@ -4,6 +4,11 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+WELCOME TO DYPCOE TRAINING AND PLACEMENT CELL
+<br>
+<img src="logo1.jpg" >
+<br>
+
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
  <p><a href="{% url 'logout' %}">logout</a></p>

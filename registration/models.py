@@ -30,7 +30,7 @@ class Student(models.Model):
     primary_mobile = models.CharField(max_length=10, null=False, blank=False)
     secondary_mobile = models.CharField(max_length=10, blank=True)
     #attendence_status = models.BooleanField(default=False)
-    marks = models.ArrayModelField(model_container=Year_marks)
+    marks= models.ArrayModelField(model_container=Year_marks)
     #avg_marks = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
