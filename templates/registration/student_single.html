@@ -146,7 +146,8 @@ input[type="file"] {
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form class="login100-form validate-form" method="POST" action="{% url 'single_student' %}">
+				<form action="{% url 'single_student' %}" class="login100-form validate-form"
+					  enctype="multipart/form-data" method="POST" name="single">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
 						STUDENT SIGNUP
@@ -154,37 +155,42 @@ input[type="file"] {
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "PNR is required">
 						<span class="label-input100">PNR</span>
-						<input class="input100" type="text" name="pnr" maxlength="10" required id="id_pnr" placeholder="Type your PNR">
+						<input class="input100" id="id__id" maxlength="10" name="_id" placeholder="Type your PNR"
+							   required type="text">
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is required">
 						<span class="label-input100">Name</span>
-						<input class="input100" type="text" name="name" maxlength="150" required id="id_name" placeholder="Type your Name">
+						<input class="input100" id="id_name" maxlength="80" name="name" placeholder="Type your Name"
+							   required type="text">
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
                     <div class="wrap-input100 validate-input" data-validate="Email is required">
 						<span class="label-input100">Email</span>
-						<input class="input100" type="email" name="email" maxlength="80" required id="id_email"  placeholder="Type your Email">
+						<input class="input100" id="id_email" maxlength="50" name="email" placeholder="Type your Email"
+							   required type="email">
 						<span class="focus-input100" data-symbol="&#xf15a;"></span>
 					</div>
 
-					<div id="datefield" data-validate="Date-Of-Birth is required">
-						<span class="label-input100">DOB</span>
-						<input class="input100" type="date" name="dob" required id="id_dateofbirth" placeholder="Type your DOB">
-						<span class="focus-input100" data-symbol="&#xf190;"></span>
-					</div>
-
+					<!--	<div id="datefield" data-validate="Date-Of-Birth is required">
+                            <span class="label-input100">DOB</span>
+                            <input class="input100" type="date" name="dob" required id="id_dateofbirth" placeholder="Type your DOB">
+                            <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        </div>
+                    -->
 					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
 						<span class="label-input100">X<sup>th</sup> Percentage</span>
-						<input class="input100" type="text" max="100" name="percentage" maxlength="5" required id="id_percentage" placeholder="Type your 10th percentage">
+						<input class="input100" id="id_tenth" max="100" maxlength="5" name="tenth"
+							   placeholder="Type your 10th percentage" required type="text">
                         <span class="focus-input100" data-symbol="&#xf10c;"></span>
 					</div>
 
                     <div class="wrap-input100 validate-input" data-validate="Percentage is required">
 						<span class="label-input100">XII<sup>th</sup> /diploma Percentaige</span>
-						<input class="input100" type="text" max="100" name="percentage1" maxlength="5" required id="id_percentage1" placeholder="Type your 12th/Diploma percentage">
+						<input class="input100" id="id_diploma_12" max="100" maxlength="5" name="diploma_12"
+							   placeholder="Type your 12th/Diploma percentage" required type="text">
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
 					</div>
 
@@ -237,7 +243,7 @@ input[type="file"] {
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" type="submit">
+							<button class="login100-form-btn" name="single" type="submit">
 								Sign Up
 							</button>
 						</div>
@@ -251,34 +257,36 @@ input[type="file"] {
 	</div>
 	</div>
 
-	<div class="split left">
+	<form enctype="multipart/form-data" method="POST">
+		{% csrf_token %}
+		<div class="split left">
 
-	  <div class="limiter">
-		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<span class="login100-form-title p-b-49">
-					MULTIPLE STUDENT
-				</span>
-    <div class="container-login100-form-btn">
-		<div class="wrap-login100-form-btne">
-			<div class="login100-form-bgbtne"></div>
+			<div class="limiter">
+				<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
+					<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+					<span class="login100-form-title p-b-49">
+						MULTIPLE STUDENT
+					</span>
+
+						<div class="container-login100-form-btn">
+							<div class="wrap-login100-form-btne">
+								<div class="login100-form-bgbtne"></div>
 				<label class="login100-form-btn"> Enter Your File
-   					 <input type="file" size="60" >
+					<input id="csv_file" name="csv_file" required size="60" type="file">
     			</label>
 			</div>
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" type="submit">
-								Upload
-							</button>
+
+							<div class="wrap-login100-form-btn">
+								<div class="login100-form-bgbtn"></div>
+								<button class="login100-form-btn" name="multiple" type="submit">Upload</button>
 							</div>
 						</div>
   	 </div>
 	</div>
 	</div>
 
-</div>
-
+		</div>
+	</form>
 
 
 <!--===============================================================================================-->

@@ -1,9 +1,10 @@
 from django import forms
-from .models import Employee
 from django.contrib.auth.models import User
+
+from .models import Employee
 from .models import Student
 
-gender_choices = ['m', 'f', 'o']
+
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     class Meta():
@@ -16,7 +17,9 @@ class UserProfileInfoForm(forms.ModelForm):
         model = Employee
         fields = ('name', 'designation', 'department', 'primary_mobile', 'secondary_mobile', 'email')
 
-class StudentData(forms.ModelForm):
+
+class StudentDataForm(forms.ModelForm):
     class Meta():
         model= Student
-        fields =('name','email', 'branch', 'primary_mobile', 'secondary_mobile','tenth','diploma_12','gender','marks','_id','placed', 'birthdate')
+        fields = ('_id', 'name', 'email', 'tenth', 'diploma_12', 'branch', 'gender', 'placed', 'primary_mobile',
+                  'secondary_mobile', 'marks',)  # , 'birthdate')
