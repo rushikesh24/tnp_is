@@ -133,63 +133,111 @@ input[type="file"] {
      padding: 20px 50px;
      line-height: 1.2;
 }
+/*-----------------------------------------For Rounds-----------------------------*/
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+/*--------------------------------------------------------------------*/
 </style>
 </head>
 <body>
 <div>
-	<div class="split right">
+
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form class="login100-form validate-form" method="POST" action="{% url 'single_student' %}">
+				<form class="login100-form validate-form" method="POST" action="{% url 'drive' %}">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
 						STUDENT SIGNUP
                     </span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "PNR is required">
-						<span class="label-input100">PNR</span>
-						<input class="input100" type="text" name="pnr" maxlength="10" required id="id_pnr" placeholder="Type your PNR">
+						<span class="label-input100">DRIVE-ID</span>
+						<input class="input100" type="text" name="Drive_id" maxlength="10" required id="id_drive" placeholder="Type your DRIVE_ID">
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is required">
-						<span class="label-input100">Name</span>
-						<input class="input100" type="text" name="name" maxlength="150" required id="id_name" placeholder="Type your Name">
+						<span class="label-input100">Company-Name</span>
+						<input class="input100" type="text" name="name" maxlength="20" required id="id_name" placeholder="Type your Company_Name">
 						<span class="focus-input100" data-symbol="&#xf006;"></span>
 					</div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Email is required">
+                    <!--<div class="wrap-input100 validate-input" data-validate="Email is required">
 						<span class="label-input100">Email</span>
 						<input class="input100" type="email" name="email" maxlength="80" required id="id_email"  placeholder="Type your Email">
 						<span class="focus-input100" data-symbol="&#xf15a;"></span>
 					</div>
-
+-->
 					<div id="datefield" data-validate="Date-Of-Birth is required">
-						<span class="label-input100">DOB</span>
-						<input class="input100" type="date" name="dob" required id="id_dateofbirth" placeholder="Type your DOB">
+						<span class="label-input100">DATE</span>
+						<input class="input100" type="date" name="drive_date" required id="id_date" placeholder="Type your Date">
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
-						<span class="label-input100">X<sup>th</sup> Percentage</span>
-						<input class="input100" type="text" max="100" name="percentage" maxlength="5" required id="id_percentage" placeholder="Type your 10th percentage">
+						<span class="label-input100">Venue</span>
+						<input class="input100" type="text" name="place" maxlength="100" required id="id_venue" placeholder="Type your Venue">
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
 					</div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Percentage is required">
-						<span class="label-input100">XII<sup>th</sup> /diploma Percentaige</span>
-						<input class="input100" type="text" max="100" name="percentage1" maxlength="5" required id="id_percentage1" placeholder="Type your 12th/Diploma percentage">
-						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
-					</div>
+                    <div class="multiselect">
+						<div class="selectBox" onclick="showCheckboxes()">
+							<select>
+							<option>Select an option</option>
+						  </select>
+						  <div class="overSelect"></div>
+						</div>
+						<div id="checkboxes">
+						  <label for="MCQ_Round">
+							<input type="checkbox" id="MCQ_Round" />MCQ Round</label>
+						  <label for="Technical_Round">
+							<input type="checkbox" id="Technical_Round" />Technical Round</label>
+						  <label for="HR_Round">
+							<input type="checkbox" id="HR_Round" />HR Round</label>
+						   <label for="PR_Round">
+							<input type="checkbox" id="PR_Round" />Personal Round</label>
+						</div>
+					 </div>
 
                     <div class="wrap-input100 validate-input m-b-23" data-validate = "Branch Name is required">
-						<span class="label-input100">Branch</span>
-						<input class="input100" type="text" name="branch" maxlength="50" required id="id_branch" placeholder="Type your Name">
+						<span class="label-input100">Login-Key</span>
+						<input class="input100" type="text" name="log_key" maxlength="50" required id="id_branch" placeholder="Type your Name">
 						<span class="focus-input100" data-symbol="&#xf007;"></span>
 					</div>
 
-                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Gender is required">
+                   <!-- <div class="wrap-input100 validate-input m-b-23" data-validate = "Gender is required">
 						<span class="label-input100">Gender</span>
 						<select name="Gender" required id="id_gender">
 							<option value="Male">Male</option>
@@ -198,22 +246,22 @@ input[type="file"] {
 						</select>
 						<span class="focus-input100" data-symbol="&#xf007;"></span>
 					</div>
-
-                    <div class="wrap-input100 validate-input" data-validate="College name is required">
+-->
+                   <!-- <div class="wrap-input100 validate-input" data-validate="College name is required">
 						<span class="label-input100">Placed</span>
 					 <input class="input100" type="checkbox" name="placed" maxlength="50" required id="id_placed">
 						<span class="c" data-symbol="&#xf175;"></span>
-					</div>
+					</div>-->
 
                     <div class="wrap-input100 validate-input" data-validate="mobile is required">
-						<span class="label-input100">Primary Mobile</span>
-						<input class="input100" type="tel" name="primary_mobile" maxlength="10" id="id_primary_mobile"  placeholder="Type your Primary_Mobile">
+						<span class="label-input100">Eligibility</span>
+						<input class="input100" type="text" name="eligible" maxlength="10" id="id_eligibility"  placeholder="Type your Marks">
 						<span class="focus-input100" data-symbol="&#xf10b;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="mobile is required">
-						<span class="label-input100">Secondary Mobile</span>
-						<input class="input100" type="tel" name="secondary_mobile" maxlength="10" id="id_secondary_mobile"  placeholder="Type your Secondary_Mobile">
+						<span class="label-input100">Base Package</span>
+						<input class="input100" type="text" name="package" maxlength="10" id="id_package"  placeholder="Type your Base_Package">
 						<span class="focus-input100" data-symbol="&#xf10b;"></span>
 					</div>
 
@@ -224,8 +272,8 @@ input[type="file"] {
 					</div>   -->
 
                     <div class="wrap-input100 validate-input" data-validate="College name is required">
-						<span class="label-input100">Marks</span>
-					 <input class="input100" type="text" name="marks" maxlength="5" required id="id_marks" placeholder="Type your Marks">
+						<span class="label-input100">Campus-Type</span>
+					 <input class="input100" type="text" name="campus_type" maxlength="10" required id="id_campus" placeholder="Type your Campus_Type">
 						<span class="focus-input100" data-symbol="&#xf175;"></span>
 					</div>
 
@@ -247,35 +295,8 @@ input[type="file"] {
 			</div>
 		</div>
 	</div>
-	</div>
 
-	<div class="split left">
 
-	  <div class="limiter">
-		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<span class="login100-form-title p-b-49">
-					MULTIPLE STUDENT
-				</span>
-    <div class="container-login100-form-btn">
-		<div class="wrap-login100-form-btne">
-			<div class="login100-form-bgbtne"></div>
-				<label class="login100-form-btn"> Enter Your File
-   					 <input type="file" size="60" >
-    			</label>
-			</div>
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" type="submit">
-								Upload
-							</button>
-							</div>
-						</div>
-  	 </div>
-	</div>
-	</div>
-
-</div>
 
 
 
@@ -296,7 +317,22 @@ input[type="file"] {
 <!--===============================================================================================-->
 	<script src="{% static 'signup/js/main.js' %}"></script>
 <!--===============================================================================================-->
+	<!-----------------------For CheckBOX of Rounds------------------------------->
+	<script type="text/javascript">
+		var expanded = false;
 
+		function showCheckboxes() {
+		  var checkboxes = document.getElementById("checkboxes");
+		  if (!expanded) {
+			checkboxes.style.display = "block";
+			expanded = true;
+		  } else {
+			checkboxes.style.display = "none";
+			expanded = false;
+		  }
+		}
+	</script>
+<!--===============================================================================================-->
 
 </div>
 </body>
