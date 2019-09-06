@@ -1,11 +1,12 @@
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse
+from django.utils import dateparse
 from pymongo import MongoClient
 
 from .forms import UserForm, UserProfileInfoForm
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
 
 
 @login_required
@@ -49,6 +50,14 @@ def single_student(request):
             db = con["tnp_management"]
             collection = db["registration_student"]
 
+            parsed_start_date = None
+            try:
+                print(request.POST.get("dob"))
+                parsed_start_date = dateparse.parse_date(request.POST.get("dob"))
+                print(parsed_start_date)
+            except ValueError:
+                print("Invalid date")  # etc..
+
             data_dic = {
                 "_id": request.POST.get("pnr"),
                 "name": request.POST.get("name"),
@@ -61,14 +70,18 @@ def single_student(request):
                 "gender": request.POST.get("Gender"),
                 "primary_mobile": request.POST.get("primary_mobile"),
                 "secondary_mobile": request.POST.get("secondary_mobile"),
-                "marks": request.POST.get("marks")
+                "marks": request.POST.get("marks"),
+                "date": None
             }
-            print(data_dic)
             rec = collection.insert_one(data_dic)
             print(rec)
             return HttpResponse("200")
         except Exception as e:
+            print(e)
             return render(request, 'registration/student_single.html', {"error": "PNR number is already registered"})
     else:
         return render(request, 'registration/student_single.html', {})
 
+
+def employee(request):
+    return render(request, 'registration/signup.html', {})

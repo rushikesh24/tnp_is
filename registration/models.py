@@ -1,8 +1,5 @@
 from django.contrib.auth.models import User
 from djongo import models
-import datetime
-from django.db.models.fields import DateField
-from django.utils.dateparse import parse_datetime
 
 
 # Create your models here.
@@ -21,7 +18,7 @@ class Student(models.Model):
     _id = models.CharField(max_length=10, null=False, default="0", blank=False, primary_key=True, unique=True)
     name = models.CharField(max_length=80, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
-    birthdate = models.DateField(auto_now=False, auto_now_add=False)
+    birthdate = models.DateField(auto_now=True, auto_now_add=False, null=True)
     tenth = models.DecimalField(max_digits=5, decimal_places=2)
     diploma_12 = models.DecimalField(max_digits=5, decimal_places=2)
     branch = models.CharField(max_length=50, null=False, blank=False)

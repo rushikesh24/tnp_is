@@ -1,12 +1,8 @@
-from django.contrib.auth.models import User
 from djongo import models
-import datetime
-from django.db.models.fields import DateField
-from django.utils.dateparse import parse_datetime
 
 
 class Drive_Rounds(models.Model):
-    round_1 = models.CharField(max_length=10, default='MCQ_Round',blank=False)
+    round_1 = models.CharField(max_length=10, default='Aptitude_Round', blank=False)
     round_2 = models.CharField(max_length=10, default='Technical_Round',blank=False)
     round_3 = models.CharField(max_length=10, default='Interview_Round',blank=False)
     round_4 = models.CharField(max_length=10, default='HR_Round',blank=False)
