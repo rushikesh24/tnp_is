@@ -182,15 +182,15 @@ input[type="file"] {
 						STUDENT SIGNUP
                     </span>
 
-					<div class="wrap-input100 validate-input m-b-23" data-validate = "PNR is required">
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Drive_id is required">
 						<span class="label-input100">DRIVE-ID</span>
-						<input class="input100" type="text" name="Drive_id" maxlength="10" required id="id_drive" placeholder="Type your DRIVE_ID">
+						<input class="input100" type="text" name="Drive_id" maxlength="10" required id="id_drive" placeholder="Type DRIVE_ID">
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is required">
 						<span class="label-input100">Company-Name</span>
-						<input class="input100" type="text" name="name" maxlength="20" required id="id_name" placeholder="Type your Company_Name">
+						<input class="input100" type="text" name="name" maxlength="20" required id="id_name" placeholder="Type Company_Name">
 						<span class="focus-input100" data-symbol="&#xf006;"></span>
 					</div>
 
@@ -200,38 +200,47 @@ input[type="file"] {
 						<span class="focus-input100" data-symbol="&#xf15a;"></span>
 					</div>
 -->
-					<div id="datefield" data-validate="Date-Of-Birth is required">
+					<div id="datefield" data-validate="Date is required">
 						<span class="label-input100">DATE</span>
-						<input class="input100" type="date" name="drive_date" required id="id_date" placeholder="Type your Date">
+						<input class="input100" type="date" name="drive_date" required id="id_date" placeholder="Type Date">
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
+					<div class="wrap-input100 validate-input" data-validate="Venue is required">
 						<span class="label-input100">Venue</span>
-						<input class="input100" type="text" name="place" maxlength="100" required id="id_venue" placeholder="Type your Venue">
+						<input class="input100" type="text" name="place" maxlength="100" required id="id_venue" placeholder="Type Venue">
+						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Time is required">
+						<span class="label-input100">Time</span>
+						<input class="input100" type="time" name="drive_time" required id="id_time" placeholder="Select Time">
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
 					</div>
 
                     <div class="multiselect">
 						<div class="selectBox" onclick="showCheckboxes()">
-							<select>
-							<option>Select an option</option>
-						  </select>
-						  <div class="overSelect"></div>
-						</div>
-						<div id="checkboxes">
-						  <label for="MCQ_Round">
-							<input type="checkbox" id="MCQ_Round" />MCQ Round</label>
-						  <label for="Technical_Round">
-							<input type="checkbox" id="Technical_Round" />Technical Round</label>
-						  <label for="HR_Round">
-							<input type="checkbox" id="HR_Round" />HR Round</label>
-						   <label for="PR_Round">
-							<input type="checkbox" id="PR_Round" />Personal Round</label>
-						</div>
+							<div class="wrap-input100 validate-input" data-validate="Time is required">
+									<span class="label-input100">Rounds</span>
+									<select>
+										<option>Select Rounds</option>
+								  	</select>
+								  <div class="overSelect"></div>
+							      </div>
+								  <div id="checkboxes">
+								  <label for="MCQ_Round">
+									<input type="checkbox" id="MCQ_Round" />MCQ Round</label>
+								  <label for="Technical_Round">
+									<input type="checkbox" id="Technical_Round" />Technical Round</label>
+								  <label for="HR_Round">
+									<input type="checkbox" id="HR_Round" />HR Round</label>
+								   <label for="PR_Round">
+									<input type="checkbox" id="PR_Round" />Personal Round</label>
+							</div>
+						 </div>
 					 </div>
 
-                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Branch Name is required">
+                    <div class="wrap-input100 validate-input m-b-23" data-validate = "LoginKey is required">
 						<span class="label-input100">Login-Key</span>
 						<input class="input100" type="text" name="log_key" maxlength="50" required id="id_branch" placeholder="Type your Name">
 						<span class="focus-input100" data-symbol="&#xf007;"></span>
@@ -253,13 +262,13 @@ input[type="file"] {
 						<span class="c" data-symbol="&#xf175;"></span>
 					</div>-->
 
-                    <div class="wrap-input100 validate-input" data-validate="mobile is required">
+                    <div class="wrap-input100 validate-input" data-validate="Eligibility is required">
 						<span class="label-input100">Eligibility</span>
 						<input class="input100" type="text" name="eligible" maxlength="10" id="id_eligibility"  placeholder="Type your Marks">
 						<span class="focus-input100" data-symbol="&#xf10b;"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="mobile is required">
+					<div class="wrap-input100 validate-input" data-validate="Package is required">
 						<span class="label-input100">Base Package</span>
 						<input class="input100" type="text" name="package" maxlength="10" id="id_package"  placeholder="Type your Base_Package">
 						<span class="focus-input100" data-symbol="&#xf10b;"></span>
@@ -271,7 +280,7 @@ input[type="file"] {
 						<span class="focus-input100" data-symbol="&#xf175;"></span>
 					</div>   -->
 
-                    <div class="wrap-input100 validate-input" data-validate="College name is required">
+                    <div class="wrap-input100 validate-input" data-validate="Campus Type is required">
 						<span class="label-input100">Campus-Type</span>
 					 <input class="input100" type="text" name="campus_type" maxlength="10" required id="id_campus" placeholder="Type your Campus_Type">
 						<span class="focus-input100" data-symbol="&#xf175;"></span>
