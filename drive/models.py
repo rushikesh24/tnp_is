@@ -2,10 +2,10 @@ from djongo import models
 
 
 class Drive_Rounds(models.Model):
-    round_1 = models.CharField(max_length=10, default='Aptitude_Round', blank=False)
-    round_2 = models.CharField(max_length=10, default='Technical_Round',blank=False)
-    round_3 = models.CharField(max_length=10, default='Interview_Round',blank=False)
-    round_4 = models.CharField(max_length=10, default='HR_Round',blank=False)
+    round_1 = models.CharField(max_length=10, default='Aptitude Round', blank=False)
+    round_2 = models.CharField(max_length=10, default='Technical Round', blank=False)
+    round_3 = models.CharField(max_length=10, default='Interview Round', blank=False)
+    round_4 = models.CharField(max_length=10, default='HR Round', blank=False)
     round_5 = models.CharField(max_length=10)
 
 class Eligibility(models.Model):
@@ -14,7 +14,7 @@ class Eligibility(models.Model):
     engg = models.DecimalField(max_digits=5, decimal_places=3)
 
 class Drive(models.Model):
-    drive_id = models.CharField(max_length=10, null=False, default='000',blank=False, primary_key=True, unique=True)
+    _id = models.CharField(max_length=10, null=False, default='000', blank=False, primary_key=True, unique=True)
     company_name = models.CharField(max_length=20, null=False, blank=False)
     date = models.DateField(auto_now=False, auto_now_add=False)
     venue = models.CharField(max_length=10, blank=False, default='DYPCOE_TNP', null=False)
