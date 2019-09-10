@@ -67,6 +67,7 @@ def single_student(request):
                     "email": request.POST.get("email"),
                     "tenth": request.POST.get("percentage"),
                     "diploma_12": request.POST.get("percentage1"),
+                    "birthdate" : request.POST.get("dob"),
                     "placed": placed,
                     "branch": request.POST.get("branch"),
                     "gender": request.POST.get("Gender"),

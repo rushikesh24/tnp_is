@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-	<title>Sign Up</title>
+	<title>Drive Upload</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -144,7 +144,7 @@ input[type="file"] {
 
 .selectBox select {
   width: 100%;
-  font-weight: bold;
+
 }
 
 .overSelect {
@@ -180,7 +180,7 @@ input[type="file"] {
 				<form class="login100-form validate-form" method="POST" action="{% url 'drive' %}">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
-						STUDENT SIGNUP
+						DRIVE UPLOAD
                     </span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is required">
@@ -208,12 +208,18 @@ input[type="file"] {
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
 					</div>
 
+                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Branch Name is required">
+						<span class="label-input100">Branch</span>
+						<input class="input100" type="text" name="branch" maxlength="100" required id="id_branch" placeholder="Type Branch Name">
+                        <span class="focus-input100" data-symbol="&#xf18d;"></span>
+					</div>
 
+					{{ form.as_p }}
                     <div class="multiselect">
 						<div class="selectBox" onclick="showCheckboxes()">
-							<div class="wrap-input100 validate-input" data-validate="Time is required">
+							<div class="wrap-input100 validate-input" data-validate="Rounds is required">
 									<span class="label-input100">Rounds</span>
-									<select>
+									<select name="round" required id="id_round">
 										<option>Select Rounds</option>
 								  	</select>
 								  <div class="overSelect"></div>
@@ -225,8 +231,8 @@ input[type="file"] {
 									  <input id="Technical_Round" type="checkbox"/>Technical Interview Round</label>
 								  <label for="HR_Round">
 									  <input id="HR_Round" type="checkbox"/>HR Interview Round</label>
-									  <label for="Other">
-										  <input checked id="Other" name="Other" onchange="onOtherClick()"
+								  <label for="Other">
+									  <input checked id="Other" name="Other" onchange="onOtherClick()"
 												 type="checkbox"/>Other Round</label>
 							</div>
 						 </div>
@@ -234,7 +240,7 @@ input[type="file"] {
 
 					<div class="wrap-input100 validate-input" data-validate="Campus Type is required" id="other_div">
 						<span class="label-input100">Other Rounds</span>
-						<input class="input100" id="id_other" maxlength="10" name="other"
+						<input hidden class="input100" id="id_other" maxlength="10" name="other"
 							   placeholder="Rounds name seperated with comma(,)" required type="text">
 						<span class="focus-input100" data-symbol="&#xf175;"></span>
 					</div>
@@ -247,7 +253,7 @@ input[type="file"] {
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
-						<span class="label-input100">XII<sup>th</sup> /diploma Percentaige</span>
+						<span class="label-input100">XII<sup>th</sup> /diploma Percentage</span>
 						<input class="input100" id="id_diploma_12" max="100" maxlength="5" name="diploma_12"
 							   placeholder="Type your 12th/Diploma percentage" required type="text">
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>

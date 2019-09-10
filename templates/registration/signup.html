@@ -27,6 +27,44 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'signup/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'signup/css/main.css' %}">
 <!--===============================================================================================-->
+
+	<style>
+		/*-----------------------------------------For Department-----------------------------*/
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+/*--------------------------------------------------------------------*/
+	</style>
 </head>
 <body>
 	
@@ -57,22 +95,37 @@
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Department is required">
+			<!--		<div class="wrap-input100 validate-input" data-validate="Department is required">
 						<span class="label-input100">Department</span>
-						<input class="input100" type="text" name="department" maxlength="50" required id="id_department" placeholder="Type your Department Name">
+						<input class="input100" type="text"  maxlength="50"  >
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
+					</div>
+-->
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Department is required">
+						<span class="label-input100">Department</span>
+						<select name="department" required id="id_department" onchange="onOtherClick()">
+							<option value="tpo" >TPO HEAD</option>
+							<option value="others" name="designation">Others</option>
+						</select>
+						<span class="focus-input100"></span>
+					</div>
+
+                    <div class="wrap-input100 validate-input" data-validate="College name is required" id="design">
+						<span class="label-input100">Designation</span>
+					 <input class="input100" type="text" name="designation" maxlength="50" required id="id_designation" placeholder="Type your Designation">
+						<span class="focus-input100" data-symbol="&#xf175;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="mobile is required">
 						<span class="label-input100">Primary Mobile</span>
-						<input class="input100" id="id_primary_mobile" maxlength="10" name="primary_mobile"
-							   pattern="[789][0-9]{9}" placeholder="Type your Primary_Mobile" required type="tel">
+						<input class="input100" id="id_primary_mobile" maxlength="10" name="primary_mobile" title="10 digits"
+                               required pattern="[0-9]{10}" placeholder="Type your Primary_Mobile" required type="tel">
 						<span class="focus-input100" data-symbol="&#xf10b;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="mobile is required">
 						<span class="label-input100">Secondary Mobile</span>
-						<input class="input100" type="tel" name="secondary_mobile" maxlength="10" id="id_secondary_mobile"  placeholder="Type your Secondary_Mobile">
+						<input class="input100" type="tel" maxlength="10" required pattern="[0-9]{10}" title="10 digits" name="secondary_mobile" maxlength="10" id="id_secondary_mobile"  placeholder="Type your Secondary_Mobile">
 						<span class="focus-input100" data-symbol="&#xf10b;"></span>
 					</div>
 
@@ -92,12 +145,7 @@
 						<input class="input100" type="email" name="email" maxlength="254" id="id_email"  placeholder="Type your Email">
 						<span class="focus-input100" data-symbol="&#xf15a;"></span>
 					</div>
-					
-					<div class="wrap-input100 validate-input" data-validate="College name is required">
-						<span class="label-input100">Designation</span>
-					 <input class="input100" type="text" name="designation" maxlength="50" required id="id_designation" placeholder="Type your Designation">
-						<span class="focus-input100" data-symbol="&#xf175;"></span>
-					</div>
+
 
 					<div class="text-right p-t-8 p-b-31">
 					</div>
@@ -134,6 +182,19 @@
 	<script src="{% static 'signup/vendor/countdowntime/countdowntime.js' %}"></script>
 <!--===============================================================================================-->
 	<script src="{% static 'signup/js/main.js' %}"></script>
+<!--===============================================================================================-->
 
+	<!-----------------------For CheckBOX of Department------------------------------->
+	<script type="text/javascript">
+
+	     function onOtherClick() {
+    		var x = document.getElementById("design");
+    		if (x.style.display === "block") {
+    			x.style.display = "none";
+  			} else {
+    			x.style.display = "block";
+  			}
+		}
+	</script>
 </body>
 </html>

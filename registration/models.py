@@ -18,7 +18,7 @@ class Student(models.Model):
     _id = models.CharField(max_length=10, null=False, blank=False, primary_key=True, unique=True)
     name = models.CharField(max_length=80, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
-    # birthdate = models.DateField(auto_now=True, auto_now_add=False, null=True)
+    birthdate = models.DateField(auto_now=True, auto_now_add=False, null=True)
     tenth = models.DecimalField(max_digits=5, decimal_places=2)
     diploma_12 = models.DecimalField(max_digits=5, decimal_places=2)
     branch = models.CharField(max_length=50, null=False, blank=False)
