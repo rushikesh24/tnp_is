@@ -36,19 +36,24 @@
 					<span class="login100-form-title p-b-49">
 						STUDENT ATTENDENCE
 					</span>
+
+                {% csrf_token %}
                 <div class="wrap-input100 validate-input m-b-23" data-validate="PNR is required">
                     <span class="label-input100">PNR</span>
-                    <input class="input100" id="id_pnr" maxlength="10" name="_id" placeholder="Type your PNR" required
-                           type="text">
+                    <input class="input100" id="id_pnr" maxlength="10" name="pnr" placeholder="Type your PNR"
+                           required
+                           required type="text">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="mobile is required">
                     <span class="label-input100">Primary Mobile</span>
                     <input class="input100" id="id_primary_mobile" maxlength="10" name="primary_mobile"
-                           pattern="[0-9]{10}" placeholder="Type your Primary_Mobile" title="10 digits" type="tel">
+                           pattern="[0-9]{10}"
+                           placeholder="Type your Primary_Mobile" required title="10 digits" type="tel">
                     <span class="focus-input100" data-symbol="&#xf2cc;"></span>
                 </div>
+
                 <div class="text-right p-t-8 p-b-31">
                 </div>
                 <div class="container-login100-form-btn">

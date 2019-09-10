@@ -1,0 +1,50 @@
+{
+  college{
+  student{
+  name: primary
+  :
+  secondary: email
+  :
+  birthdate: tenth
+  :
+  diploma_12: branch
+  :
+  gender: placed
+  :
+  'check ignore if possible'
+  sem_marks{
+  FE: SE
+  :
+  TE: BE
+  :
+}
+
+}
+employee{
+id: name: primary: secondary:
+email: birthdate: designation: gender: qualification:
+department: active: }
+drive{
+drive_id: company_name: date: venue: no_of_rounds: login_key: round{
+round1: round2: so on
+}
+eligibility{
+tenth: diploma_12th: engineering: }
+base_package: campus_type: }
+
+applicant{
+company_name: date: applied_std:{
+names: ..
+..
+..
+}
+}
+
+driver_stats{
+company_name: sdtid: name: date: present:
+round1: round2: ..
+..
+..
+selcted: False
+}
+}

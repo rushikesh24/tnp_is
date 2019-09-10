@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-	<title>Drive Upload</title>
+	<title>Sign Up</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -144,7 +144,7 @@ input[type="file"] {
 
 .selectBox select {
   width: 100%;
-
+  font-weight: bold;
 }
 
 .overSelect {
@@ -180,7 +180,7 @@ input[type="file"] {
 				<form class="login100-form validate-form" method="POST" action="{% url 'drive' %}">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
-						DRIVE UPLOAD
+						STUDENT SIGNUP
                     </span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is required">
@@ -190,11 +190,17 @@ input[type="file"] {
 					</div>
 
 
-					<div id="datefield" data-validate="Date is required">
+					<!--<div id="datefield" data-validate="Date is required">
 						<span class="label-input100">DATE</span>
 						<input class="input100" type="date" name="drive_date" required id="id_date" placeholder="Type Date">
 						<span class="focus-input100"></span>
 					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Time is required">
+						<span class="label-input100">Time</span>
+						<input class="input100" type="time" name="drive_time" required id="id_time" placeholder="Select Time">
+						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
+					</div>-->
 
 					<div class="wrap-input100 validate-input" data-validate="Venue is required">
 						<span class="label-input100">Venue</span>
@@ -202,24 +208,12 @@ input[type="file"] {
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Time is required">
-						<span class="label-input100">Time</span>
-						<input class="input100" type="time" name="drive_time" required id="id_time" placeholder="Select Time">
-						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
-					</div>
 
-                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Branch Name is required">
-						<span class="label-input100">Branch</span>
-						<input class="input100" type="text" name="branch" maxlength="100" required id="id_branch" placeholder="Type Branch Name">
-                        <span class="focus-input100" data-symbol="&#xf18d;"></span>
-					</div>
-
-					{{ form.as_p }}
                     <div class="multiselect">
 						<div class="selectBox" onclick="showCheckboxes()">
-							<div class="wrap-input100 validate-input" data-validate="Rounds is required">
+							<div class="wrap-input100 validate-input" data-validate="Time is required">
 									<span class="label-input100">Rounds</span>
-									<select name="round" required id="id_round">
+								<select>
 										<option>Select Rounds</option>
 								  	</select>
 								  <div class="overSelect"></div>
@@ -231,8 +225,8 @@ input[type="file"] {
 									  <input id="Technical_Round" type="checkbox"/>Technical Interview Round</label>
 								  <label for="HR_Round">
 									  <input id="HR_Round" type="checkbox"/>HR Interview Round</label>
-								  <label for="Other">
-									  <input checked id="Other" name="Other" onchange="onOtherClick()"
+									  <label for="Other">
+										  <input checked id="Other" name="Other" onchange="onOtherClick()"
 												 type="checkbox"/>Other Round</label>
 							</div>
 						 </div>
@@ -240,7 +234,7 @@ input[type="file"] {
 
 					<div class="wrap-input100 validate-input" data-validate="Campus Type is required" id="other_div">
 						<span class="label-input100">Other Rounds</span>
-						<input hidden class="input100" id="id_other" maxlength="10" name="other"
+						<input class="input100" id="id_other" maxlength="100" name="other"
 							   placeholder="Rounds name seperated with comma(,)" required type="text">
 						<span class="focus-input100" data-symbol="&#xf175;"></span>
 					</div>
@@ -253,7 +247,7 @@ input[type="file"] {
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
-						<span class="label-input100">XII<sup>th</sup> /diploma Percentage</span>
+						<span class="label-input100">XII<sup>th</sup> /diploma Percentaige</span>
 						<input class="input100" id="id_diploma_12" max="100" maxlength="5" name="diploma_12"
 							   placeholder="Type your 12th/Diploma percentage" required type="text">
 						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
@@ -266,10 +260,17 @@ input[type="file"] {
 						<span class="focus-input100" data-symbol="&#xf174;"></span>
 					</div>
 
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Branch Name is required">
+						<span class="label-input100">Branch</span>
+						<input class="input100" id="id_branch" maxlength="50" name="branch" placeholder="Type your Name"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf18d;"></span>
+					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Package is required">
 						<span class="label-input100">Base Package</span>
-						<input class="input100" type="text" name="package" maxlength="10" id="id_package"  placeholder="Type your Base_Package">
+						<input class="input100" id="id_package" maxlength="10" name="package"
+							   placeholder="Type your Base_Package in LPA" type="text">
 						<span class="focus-input100" data-symbol="&#xf10b;"></span>
 					</div>
 
@@ -291,7 +292,7 @@ input[type="file"] {
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button class="login100-form-btn" type="submit">
-								Sign Up
+								Drive Upload
 							</button>
 						</div>
 					</div>

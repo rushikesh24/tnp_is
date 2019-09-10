@@ -114,6 +114,7 @@ def single_student(request):
                     rec = collection.insert_one(data_dict)
                 return HttpResponse("Data Uploaded Successfully")
             except Exception as e:
+                print(e)
                 return HttpResponse("Unable to upload the file")
     else:
         return render(request, 'registration/student_single.html', {})
