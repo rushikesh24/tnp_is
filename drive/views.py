@@ -10,6 +10,7 @@ def drive_upload(request):
         try :
             con=MongoClient()
             db = con["tnp_management"]
+            collection_student = db["registration_student"]
             collection = db["drive_drive"]
 
             date_ls = str(request.POST.get("drive_date")).split("-")
@@ -23,6 +24,24 @@ def drive_upload(request):
                 j = j + 1
                 round_name = "round_" + str(j)
                 round_dict.update({round_name: i})
+
+            query = {
+                "tenth": {"$gte": request.POST.get('tenth')},
+                "diploma_12": {"$gte": request.POST.get("diploma_12")},
+                "marks": {"$gte": request.POST.get("engineering")},
+                "branch": request.POST.get("branch"),
+            }
+
+            eligible_student = []
+            student_details = collection_student.find(query)
+            for i in student_details:
+                print(i)
+                id = i["_id"]
+                name = i["name"]
+                branch = i["branch"]
+                student_temp = {"_id": id, "name": name, "branch": branch}
+                eligible_student.append(student_temp)
+
 
             drive_dic={
                 '_id': drive_id,
@@ -40,6 +59,7 @@ def drive_upload(request):
                 },
                 'base_package' : request.POST.get("package"),
                 'campus_type': request.POST.get("campus"),
+                'eligible_student': eligible_student,
             }
             rec=collection.insert_one(drive_dic)
             print(rec)

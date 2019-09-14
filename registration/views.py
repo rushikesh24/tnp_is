@@ -93,6 +93,7 @@ def single_student(request):
 
                 file_data = csv_file.read().decode("UTF-8")
                 lines = file_data.split("\n")
+                j = 0
                 # loop over the lines and save them in db. If error , store as string and then display
                 for line in lines:
                     fields = line.split(",")
@@ -102,15 +103,17 @@ def single_student(request):
                     data_dict["email"] = fields[2]
                     data_dict["tenth"] = fields[3]
                     data_dict["diploma_12"] = fields[4]
-                    data_dict["branch"] = fields[5]
-                    data_dict["gender"] = fields[6]
-                    if fields[7]:
+                    data_dict["marks"] = fields[5]
+                    data_dict["branch"] = fields[6]
+                    data_dict["gender"] = fields[7]
+                    if fields[8]:
                         data_dict["placed"] = True
                     else:
                         data_dict["placed"] = False
-                    data_dict["primary_mobile"] = fields[8]
-                    data_dict["secondary_mobile"] = fields[9]
-                    data_dict["marks"] = fields[10]
+                    data_dict["primary_mobile"] = fields[9]
+                    data_dict["secondary_mobile"] = fields[10]
+                    j = j + 1
+                    print(j)
                     rec = collection.insert_one(data_dict)
                 return HttpResponse("Data Uploaded Successfully")
             except Exception as e:
