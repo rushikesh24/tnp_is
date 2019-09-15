@@ -1,17 +1,385 @@
-<!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Drive Upload</title>
+	<title>Drive Upload</title>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/images/icons/favicon.ico' %}" rel="icon" type="image/png"/>
+	<!--===============================================================================================-->
+	<link href="v{% static 'signup/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/fonts/font-awesome-4.7.0/css/font-awesome.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/fonts/iconic/css/material-design-iconic-font.min.css' %}" rel="stylesheet"
+		  type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/animate/animate.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/animsition/css/animsition.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/select2/select2.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/daterangepicker/daterangepicker.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/css/util.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'signup/css/main.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<style>
+   #datefield  *{
+		 width: 200px;
+	     height: 60px;
+		 margin: 0 auto;
+
+
+  height: 35px;
+  margin: 0 auto;
+  width: 100%;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+
+  text-transform: uppercase;
+  /*background-color: #959595;*/
+  outline: none;
+  border: 0;
+  border-radius: 3px;
+  padding: 0 3px;
+  /*color: #fff;*/
+}
+input[type=date]::-webkit-datetime-edit-month-field {attendance/
+  color: red;
+}
+input[type=date]::-webkit-datetime-edit-day-field {
+  color: white;
+}
+input[type=date]::-webkit-datetime-edit-year-field {
+  color: blue;
+}
+input[type=date]::-webkit-clear-button {
+  font-size: 18px;
+  height: 30px;
+  position: relative;
+  right: 5px;
+  margin-right: 4px;
+}
+input[type=date]::-webkit-inner-spin-button {
+  height: 30px;
+}
+input[type=date]::-webkit-calendar-picker-indicator {
+  font-size: 18px;
+}
+input[type=date]::-webkit-calendar-picker-indicator:hover {
+  background-color: #959595;
+  color: #e6e6e6;
+  cursor: pointer;
+}
+input[type=date]::-webkit-calendar-picker-indicator:active {
+  color: blue;
+}
+}
+--------------------------------------------------------------------------------
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: Arial;
+  color: white;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  //padding-top: 20px;
+}
+
+.left {
+  left: 0;
+  /*background-color: #111;*/
+}
+
+.right {
+  right: 0;
+  /*background-color: black;*/
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}
+
+/*label{
+    padding: 10px;
+    background: red;
+    display: table;
+    color: #fff;
+     }
+*/
+
+input[type="file"] {
+    display: none;
+     padding: 20px 50px;
+     line-height: 1.2;
+}
+/*-----------------------------------------For Rounds-----------------------------*/
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+/*--------------------------------------------------------------------*/
+
+
+	</style>
 </head>
 <body>
-<!--<form method="POST">
-    <div>
-        {{ form }}
-        {% csrf_token %}
-        {{ DriveDataForm.date }}
-    </div>
-    <input type="submit" value="submit">
-</form>-->
+<div>
+	{% block content %}
+
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form action="{% url 'drive_upload' %}" class="login100-form validate-form" method="POST">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-49">
+						DRIVE UPLOAD
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Name is required">
+						<span class="label-input100">Company-Name</span>
+						<input class="input100" id="id_name" maxlength="20" name="name" placeholder="Type Company_Name"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf3e9;"></span>
+					</div>
+
+
+					<div data-validate="Date is required" id="datefield">
+						<span class="label-input100">DATE</span>
+						<input class="input100" id="id_date" name="drive_date" placeholder="Type Date" required
+							   type="date">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Time is required">
+						<span class="label-input100">Time</span>
+						<input class="input100" id="id_time" name="drive_time" placeholder="Select Time" required
+							   type="time">
+						<span class="focus-input100" data-symbol="&#xf1c6;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Venue is required">
+						<span class="label-input100">Venue</span>
+						<input class="input100" id="id_venue" maxlength="100" name="place" placeholder="Type Venue"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf1a8;"></span>
+					</div>
+
+
+					<!--<div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes()">
+                            <div class="wrap-input100 validate-input" data-validate="Time is required">
+                                    <span class="label-input100">Rounds</span>
+                                <select>
+                                        <option>Select Rounds</option>
+                                      </select>
+                                  <div class="overSelect"></div>
+                                  </div>
+                                  <div id="checkboxes">
+                                  <label for="MCQ_Round">
+                                      <input id="MCQ_Round" type="checkbox"/>Aptitude Round</label>
+                                  <label for="Technical_Round">
+                                      <input id="Technical_Round" type="checkbox"/>Technical Interview Round</label>
+                                  <label for="HR_Round">
+                                      <input id="HR_Round" type="checkbox"/>HR Interview Round</label>
+                                      <label for="Other">
+                                          <input checked id="Other" name="Other" onchange="onOtherClick()"
+                                                 type="checkbox"/>Other Round</label>
+                            </div>
+                         </div>
+                     </div>-->
+
+					<div class="wrap-input100 validate-input" data-validate="Campus Type is required">
+						<span class="label-input100">Round1</span>
+						<input class="input100" id="id_round1" maxlength="100" name="round1"
+							   required type="text" value="Aptitude Round">
+						<span class="focus-input100" data-symbol="&#xf14b;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Campus Type is required">
+						<span class="label-input100">Round2</span>
+						<input class="input100" id="id_round2" maxlength="100" name="round2"
+							   required type="text" value="Technical Round">
+						<span class="focus-input100" data-symbol="&#xf14b;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Campus Type is required">
+						<span class="label-input100">Round3</span>
+						<input class="input100" id="id_round3" maxlength="100" name="round3"
+							   required type="text" value="HR Round">
+						<span class="focus-input100" data-symbol="&#xf14b;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Campus Type is required">
+						<span class="label-input100">Other Rounds</span>
+						<input class="input100" id="id_other" maxlength="100" name="other"
+							   placeholder="Rounds name seperated with comma(,)" required type="text">
+						<span class="focus-input100" data-symbol="&#xf14b;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
+						<span class="label-input100">X<sup>th</sup> Percentage</span>
+						<input class="input100" id="id_tenth" max="100" maxlength="5" name="tenth"
+							   placeholder="Type your 10th percentage" required type="text">
+						<span class="focus-input100" data-symbol="&#xf10c;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
+						<span class="label-input100">XII<sup>th</sup> /diploma Percentage</span>
+						<input class="input100" id="id_diploma_12" max="100" maxlength="5" name="diploma_12"
+							   placeholder="Type your 12th/Diploma percentage" required type="text">
+						<span class="focus-input100" data-symbol="&#xf10c;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="College name is required">
+						<span class="label-input100">Engineering</span>
+						<input class="input100" id="id_engineering" maxlength="5" name="engineering"
+							   placeholder="Type your Marks" required type="text">
+						<span class="focus-input100" data-symbol="&#xf174;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Branch Name is required">
+						<span class="label-input100">Branch</span>
+						<input class="input100" id="id_branch" maxlength="50" name="branch" placeholder="Type your Name"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf18d;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Package is required">
+						<span class="label-input100">Base Package</span>
+						<input class="input100" id="id_package" maxlength="10" name="package"
+							   placeholder="Type your Base_Package in LPA" type="text">
+						<span class="focus-input100" data-symbol="&#xf111;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Campus Type is required">
+						<span class="label-input100">Campus-Type</span>
+						<select id="id_campus" name="campus" required>
+							<option value="On">On</option>
+							<option value="Off">Off</option>
+							<option value="Pool">Pool</option>
+						</select>
+						<span class="focus-input100"></span>
+					</div>
+
+
+					<div class="text-right p-t-8 p-b-31">
+					</div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" type="submit">
+								Drive Upload
+							</button>
+						</div>
+					</div>
+				</form>
+				{% if error %}
+				{{ error }}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	{% endblock %}
+
+
+	<!--===============================================================================================-->
+	<script src="{% static 'signup/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'signup/vendor/animsition/js/animsition.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'signup/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'signup/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'signup/vendor/select2/select2.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'signup/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'signup/vendor/daterangepicker/daterangepicker.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'signup/vendor/countdowntime/countdowntime.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'signup/js/main.js' %}"></script>
+	<!--===============================================================================================-->
+	<!-----------------------For CheckBOX of Rounds------------------------------->
+	<!--<script type="text/javascript">
+		var expanded = false;
+
+		function showCheckboxes() {
+		  var checkboxes = document.getElementById("checkboxes");
+		  if (!expanded) {
+			checkboxes.style.display = "block";
+			expanded = true;
+		  } else {
+			checkboxes.style.display = "none";
+			expanded = false;
+		  }
+		}
+
+		function onOtherClick() {
+    		var x = document.getElementById("other_div");
+    		if (x.style.display === "none") {
+    			x.style.display = "block";
+  			} else {
+    			x.style.display = "none";
+  			}
+		}
+	</script>-->
+	<!--===============================================================================================-->
+
+</div>
+
+
 </body>
 </html>

@@ -70,9 +70,9 @@ def drive_upload(request):
             })
         except Exception as e:
             print(e)
-            return render(request, 'drive/driveupload.html', {"error": "Drive_id number is already registered"})
+            return render(request, 'drive/drive_upload.html', {"error": "Drive_id number is already registered"})
     else:
-        return render(request, 'drive/driveupload.html', {})
+        return render(request, 'drive/drive_upload.html', {})
 
 
 def randomStringDigits(stringLength=8):
@@ -149,6 +149,6 @@ def student_list(request):
         except Exception as e:
             print(e)
             return render(request, 'drive/student_list.html', {"error": 'Some error occured'})
-        return render(request, 'drive/driveupload.html', {})
+        return render(request, 'drive/drive_upload.html', {})
     else:
         return render(request, 'drive/student_list.html', {})
