@@ -6,5 +6,5 @@ from . import views
 urlpatterns = [
     url('login/', auth_views.LoginView, name='employee_login'),
     url('employee/signup/', views.employee_registeration, name='employee_signup'),
-    url('student/details/', views.candidate_upload, name='student_details'),
+    url('candidate/upload/', views.candidate_upload, name='candidate_upload'),
 ]

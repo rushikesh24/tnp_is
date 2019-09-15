@@ -10,7 +10,7 @@ class Candidate(models.Model):
     # personal details
     _id = models.CharField(max_length=10, null=False, blank=False, primary_key=True, unique=True)
     name = models.CharField(max_length=80, null=False, blank=False)
-    gender = models.CharField(max_length=10, null=False, blank=False)
+    gender = models.CharField(max_length=10, default="Male", null=False, blank=False)
     aadhar_number = models.DecimalField(max_digits=12, decimal_places=0, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
     primary_mobile = models.CharField(max_length=10, null=False, blank=False)
@@ -18,9 +18,9 @@ class Candidate(models.Model):
     # educational details
     tenth = models.DecimalField(max_digits=5, decimal_places=2)
     diploma_12 = models.DecimalField(max_digits=5, decimal_places=2)
-    engineering = models.DecimalField(max_digits=5, decimal_places=2)
     college_name = models.CharField(max_length=100, null=False, blank=False)
     branch = models.CharField(max_length=50, null=False, blank=False)
+    engineering = models.DecimalField(max_digits=5, decimal_places=2)
     live_backlog = models.BooleanField(default=False)
     # placement details
     placed = models.DecimalField(max_digits=3, decimal_places=0, default=0)
@@ -42,7 +42,7 @@ class Candidate(models.Model):
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=80, null=False, blank=False)
-    gender = models.CharField(max_length=10, null=False, blank=False)
+    gender = models.CharField(max_length=10, default="Male", null=False, blank=False)
     department = models.CharField(max_length=50, null=False, blank=False)
     designation = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
@@ -50,4 +50,4 @@ class Employee(models.Model):
     secondary_mobile = models.CharField(max_length=10, blank=True)
 
     def __str__(self):
-        return self.user
+        return self.user.username

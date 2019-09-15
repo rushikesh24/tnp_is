@@ -71,6 +71,9 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				{% if error %}
+				{{ error }}
+				{% endif %}
 				<form class="login100-form validate-form" enctype="multipart/form-data" method="POST">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
@@ -104,8 +107,8 @@
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Department is required">
 						<span class="label-input100">Department</span>
 						<select name="department" required id="id_department" onchange="onOtherClick()">
-							<option value="tpo" >TPO HEAD</option>
 							<option value="others" name="designation">Others</option>
+							<option value="tpo">TPO HEAD</option>
 						</select>
 						<span class="focus-input100"></span>
 					</div>
@@ -189,10 +192,10 @@
 
 	     function onOtherClick() {
     		var x = document.getElementById("design");
-    		if (x.style.display === "block") {
-    			x.style.display = "none";
-  			} else {
+    		if (x.style.display === "none") {
     			x.style.display = "block";
+  			} else {
+    			x.style.display = "none";
   			}
 		}
 	</script>

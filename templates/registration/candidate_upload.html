@@ -84,8 +84,6 @@ input[type="checkbox"]{
   height: 10px; /*Desired height*/
 }
 --------------------------------------------------------------------------------
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
 body {
   font-family: Arial;
   color: white;
@@ -146,11 +144,14 @@ input[type="file"] {
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form action="{% url 'single_student' %}" class="login100-form validate-form"
+				{% if error %}
+				{{ error }}
+				{% endif %}
+				<form action="{% url 'candidate_upload' %}" class="login100-form validate-form"
 					  enctype="multipart/form-data" method="POST" name="single">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
-						STUDENT SIGNUP
+						CANDIDATE SIGNUP
                     </span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "PNR is required">
@@ -167,7 +168,32 @@ input[type="file"] {
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
-                    <div class="wrap-input100 validate-input" data-validate="mobile is required">
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Gender is required">
+						<span class="label-input100">Gender</span>
+						<select id="id_gender" name="Gender" required>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Transgender">Others</option>
+						</select>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="mobile is required">
+						<span class="label-input100">Aadhaar Number</span>
+						<input class="input100" id="id_aadhaar" maxlength="12" name="aadhaarcard" pattern="[0-9]{12}"
+							   placeholder="Type your Aadhaar No" required title="12 digits"
+							   type="tel">
+						<span class="focus-input100" data-symbol="&#xf2cc;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Email is required">
+						<span class="label-input100">Email</span>
+						<input class="input100" id="id_email" maxlength="50" name="email" placeholder="Type your Email"
+							   required type="email">
+						<span class="focus-input100" data-symbol="&#xf15a;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="mobile is required">
                         <span class="label-input100">Primary Mobile</span>
                         <input class="input100" id="id_primary_mobile" maxlength="10" name="primary_mobile"
                                pattern="[0-9]{10}"
@@ -184,33 +210,62 @@ input[type="file"] {
                         <span class="focus-input100" data-symbol="&#xf2cc;"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Email is required">
-						<span class="label-input100">Email</span>
-                        <input class="input100" id="id_email" maxlength="50" name="email" placeholder="Type your Email"
-                               required type="email">
-						<span class="focus-input100" data-symbol="&#xf15a;"></span>
+					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
+						<span class="label-input100">X<sup>th</sup> Percentage</span>
+						<input class="input100" id="id_percentage" max="100" maxlength="5" name="percentage"
+							   placeholder="Type your 10th percentage" required type="text">
+						<span class="focus-input100" data-symbol="&#xf10c;"></span>
 					</div>
 
-					<div id="datefield" data-validate="Date-Of-Birth is required">
+					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
+						<span class="label-input100">XII<sup>th</sup> /diploma Percentage</span>
+						<input class="input100" id="id_percentage1" max="100" maxlength="5" name="percentage1"
+							   placeholder="Type your 12th/Diploma percentage" required type="text">
+						<span class="focus-input100" data-symbol="&#xf10c;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Name is required">
+						<span class="label-input100">College Name</span>
+						<input class="input100" id="id_clg_name" maxlength="80" name="clgname"
+							   placeholder="Type your Clg Name"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Branch Name is required">
+						<span class="label-input100">Branch</span>
+						<input class="input100" id="id_branch" maxlength="50" name="branch" placeholder="Type your Name"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf18d;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="College name is required">
+						<span class="label-input100">Engineering</span>
+						<input class="input100" id="id_marks" maxlength="5" name="marks" placeholder="Type your Marks"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf174;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Live_Backlog or not">
+						<span class="label-input100">Live Backlog</span>
+						<input class="input10" id="id_backlog" maxlength="10" name="live_backlog" type="checkbox">
+						<span class="focus-input100" data-symbol="&#xf26e;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Placed or not">
+						<span class="label-input100">Placed</span>
+						<input class="input100" id="id_placed" maxlength="10" name="placed"
+							   placeholder="Number of Company You Placed"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf26e;"></span>
+					</div>
+
+
+					<!--<div id="datefield" data-validate="Date-Of-Birth is required">
                             <span class="label-input100">DOB</span>
                             <input class="input100" type="date" name="dob" required id="id_dateofbirth" placeholder="Type your DOB">
                             <span class="focus-input100" data-symbol="&#xf190;"></span>
-					</div>
-
-                    <div class="wrap-input100 validate-input" data-validate="mobile is required">
-                        <span class="label-input100">Aadhaar Number</span>
-                        <input class="input100" id="id_aadhaar" maxlength="12" name="aadhaarcard" pattern="[0-9]{12}"
-                               placeholder="Type your Aadhaar No" required title="12 digits"
-                               type="tel">
-                        <span class="focus-input100" data-symbol="&#xf2cc;"></span>
-                    </div>
-
-                    <div class="wrap-input100 validate-input" data-validate="Percentage is required">
-						<span class="label-input100">X<sup>th</sup> Percentage</span>
-                        <input class="input100" id="id_percentage" max="100" maxlength="5" name="percentage"
-                               placeholder="Type your 10th percentage" required type="text">
-                        <span class="focus-input100" data-symbol="&#xf10c;"></span>
-					</div>
+					</div>-->
 
                     <!--<div class="wrap-input100 validate-input m-b-23" data-validate = "Board Name is required">
                         <span class="label-input100">Board of Exam</span>
@@ -219,13 +274,6 @@ input[type="file"] {
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
                     </div>-->
 
-                    <div class="wrap-input100 validate-input" data-validate="Percentage is required">
-                        <span class="label-input100">XII<sup>th</sup> /diploma Percentage</span>
-                        <input class="input100" id="id_percentage1" max="100" maxlength="5" name="percentage1"
-                               placeholder="Type your 12th/Diploma percentage" required type="text">
-                        <span class="focus-input100" data-symbol="&#xf10c;"></span>
-                    </div>
-
                     <!--<div class="wrap-input100 validate-input m-b-23" data-validate = "Board Name is required">
                         <span class="label-input100">Board of Exam</span>
                         <input class="input100" id="id_boardname1" maxlength="50" name="boardname1" placeholder="Type your Name"
@@ -233,42 +281,7 @@ input[type="file"] {
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
                     </div>-->
 
-                    <div class="wrap-input100 validate-input m-b-23" data-validate="Name is required">
-                        <span class="label-input100">College Name</span>
-                        <input class="input100" id="id_clg_name" maxlength="80" name="clgname"
-                               placeholder="Type your Clg Name"
-                               required type="text">
-                        <span class="focus-input100" data-symbol="&#xf206;"></span>
-					</div>
 
-                    <div class="wrap-input100 validate-input" data-validate="College name is required">
-                        <span class="label-input100">Engineering</span>
-                        <input class="input100" id="id_marks" maxlength="5" name="marks" placeholder="Type your Marks"
-                               required type="text">
-                        <span class="focus-input100" data-symbol="&#xf174;"></span>
-                    </div>
-
-                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Branch Name is required">
-						<span class="label-input100">Branch</span>
-						<input class="input100" type="text" name="branch" maxlength="50" required id="id_branch" placeholder="Type your Name">
-                        <span class="focus-input100" data-symbol="&#xf18d;"></span>
-					</div>
-
-                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Gender is required">
-						<span class="label-input100">Gender</span>
-						<select name="Gender" required id="id_gender">
-							<option value="Male">Male</option>
-							<option value="Female">Female</option>
-							<option value="Transgender">Others</option>
-						</select>
-                        <span class="focus-input100"></span>
-					</div>
-
-                    <div class="wrap-input100 validate-input" data-validate="Placed or not">
-						<span class="label-input100">Placed</span>
-                        <input class="input10" id="id_placed" maxlength="50" name="placed" type="checkbox">
-                        <span class="focus-input100" data-symbol="&#xf26e;"></span>
-					</div>
 
                     <!--<div class="wrap-input100 validate-input m-b-23" data-validate = "Town Name is required">
                         <span class="label-input100">Home Town</span>
@@ -310,9 +323,7 @@ input[type="file"] {
 						</div>
 					</div>
 				</form>
-				{% if error %}
-				{{ error }}
-				{% endif %}
+
 			</div>
 		</div>
 	</div>
