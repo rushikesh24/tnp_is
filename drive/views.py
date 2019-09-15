@@ -5,6 +5,7 @@ from django.shortcuts import render
 from pymongo import MongoClient
 
 
+# Drive Upload
 def drive_upload(request):
     if request.method == 'POST' :
         try :
@@ -91,7 +92,6 @@ def student_attendence(request):
             collection = db["registration_student"]
             collect_drive = db["drive_drive"]
 
-            print('Connection established')
             query = {
                 "_id": request.POST.get('pnr'),
                 "primary_mobile": request.POST.get('primary_mobile'),
@@ -102,7 +102,6 @@ def student_attendence(request):
             }
 
             docs = collection.find(query)
-            print('Connection established query 1')
             id = None
             name = None
             branch = None
@@ -112,7 +111,6 @@ def student_attendence(request):
                 name = i["name"]
                 branch = i["branch"]
 
-            print('Connection established query 2 before')
             doc = collect_drive.find(query1)
             companyname.clear()
             time.clear()
@@ -120,7 +118,6 @@ def student_attendence(request):
                 companyname.append(i["company_name"])
                 time.append(i["time"])
 
-            print('Connection established query 2')
             return render(request, 'drive/student_list.html',
                           {"id": id, 'name': name, 'branch': branch, 'company_name': companyname, 'time': time})
         except Exception as e:
@@ -135,14 +132,14 @@ def student_list(request):
     if request.method == 'POST':
         print("in")
 
+        student_attendence_dict = {}
         for i in companyname:
-            print(i)
-            print(request.POST.get(str(i)))
+            student_attendence_dict.update({i: request.POST.get(str(i))})
 
         try:
             student_list = {
                 'id': request.POST.get('id'),
-                'student_name': request.POST.get('name'),
+                'studen t_name': request.POST.get('name'),
                 'branch': request.POST.get('branch'),
                 'company_name': request.POST.get('company_name'),
                 'drive_time': request.POST.get('time'),

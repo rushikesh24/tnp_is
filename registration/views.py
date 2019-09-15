@@ -17,7 +17,9 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
 
-def register(request):
+
+# Employee Registration
+def employee_registeration(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -30,6 +32,9 @@ def register(request):
             profile.user = user
             profile.save()
             registered = True
+
+            print("profile saved successfully")  # Console log
+            
         else:
             print(user_form.errors, profile_form.errors)
     else:
@@ -42,88 +47,93 @@ def register(request):
     })
 
 
-def single_student(request):
+# Candidate_upload
+def candidate_upload(request):
     if request.method == 'POST':
         collection = None
         try:
+            #Create connection between database and user
             con = MongoClient()
             db = con["tnp_management"]
-            collection = db["registration_student"]
-        except Exception as e:
-            print(e)
-            return render(request, 'registration/student_single.html', {"error": "Connection Failed"})
+            collection = db["registration_candidate"]
 
+            print("Connection established successfully")  #Console log
+        except Exception as e:
+            print(e)  # Console log
+            return render(request, 'registration/candidate_upload.html', {"error": "Connection Failed"})
+
+        #For single student
         if 'single' in request.POST:
-            print("single")
+            print("single student data upload")
             try:
-                placed = request.POST.get("placed")
-                if placed == None:
-                    placed = False
+                # To handle None values
+                live_backlog = request.POST.get("live_backlog")
+                if live_backlog == None:
+                    live_backlog = False
                 else:
-                    placed = True
+                    live_backlog = True
+
                 data_dic = {
                     "_id": request.POST.get("pnr"),
                     "name": request.POST.get("name"),
+                    "gender": request.POST.get("Gender"),
+                    "aadhar_number": request.POST.get("aadhaarcard"),
+                    "email": request.POST.get("email"),
                     "primary_mobile": request.POST.get("primary_mobile"),
                     "secondary_mobile": request.POST.get("secondary_mobile"),
-                    "aadhaar_no": request.POST.get("aadhaarcard"),
-                    "email": request.POST.get("email"),
-                    "birthdate": request.POST.get("dob"),
                     "tenth": request.POST.get("percentage"),
                     "diploma_12": request.POST.get("percentage1"),
+                    "engineering": request.POST.get("marks"),
                     "college_name": request.POST.get("clgname"),
-                    "marks": request.POST.get("marks"),
-                    "placed": placed,
                     "branch": request.POST.get("branch"),
-                    "gender": request.POST.get("Gender"),
-
+                    "live_backlog": live_backlog,
+                    "placed": request.POST.get("placed"),
                 }
                 rec = collection.insert_one(data_dic)
-                print(rec)
+                print("inserted_record\n" + rec)
+                return HttpResponse("candidate Uploaded Successfully")
 
-                return HttpResponse("200")
             except Exception as e:
-                print(e)
-                return render(request, 'registration/student_single.html',
+                print({"exeption": e})
+                return render(request, 'registration/candidate_upload.html',
                               {"error": "PNR number is already registered"})
 
         elif 'multiple' in request.POST:
             try:
-                print('multiple')
+                print("multiple student data upload")
                 csv_file = request.FILES["csv_file"]
                 if not csv_file.name.endswith('.csv'):
-                    return HttpResponse('File is not CSV type')
+                    return HttpResponse('File is not CSV type. Please upload csv file')
 
                 file_data = csv_file.read().decode("UTF-8")
                 lines = file_data.split("\n")
-                j = 0
+
                 # loop over the lines and save them in db. If error , store as string and then display
                 for line in lines:
                     fields = line.split(",")
                     data_dict = {}
                     data_dict["_id"] = fields[0]
                     data_dict["name"] = fields[1]
-                    data_dict["email"] = fields[2]
-                    data_dict["tenth"] = fields[3]
-                    data_dict["diploma_12"] = fields[4]
-                    data_dict["marks"] = fields[5]
-                    data_dict["branch"] = fields[6]
-                    data_dict["gender"] = fields[7]
-                    if fields[8]:
-                        data_dict["placed"] = True
+                    data_dict["gender"] = fields[2]
+                    data_dict["aadhar_number"] = fields[3]
+                    data_dict["email"] = fields[4]
+                    data_dict["primary_mobile"] = fields[5]
+                    data_dict["secondary_mobile"] = fields[6]
+                    data_dict["tenth"] = fields[7]
+                    data_dict["diploma_12"] = fields[8]
+                    data_dict["engineering"] = fields[9]
+                    data_dict["college_name"] = fields[10]
+                    data_dict["branch"] = fields[11]
+                    if fields[12]:
+                        data_dict["live_backlog"] = True
                     else:
-                        data_dict["placed"] = False
-                    data_dict["primary_mobile"] = fields[9]
-                    data_dict["secondary_mobile"] = fields[10]
-                    j = j + 1
-                    print(j)
+                        data_dict["live_backlog"] = False
+                    data_dict["placed"] = fields[13]
                     rec = collection.insert_one(data_dict)
-                return HttpResponse("Data Uploaded Successfully")
+                    print("inserted_record\n" + rec)
+                return HttpResponse("candidate Uploaded Successfully")
             except Exception as e:
-                print(e)
-                return HttpResponse("Unable to upload the file")
+                print({"exception": e})
+                return HttpResponse("Unable to upload the file. Error in file")
     else:
-        return render(request, 'registration/student_single.html', {})
-
-def employee(request):
-    return render(request, 'registration/signup.html', {})
+        return render(request, 'registration/candidate_upload.html', {})

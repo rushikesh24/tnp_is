@@ -1,46 +1,53 @@
 from django.contrib.auth.models import User
 from djongo import models
 
-
 # Create your models here.
 
-class Year_marks(models.Model):
-    FE = models.DecimalField(max_digits=4, decimal_places=2, null=False, blank=False, default=0.00)
-    SE = models.DecimalField(max_digits=4, decimal_places=2, null=False, blank=False, default=0.00)
-    TE = models.DecimalField(max_digits=4, decimal_places=2, null=False, blank=False, default=0.00)
-    BE = models.DecimalField(max_digits=4, decimal_places=2, null=False, blank=False, default=0.00)
-
-    class Meta:
-        abstract = True
+'''Candidate Model'''
 
 
-class Student(models.Model):
+class Candidate(models.Model):
+    # personal details
     _id = models.CharField(max_length=10, null=False, blank=False, primary_key=True, unique=True)
     name = models.CharField(max_length=80, null=False, blank=False)
+    gender = models.CharField(max_length=10, null=False, blank=False)
+    aadhar_number = models.DecimalField(max_digits=12, decimal_places=0, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
-    # birthdate = models.DateField(auto_now=True, auto_now_add=False, null=True)
-    tenth = models.DecimalField(max_digits=5, decimal_places=2)
-    diploma_12 = models.DecimalField(max_digits=5, decimal_places=2)
-    marks = models.DecimalField(max_digits=5, decimal_places=2)
-    branch = models.CharField(max_length=50, null=False, blank=False)
-    gender = models.CharField(max_length=10, null=False, default='Male', blank=False)
-    placed = models.BooleanField(default=False)
     primary_mobile = models.CharField(max_length=10, null=False, blank=False)
     secondary_mobile = models.CharField(max_length=10, blank=True)
+    # educational details
+    tenth = models.DecimalField(max_digits=5, decimal_places=2)
+    diploma_12 = models.DecimalField(max_digits=5, decimal_places=2)
+    engineering = models.DecimalField(max_digits=5, decimal_places=2)
+    college_name = models.CharField(max_length=100, null=False, blank=False)
+    branch = models.CharField(max_length=50, null=False, blank=False)
+    live_backlog = models.BooleanField(default=False)
+    # placement details
+    placed = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    eligible = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round1 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round2 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round3 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round4 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round5 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round6 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round7 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    round8 = models.DecimalField(max_digits=3, decimal_places=0, default=0)
 
     def __str__(self):
         return self.name
 
 
+'''Employee Model'''
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=80, null=False, blank=False)
-    designation = models.CharField(max_length=50, null=False, blank=False)
+    gender = models.CharField(max_length=10, null=False, blank=False)
     department = models.CharField(max_length=50, null=False, blank=False)
+    designation = models.CharField(max_length=50, null=False, blank=False)
+    email = models.EmailField(max_length=50, null=False, blank=False)
     primary_mobile = models.CharField(max_length=10, null=False, blank=False)
-    gender = models.CharField(max_length=10, null=False, default='Male', blank=False)
     secondary_mobile = models.CharField(max_length=10, blank=True)
-    email = models.EmailField(max_length=50,null=False,blank=False)
 
     def __str__(self):
-        return self.user.username
+        return self.user
