@@ -64,16 +64,19 @@ def single_student(request):
                 data_dic = {
                     "_id": request.POST.get("pnr"),
                     "name": request.POST.get("name"),
+                    "primary_mobile": request.POST.get("primary_mobile"),
+                    "secondary_mobile": request.POST.get("secondary_mobile"),
+                    "aadhaar_no": request.POST.get("aadhaarcard"),
                     "email": request.POST.get("email"),
+                    "birthdate": request.POST.get("dob"),
                     "tenth": request.POST.get("percentage"),
                     "diploma_12": request.POST.get("percentage1"),
-                    "birthdate" : request.POST.get("dob"),
+                    "college_name": request.POST.get("clgname"),
+                    "marks": request.POST.get("marks"),
                     "placed": placed,
                     "branch": request.POST.get("branch"),
                     "gender": request.POST.get("Gender"),
-                    "primary_mobile": request.POST.get("primary_mobile"),
-                    "secondary_mobile": request.POST.get("secondary_mobile"),
-                    "marks": request.POST.get("marks"),
+
                 }
                 rec = collection.insert_one(data_dic)
                 print(rec)

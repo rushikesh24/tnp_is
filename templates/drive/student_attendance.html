@@ -41,7 +41,6 @@
                 <div class="wrap-input100 validate-input m-b-23" data-validate="PNR is required">
                     <span class="label-input100">PNR</span>
                     <input class="input100" id="id_pnr" maxlength="10" name="pnr" placeholder="Type your PNR"
-                           required
                            required type="text">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
@@ -51,6 +50,13 @@
                     <input class="input100" id="id_primary_mobile" maxlength="10" name="primary_mobile"
                            pattern="[0-9]{10}"
                            placeholder="Type your Primary_Mobile" required title="10 digits" type="tel">
+                    <span class="focus-input100" data-symbol="&#xf2cc;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="mobile is required">
+                    <span class="label-input100">Date</span>
+                    <input class="input100" id="id_date" maxlength="10" name="drive_date"
+                           placeholder="Type Date" type="text">
                     <span class="focus-input100" data-symbol="&#xf2cc;"></span>
                 </div>
 
