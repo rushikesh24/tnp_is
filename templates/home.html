@@ -1,12 +1,17 @@
 <!-- templates/home.html -->
 {% extends 'header.html' %}
+{% load static %}
+
 
 {% block title %}Home{% endblock %}
+<link href="{% static 'signup/images/logo1.jpg' %}" rel="stylesheet" type="image/jpg">
 
 {% block content %}
-WELCOME TO DYPCOE TRAINING AND PLACEMENT CELL
+<h1>
+    WELCOME TO DYPCOE TRAINING AND PLACEMENT CELL
+</h1>
 <br>
-<img src="logo1.jpg" >
+<img src="{% static 'signup/images/logo1.jpg' %}">
 <br>
 
 {% if user.is_authenticated %}
