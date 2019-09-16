@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [
     url('upload/', views.drive_upload, name='drive_upload'),
-    url('round_details/', views.drive_upload, name='round_details'),
-    url('student_attendance/', views.student_attendence, name='student_attendance'),
-    url('student_list/', views.student_list, name='student_list'),
+    url('round/details/', views.drive_upload, name='round_details'),
+    url('student/attendance/', views.student_attendence, name='student_attendance'),
+    url('student/list/', views.student_list, name='student_list'),
+    url('report/generation/student/placed',views.report_generation_placed,name='report_generation_placed')
 ]

@@ -65,6 +65,7 @@
                     </span>
 					<form action="{% url 'student_list' %}" class="login100-form validate-form" method="POST">
 						{% csrf_token %}
+						{% if name %}
 						<table id="t01" style="width: 100%">
 							<tr>
 								<th>ID</th>
@@ -77,10 +78,14 @@
 								<td><input branch hidden name="branch" value={{ }}>{{ branch }}</td>
 							</tr>
 						</table>
+						{% else %}
+						No candidate found of matching PNR
+						{% endif %}
 
 						<span class="login100-form-title p-b-49">
 						DRIVE DETAILS
 					</span>
+						{% if company_name %}
 						<table id="t02" style="width: 100% ">
 							<tr>
 								<th>Todays Drive</th>
@@ -100,7 +105,7 @@
 								{% for i in company_name %}
 								<td>
 									<span class="label-input100">Status</span>
-									<select i id="id_status" name={{ required }}>
+									<select i i id="id_status" name={{ required }}>
 										<option value="Yes">Going</option>
 										<option value="No">Not Going</option>
 									</select>
@@ -108,6 +113,9 @@
 								{% endfor %}
 							</tr>
 						</table>
+						{% else %}
+						No company
+						{% endif %}
 						<div class="text-right p-t-8 p-b-31">
 						</div>
 						<div class="container-login100-form-btn">

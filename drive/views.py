@@ -1,17 +1,21 @@
+import math
 import random
 import string
+from datetime import date
 
+import matplotlib.pyplot as plt
+from django.http import HttpResponse
 from django.shortcuts import render
 from pymongo import MongoClient
 
 
 # Drive Upload
 def drive_upload(request):
-    if request.method == 'POST' :
-        try :
-            con=MongoClient()
+    if request.method == 'POST':
+        try:
+            con = MongoClient()
             db = con["tnp_management"]
-            collection_student = db["registration_student"]
+            collection_candidate = db["registration_candidate"]
             collection = db["drive_drive"]
 
             date_ls = str(request.POST.get("drive_date")).split("-")
@@ -20,35 +24,51 @@ def drive_upload(request):
 
             round_ls = str(request.POST.get("other")).split(',')
             round_dict = {}
-            j = 0
-            for i in round_ls:
-                j = j + 1
-                round_name = "round_" + str(j)
-                round_dict.update({round_name: i})
+            if request.POST.get("round1"):
+                round_dict.update({
+                    "round1": request.POST.get("round1"),
+                })
+                if request.POST.get("round2"):
+                    round_dict.update({
+                        "round2": request.POST.get("round2"),
+                    })
+                    if request.POST.get("round3"):
+                        round_dict.update({
+                            "round3": request.POST.get("round3"),
+                        })
 
+                        j = 3
+                        for i in round_ls:
+                            j = j + 1
+                            round_name = "round" + str(j)
+                            round_dict.update({round_name: i})
+
+            eligible_student = []
+            branch_ls = str(request.POST.get("branch")).split(',')
+            print(branch_ls)
             query = {
                 "tenth": {"$gte": request.POST.get('tenth')},
                 "diploma_12": {"$gte": request.POST.get("diploma_12")},
-                "marks": {"$gte": request.POST.get("engineering")},
-                "branch": request.POST.get("branch"),
+                "engineering": {"$gte": request.POST.get("engineering")},
+                "branch": {"$in": branch_ls},
             }
 
-            eligible_student = []
-            student_details = collection_student.find(query)
+            student_details = collection_candidate.find(query)
             for i in student_details:
                 print(i)
                 id = i["_id"]
                 name = i["name"]
                 branch = i["branch"]
+                eligible = int(i["eligible"]) + 1
+                collection_candidate.update({"_id": id}, {"$set": {"eligible": eligible}})
                 student_temp = {"_id": id, "name": name, "branch": branch}
                 eligible_student.append(student_temp)
 
-
-            drive_dic={
+            drive_dic = {
                 '_id': drive_id,
-                'company_name' : request.POST.get("name"),
+                'company_name': request.POST.get("name"),
                 'date': request.POST.get("drive_date"),
-                'venue' : request.POST.get("place"),
+                'venue': request.POST.get("place"),
                 'time': request.POST.get("drive_time"),
                 'rounds': round_dict,
                 'login_key': login_key,
@@ -56,18 +76,24 @@ def drive_upload(request):
                 'eligibility': {
                     'tenth_marks': request.POST.get("tenth"),
                     'diploma_12': request.POST.get("diploma_12"),
-                    'engg': request.POST.get("engineering"),
+                    'enggineering': request.POST.get("engineering"),
                 },
-                'base_package' : request.POST.get("package"),
+                'base_package': request.POST.get("package"),
                 'campus_type': request.POST.get("campus"),
                 'eligible_student': eligible_student,
+                "round1_student": [],
+                "round2_student": [],
+                "round3_student": [],
+                "round4_student": [],
+                "round5_student": [],
+                "round6_student": [],
+                "round7_student": [],
+                "round8_student": [],
+                "placed_student": [],
             }
-            rec=collection.insert_one(drive_dic)
+            rec = collection.insert_one(drive_dic)
             print(rec)
-            return render(request, 'drive/round_details.html', {
-                'login_key': login_key,
-
-            })
+            return render(request, 'drive/round_details.html', {'login_key': login_key, })
         except Exception as e:
             print(e)
             return render(request, 'drive/drive_upload.html', {"error": "Drive_id number is already registered"})
@@ -84,42 +110,44 @@ def randomStringDigits(stringLength=8):
 companyname = []
 time = []
 
+
 def student_attendence(request):
     if request.method == 'POST':
         try:
             con = MongoClient()
             db = con["tnp_management"]
-            collection = db["registration_student"]
-            collect_drive = db["drive_drive"]
+            collection_candidate = db["registration_candidate"]
+            collection_drive = db["drive_drive"]
 
+            query_student = {"_id": request.POST.get('pnr'), }
+
+            student_information = collection_candidate.find(query_student)
             query = {
-                "_id": request.POST.get('pnr'),
-                "primary_mobile": request.POST.get('primary_mobile'),
+                "date": str(date.today()),
+                "eligible_student._id": request.POST.get('pnr'),
             }
 
-            query1 = {
-                "date": request.POST.get('drive_date'),
-            }
+            eligible_companies = collection_drive.find(query)
 
-            docs = collection.find(query)
-            id = None
+            id = request.POST.get('pnr')
             name = None
             branch = None
-            for i in docs:
-                print(i)
-                id = i['_id']
+
+            for i in student_information:
                 name = i["name"]
                 branch = i["branch"]
 
-            doc = collect_drive.find(query1)
             companyname.clear()
             time.clear()
-            for i in doc:
+            venue = []
+            for i in eligible_companies:
                 companyname.append(i["company_name"])
                 time.append(i["time"])
+                venue.append(i["venue"])
 
             return render(request, 'drive/student_list.html',
-                          {"id": id, 'name': name, 'branch': branch, 'company_name': companyname, 'time': time})
+                          {"id": id, 'name': name, 'branch': branch, 'company_name': companyname, 'time': time,
+                           'venue': venue})
         except Exception as e:
             print(e)
             return render(request, 'drive/student_attendance.html', {"error": 'Some error occured'})
@@ -130,25 +158,90 @@ def student_attendence(request):
 
 def student_list(request):
     if request.method == 'POST':
-        print("in")
+        try:
+            con = MongoClient()
+            db = con["tnp_management"]
+            collection_drive = db["drive_drive"]
+            collection_candidate = db["registration_candidate"]
 
+        except Exception as e:
+            print({"exception": e})  # Console log
+            return render(request, 'drive/student_list.html', {"error": "Connection Failed"})
+
+        print("Connection established")
         student_attendence_dict = {}
+
+        print(companyname)
         for i in companyname:
-            student_attendence_dict.update({i: request.POST.get(str(i))})
+            print(i, request.POST.get(str(i)))
+            if request.POST.get(str(i)) == 'Yes':
+                student_attendence_dict.update({i: request.POST.get(str(i))})
+
+        date_ls = str(date.today()).split("-")
+        year = str(date_ls[0])
 
         try:
-            student_list = {
-                'id': request.POST.get('id'),
-                'studen t_name': request.POST.get('name'),
-                'branch': request.POST.get('branch'),
-                'company_name': request.POST.get('company_name'),
-                'drive_time': request.POST.get('time'),
-                'status': request.POST.get('status')
-            }
-            print(student_list)
+            j = 0
+            for i in student_attendence_dict:
+                print(i)
+                collection_drive.update({"_id": str(i) + year}, {"$push": {"round1_student": {
+                    '_id': request.POST.get('id'),
+                    'name': request.POST.get('name'),
+                    'branch': request.POST.get('branch'), }}
+                })
+                j = j + 1
+
+            student_records = collection_candidate.find({"_id": request.POST.get('id')})
+            for i in student_records:
+                print(i)
+                id = i["_id"]
+                round1 = int(i["round1"]) + j
+                collection_candidate.update({"_id": id}, {"$set": {"round1": round1}})
+
+            return HttpResponse("Congratulations.....You are in!!")
         except Exception as e:
-            print(e)
+            print({"exception": e})
             return render(request, 'drive/student_list.html', {"error": 'Some error occured'})
-        return render(request, 'drive/drive_upload.html', {})
+
     else:
         return render(request, 'drive/student_list.html', {})
+
+
+def report_generation_placed(request):
+    try:
+        con = MongoClient()
+        db = con["tnp_management"]
+        collection_candidate = db["registration_candidate"]
+
+    except Exception as e:
+        print({"exception": e})  # Console log
+        return render(request, 'drive/student_list.html', {"error": "Connection Failed"})
+
+    eligible = []
+    round1 = []
+    round2 = []
+    round3 = []
+    round4 = []
+    round5 = []
+    round6 = []
+    round7 = []
+    round8 = []
+    placed = []
+    student_details = collection_candidate.find()
+    for i in student_details:
+        print(i)
+        eligible.append(int(i["eligible"]))
+        round1.append(int(i["round1"]))
+        round2.append(int(i["round2"]))
+        round3.append(int(i["round3"]))
+        round4.append(int(i["round4"]))
+        round5.append(int(i["round5"]))
+        round6.append(int(i["round6"]))
+        round7.append(int(i["round7"]))
+        round8.append(int(i["round8"]))
+        placed.append(int(i["placed"]))
+
+    plt.hist([eligible, placed], bins=round(1 + 3.322 * math.log(len(eligible))), label=['Eligible', 'Placed'])
+    plt.savefig('templates/drive/graphs/result.png')
+
+    return HttpResponse("200")

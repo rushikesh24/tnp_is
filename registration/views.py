@@ -34,28 +34,17 @@ def employee_registeration(request):
             registered = True
 
             print("profile saved successfully")  # Console log
-            return render(request, 'registration/employee_signup.html', {
-                'user_form': user_form,
-                'profile_form': profile_form,
-                'registered': registered,
-                'error': "profile saved successfully"
-            })
+            
         else:
             print(user_form.errors, profile_form.errors)
-            return render(request, 'registration/employee_signup.html', {
-                'user_form': user_form,
-                'profile_form': profile_form,
-                'registered': registered,
-                'error': str(user_form.errors) + str(profile_form.errors)
-            })
     else:
         user_form = UserForm()
         profile_form = UserProfileInfoForm()
-        return render(request, 'registration/employee_signup.html', {
-            'user_form': user_form,
-            'profile_form': profile_form,
-            'registered': registered
-        })
+    return render(request, 'registration/signup.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'registered': registered
+    })
 
 
 # Candidate_upload
@@ -93,21 +82,21 @@ def candidate_upload(request):
                     "primary_mobile": request.POST.get("primary_mobile"),
                     "secondary_mobile": request.POST.get("secondary_mobile"),
                     "tenth": request.POST.get("percentage"),
-                    "college_name": request.POST.get("clgname"),
-                    "branch": request.POST.get("branch"),
                     "diploma_12": request.POST.get("percentage1"),
                     "engineering": request.POST.get("marks"),
+                    "college_name": request.POST.get("clgname"),
+                    "branch": request.POST.get("branch"),
                     "live_backlog": live_backlog,
                     "placed": request.POST.get("placed"),
-                    "eligible": "0",
-                    "round1": "0",
-                    "round2": "0",
-                    "round3": "0",
-                    "round4": "0",
-                    "round5": "0",
-                    "round6": "0",
-                    "round7": "0",
-                    "round8": "0",
+                    "eligible" : request.POST.get("placed"),
+                    "round1" : request.POST.get("placed"),
+                    "round2" : request.POST.get("placed"),
+                    "round3" : request.POST.get("placed"),
+                    "round4" : request.POST.get("placed"),
+                    "round5" : request.POST.get("placed"),
+                    "round6" : request.POST.get("placed"),
+                    "round7" : request.POST.get("placed"),
+                    "round8" : request.POST.get("placed"),
                 }
                 rec = collection.insert_one(data_dic)
                 print("inserted_record")
@@ -128,9 +117,11 @@ def candidate_upload(request):
 
                 file_data = csv_file.read().decode("UTF-8")
                 lines = file_data.split("\n")
-
+                print(lines)
                 # loop over the lines and save them in db. If error , store as string and then display
                 for line in lines:
+                    if line == '':
+                        continue
                     fields = line.split(",")
                     data_dict = {}
                     data_dict["_id"] = fields[0]
@@ -142,16 +133,26 @@ def candidate_upload(request):
                     data_dict["secondary_mobile"] = fields[6]
                     data_dict["tenth"] = fields[7]
                     data_dict["diploma_12"] = fields[8]
-                    data_dict["college_name"] = fields[10]
-                    data_dict["branch"] = fields[11]
-                    data_dict["engineering"] = fields[9]
+                    data_dict["college_name"] = fields[9]
+                    data_dict["branch"] = fields[10]
+                    data_dict["engineering"] = fields[11]
                     if fields[12]:
                         data_dict["live_backlog"] = True
                     else:
                         data_dict["live_backlog"] = False
                     data_dict["placed"] = fields[13]
+                    data_dict["eligible"] = fields[13]
+                    data_dict["round1"] = fields[13]
+                    data_dict["round2"] = fields[13]
+                    data_dict["round3"] = fields[13]
+                    data_dict["round4"] = fields[13]
+                    data_dict["round5"] = fields[13]
+                    data_dict["round6"] = fields[13]
+                    data_dict["round7"] = fields[13]
+                    data_dict["round8"] = fields[13]
                     rec = collection.insert_one(data_dict)
-                    print("inserted_record\n" + rec)
+                    print("inserted_record")
+                    print(rec)
                 return HttpResponse("candidate Uploaded Successfully")
             except Exception as e:
                 print({"exception": e})
