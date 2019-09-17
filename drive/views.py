@@ -180,7 +180,7 @@ def student_list(request):
                 print(i, request.POST.get(str(i)))
                 if request.POST.get(str(i)) == 'Yes':
                     rec = collection_drive.find({"$and" : [{"_id": str(i) + year},{"round1_student._id" : request.POST.get('id')}]})
-                    flag  = True
+                    flag = True
 
                     for i in rec:
                         flag = False

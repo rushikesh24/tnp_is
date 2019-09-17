@@ -91,32 +91,23 @@
 							<th>Venue</th>
 							<th>Time of Drive</th>
 							<th>Going?</th>
-								<tr>
-									{% for i in companies %}
-										<td><input hidden name="company_name">{{ i.cname }}</td>
+							{% for i in companies %}
+							<tr>
+								<td><input hidden name="company_name">{{ i.cname }}</td>
 
-										<td><input hidden name="venue">{{ i.location }}</td>
+								<td><input hidden name="venue">{{ i.location }}</td>
 
-										<td><input hidden name="time">{{ i.time }}</td>
+								<td><input hidden name="time">{{ i.time }}</td>
 
-										<td>
-											<span class="label-input100">Status</span>
-											<select id="id_status" name={{ i }}>
-												<option value="Yes">Going</option>
-												<option value="No">Not Going</option>
-											</select>
-										</td>
-									{% endfor %}
+								<td>
+									<span class="label-input100">Status</span>
+									<select id="id_status" name={{ i.cname }}>
+										<option value="Yes">Going</option>
+										<option value="No">Not Going</option>
+									</select>
+								</td>
 								</tr>
-
-								<tr>
-
-								</tr>
-
-								<tr>
-
-								</tr>
-
+							{% endfor %}
 						</table>
 						<div class="text-right p-t-8 p-b-31">
 						</div>
