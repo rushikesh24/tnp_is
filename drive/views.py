@@ -39,9 +39,10 @@ def drive_upload(request):
 
                         j = 3
                         for i in round_ls:
-                            j = j + 1
-                            round_name = "round" + str(j)
-                            round_dict.update({round_name: i})
+                            if i :
+                                j = j + 1
+                                round_name = "round" + str(j)
+                                round_dict.update({round_name: i})
 
             eligible_student = []
             branch_ls = str(request.POST.get("branch")).split(',')
@@ -122,6 +123,7 @@ def student_attendence(request):
             query_student = {"_id": request.POST.get('pnr'), }
 
             student_information = collection_candidate.find(query_student)
+
             query = {
                 "date": str(date.today()),
                 "eligible_student._id": request.POST.get('pnr'),
@@ -168,43 +170,48 @@ def student_list(request):
             print({"exception": e})  # Console log
             return render(request, 'drive/student_list.html', {"error": "Connection Failed"})
 
-        print("Connection established")
-        student_attendence_dict = {}
-
-        print(companyname)
-        for i in companyname:
-            print(i, request.POST.get(str(i)))
-            if request.POST.get(str(i)) == 'Yes':
-                student_attendence_dict.update({i: request.POST.get(str(i))})
-
-        date_ls = str(date.today()).split("-")
-        year = str(date_ls[0])
-
         try:
+            print("Connection established")
+
+            date_ls = str(date.today()).split("-")
+            year = str(date_ls[0])
             j = 0
-            for i in student_attendence_dict:
-                print(i)
-                collection_drive.update({"_id": str(i) + year}, {"$push": {"round1_student": {
-                    '_id': request.POST.get('id'),
-                    'name': request.POST.get('name'),
-                    'branch': request.POST.get('branch'), }}
-                })
-                j = j + 1
 
-            student_records = collection_candidate.find({"_id": request.POST.get('id')})
-            for i in student_records:
-                print(i)
-                id = i["_id"]
-                round1 = int(i["round1"]) + j
-                collection_candidate.update({"_id": id}, {"$set": {"round1": round1}})
+            print(companyname)
+            for i in companyname:
+                print(i, request.POST.get(str(i)))
+                if request.POST.get(str(i)) == 'Yes':
+                    rec = collection_drive.find({"$and" : [{"_id": str(i) + year},{"round1_student._id" : request.POST.get('id')}]})
+                    flag  = True
 
-            return HttpResponse("Congratulations.....You are in!!")
+                    for i in rec:
+                        flag = False
+                        break
+
+                    if flag:
+                        collection_drive.update({"_id": str(i) + year}, {"$push": {"round1_student": {
+                            '_id': request.POST.get('id'),
+                            'name': request.POST.get('name'),
+                            'branch': request.POST.get('branch'), }}
+                        })
+                        j = j + 1
+                        student_records = collection_candidate.find({"_id": request.POST.get('id')})
+                        for i in student_records:
+                            print(i)
+                            id = i["_id"]
+                            round1 = int(i["round1"]) + j
+                            collection_candidate.update({"_id": id}, {"$set": {"round1": round1}})
+
+                        return HttpResponse("Congratulations.....You are in!!")
+                    else:
+                        return HttpResponse("You are already added to list")
         except Exception as e:
             print({"exception": e})
             return render(request, 'drive/student_list.html', {"error": 'Some error occured'})
 
     else:
         return render(request, 'drive/student_list.html', {})
+
 
 
 def report_generation_placed(request):

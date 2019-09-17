@@ -73,9 +73,9 @@
 								<th>Branch</th>
 							</tr>
 							<tr>
-								<td><input hidden id name="id" value={{ }}>{{ id }}</td>
-								<td><input hidden name="name" name value={{ }}>{{ name }}</td>
-								<td><input branch hidden name="branch" value={{ }}>{{ branch }}</td>
+								<td><input hidden name="id" value={{ id }}>{{ id }}</td>
+								<td><input hidden name="name"  value={{ name }}>{{ name }}</td>
+								<td><input hidden name="branch" value={{ branch }}>{{ branch }}</td>
 							</tr>
 						</table>
 						{% else %}
@@ -105,7 +105,7 @@
 								{% for i in company_name %}
 								<td>
 									<span class="label-input100">Status</span>
-									<select i i id="id_status" name={{ required }}>
+									<select id="id_status" name={{ i }}>
 										<option value="Yes">Going</option>
 										<option value="No">Not Going</option>
 									</select>
@@ -113,9 +113,6 @@
 								{% endfor %}
 							</tr>
 						</table>
-						{% else %}
-						No company
-						{% endif %}
 						<div class="text-right p-t-8 p-b-31">
 						</div>
 						<div class="container-login100-form-btn">
@@ -126,6 +123,9 @@
 								</button>
 							</div>
 						</div>
+						{% else %}
+						No company Today
+						{% endif %}
 					</form>
 				</div>
 			</div>
