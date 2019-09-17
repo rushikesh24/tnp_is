@@ -252,3 +252,53 @@ def report_generation_placed(request):
     plt.savefig('templates/drive/graphs/result.png')
 
     return HttpResponse("200")
+
+def volunteer(request):
+    if request.method == 'POST':
+        try:
+            con = MongoClient()
+            db = con["tnp_management"]
+            collection_candidate = db["registration_candidate"]
+            collection_drive = db["drive_drive"]
+            query = {
+                "_id": request.POST.get('pnr'),
+                #"primary_mobile": request.POST.get('primary_mobile'),
+            }
+
+            query1 = {
+                "lkey" : request.POST.get("login_key"),
+                "round" : request.POST.get("rounds")
+            }
+            docs = collection_candidate.find(query)
+            for i in docs:
+                id = i['_id']
+                name = i["name"]
+
+            doc1 = collection_candidate.find(query1)
+            for i in doc1:
+                time =i['time']
+            return render(request, 'drive/volunteer_edit.html', {"id": id, 'name': name})
+        except Exception as e:
+            print(e)
+            return render(request, 'drive/volunteer.html', {"error": 'Some error occured'})
+
+    else:
+        return render(request, 'drive/volunteer.html', {})
+
+
+# def volunteer_edit(request):
+#     if request.method == 'POST':
+#         print("in")
+#         try:
+#             volun= {
+#                 'id': request.POST.get('id'),
+#                 'student_name': request.POST.get('name'),
+#                 'branch': request.POST.get('branch'),
+#             }
+#             print(volun)
+#         except Exception as e:
+#             print(e)
+#             return render(request, 'drive/student_list.html', {"error": 'Some error occured'})
+#         return render(request, 'drive/driveupload.html', {})
+#     else:
+#         return render(request, 'drive/student_list.html', {})

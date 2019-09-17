@@ -1,0 +1,94 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Volunteer</title>
+</head>
+<!--===============================================================================================-->
+<link href="{% static 'signup/images/icons/favicon.ico' %}" rel="icon" type="image/png"/>
+<!--===============================================================================================-->
+<link href="v{% static 'signup/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/fonts/font-awesome-4.7.0/css/font-awesome.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/fonts/iconic/css/material-design-iconic-font.min.css' %}" rel="stylesheet"
+      type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/vendor/animate/animate.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/vendor/animsition/css/animsition.min.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/vendor/select2/select2.min.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/vendor/daterangepicker/daterangepicker.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<link href="{% static 'signup/css/util.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'signup/css/main.css' %}" rel="stylesheet" type="text/css">
+<!--===============================================================================================-->
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<body>
+<div class="limiter">
+    <div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+            <form class="login100-form validate-form" enctype="multipart/form-data" method="POST">
+					<span class="login100-form-title p-b-49">
+						VOLUNTEER SIGN-IN
+					</span>
+
+                {% csrf_token %}
+                <div class="wrap-input100 validate-input m-b-23" data-validate="PNR is required">
+                    <span class="label-input100">PNR</span>
+                    <input class="input100" id="id_pnr" maxlength="10" name="pnr" placeholder="Type your PNR"
+                           required type="text">
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Login Key is required">
+                    <span class="label-input100">Login Key</span>
+                    <input class="input100" id="id_lkey" maxlength="10" name="login_key"
+                           placeholder="Type your Login Key" required title="10 digits" type="text">
+                    <span class="focus-input100" data-symbol="&#xf2cc;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Campus Type is required">
+						<span class="label-input100">Round Name</span>
+						<input class="input100" id="id_round" maxlength="15" name="round"
+							   required type="text">
+						<span class="focus-input100" data-symbol="&#xf14b;"></span>
+					</div>
+
+                <div class="text-right p-t-8 p-b-31">
+                </div>
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button class="login100-form-btn" type="submit">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'signup/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/daterangepicker/moment.min.js' %}"></script>
+<script src="{% static 'signup/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/js/main.js' %}"></script>
+</body>
+</html>

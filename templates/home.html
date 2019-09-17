@@ -3,14 +3,14 @@
 
 
 {% block title %}Home{% endblock %}
-<link href="{% static 'signup/images/logo1.jpg' %}" rel="stylesheet" type="image/jpg">
+<link href="{% static 'signup/images/logo1.png' %}" rel="stylesheet" type="image/png">
 
 {% block content %}
 <h1>
-    WELCOME TO DYPCOE TRAINING AND PLACEMENT CELL
+    WELCOME TO DYPCOE TRAINING
+    <br>AND PLACEMENT CELL
 </h1>
-<br>
-<img src="{% static 'signup/images/logo1.jpg' %}">
+<img src="{% static 'signup/images/logo1.png' %}">
 <br>
 
 {% if user.is_authenticated %}
