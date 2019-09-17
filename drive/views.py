@@ -109,7 +109,7 @@ def randomStringDigits(stringLength=8):
 
 
 companyname = []
-time = []
+
 
 
 def student_attendence(request):
@@ -140,16 +140,14 @@ def student_attendence(request):
                 branch = i["branch"]
 
             companyname.clear()
-            time.clear()
-            venue = []
+            companies = []
+
             for i in eligible_companies:
                 companyname.append(i["company_name"])
-                time.append(i["time"])
-                venue.append(i["venue"])
-
+                cmp = dict(cname=i["company_name"], time=i["time"], location=i["venue"])
+                companies.append(cmp)
             return render(request, 'drive/student_list.html',
-                          {"id": id, 'name': name, 'branch': branch, 'company_name': companyname, 'time': time,
-                           'venue': venue})
+                          {"id": id, 'name': name, 'branch': branch, 'companies': companies })
         except Exception as e:
             print(e)
             return render(request, 'drive/student_attendance.html', {"error": 'Some error occured'})

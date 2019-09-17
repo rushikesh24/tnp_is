@@ -85,33 +85,38 @@
 						<span class="login100-form-title p-b-49">
 						DRIVE DETAILS
 					</span>
-						{% if company_name %}
+						{% if companies %}
 						<table id="t02" style="width: 100% ">
-							<tr>
-								<th>Todays Drive</th>
-								{% for i in company_name %}
-								<td><input hidden name="company_name">{{ i }}</td>
-								{% endfor %}
-							</tr>
+							<th>Todays Drive</th>
+							<th>Venue</th>
+							<th>Time of Drive</th>
+							<th>Going?</th>
+								<tr>
+									{% for i in companies %}
+										<td><input hidden name="company_name">{{ i.cname }}</td>
 
-							<tr>
-								<th>Time of Drive</th>
-								{% for i in time %}
-								<td><input hidden name="time">{{ i }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<th >Going?</th>
-								{% for i in company_name %}
-								<td>
-									<span class="label-input100">Status</span>
-									<select id="id_status" name={{ i }}>
-										<option value="Yes">Apply</option>
-										<option value="No">Not Apply</option>
-									</select>
-								</td>
-								{% endfor %}
-							</tr>
+										<td><input hidden name="venue">{{ i.location }}</td>
+
+										<td><input hidden name="time">{{ i.time }}</td>
+
+										<td>
+											<span class="label-input100">Status</span>
+											<select id="id_status" name={{ i }}>
+												<option value="Yes">Going</option>
+												<option value="No">Not Going</option>
+											</select>
+										</td>
+									{% endfor %}
+								</tr>
+
+								<tr>
+
+								</tr>
+
+								<tr>
+
+								</tr>
+
 						</table>
 						<div class="text-right p-t-8 p-b-31">
 						</div>
