@@ -21,7 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration/', include('django.contrib.auth.urls')),
     path('registration/', include('registration.urls')),
-    path('drive/',include('django.contrib.auth.urls')),
     path('drive/',include('drive.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home')  # new
     #path('', TemplateView.as_view(template_name='logo1.jpg'), name='home'),# new

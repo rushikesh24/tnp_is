@@ -66,7 +66,7 @@
                     <form action="{% url 'volunteer_edit' %}" class="login100-form validate-form" method="POST">
 						{% csrf_token %}
                         <span class="login100-form-title p-b-49">
-						STUDENT ROUND DETAIL
+						STUDENT ROUND DETAIL FOR ROUND {{ round_number }}
                         </span>
 						{% if id %}
 						<table id="t01" style="width: 100%">
@@ -80,9 +80,10 @@
 								<td><input hidden name="id" value={{ id }}>{{ id }}</td>
 								<td><input hidden name="name"  value={{ name }}>{{ name }}</td>
 								<td><input hidden name="branch" value={{ branch }}>{{ branch }}</td>
+								<input hidden name="round_number" value={{ round_number }}>
                                 <td>
                                     <span class="label-input100">Status</span>
-									<select id="id_status" name=round>
+									<select id="id_status" name="rounds">
 										<option value="Yes">Selected</option>
 										<option value="No">Not Selected</option>
 									</select>

@@ -14,13 +14,13 @@ def special(request):
 
 @login_required
 def user_logout(request):
+    print("Logged OUt")
     logout(request)
     return HttpResponseRedirect(reverse('index'))
 
 
 # Employee Registration
 def employee_registeration(request):
-    registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileInfoForm(data=request.POST)
@@ -32,19 +32,20 @@ def employee_registeration(request):
             profile.user = user
             profile.username = user
             profile.save()
-            registered = True
             print("profile saved successfully")  # Console log
-            return render(request, 'registration/login.html', {})
+            return render(request, 'home.html', {})
         else:
             print(user_form.errors, profile_form.errors)
+            error = "user already registered"
     else:
         user_form = UserForm()
         profile_form = UserProfileInfoForm()
+        error = ""
     return render(request, 'registration/employee_signup.html', {
-        'user_form': user_form,
-        'profile_form': profile_form,
-        'registered': registered
-    })
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'error' : error
+        })
 
 
 # Candidate_upload
