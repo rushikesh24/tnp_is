@@ -261,85 +261,27 @@ def volunteer(request):
             collection_drive = db["drive_drive"]
 
             round_number = request.POST.get("rounds")
-            if round_number == "1" :
-                query = {
-                    "login_key": request.POST.get("login_key"),
-                    "rounds.round_number": round_number,
-                    "eligible_student._id": request.POST.get('pnr'),
-                }
-                doc = collection_drive.find(query)
-                id = None
-                name = None
-                branch = None
-                for i in doc:
-                    print(i)
-                    for j in i['eligible_student']:
-                        if j["_id"] == request.POST.get('pnr'):
-                            print(j)
-                            id = j['_id']
-                            name = j['name']
-                            branch = j['branch']
 
-                print(id, name, branch, round_number)
-                return render(request, 'drive/volunteer_edit.html',{"id": id, 'name': name, 'branch': branch, 'round_number': round_number})
+            query = {
+                "login_key": request.POST.get("login_key"),
+                "rounds.round_number": round_number,
+                "eligible_student._id": request.POST.get('pnr'),
+            }
+            doc = collection_drive.find(query)
+            id = None
+            name = None
+            branch = None
+            for i in doc:
+                print(i)
+                for j in i['eligible_student']:
+                    if j["_id"] == request.POST.get('pnr'):
+                        print(j)
+                        id = j['_id']
+                        name = j['name']
+                        branch = j['branch']
 
-            elif round_number == "2":
-                query = {
-                    "login_key": request.POST.get("login_key"),
-                    "rounds.round_number": round_number,
-                    "round1_student._id": request.POST.get('pnr'),
-                }
-                doc = collection_drive.find(query)
-                id = None
-                name = None
-                branch = None
-                for i in doc:
-                    print(i)
-                    for j in i['round1_student']:
-                        if j["_id"] == request.POST.get('pnr'):
-                            print(j)
-                            id = j['_id']
-                            name = j['name']
-                            branch = j['branch']
-
-                print(id, name, branch,round_number)
-                return render(request, 'drive/volunteer_edit.html', {"id": id, 'name': name, 'branch': branch,'round_number' : round_number})
-
-            else:
-                return HttpResponse("Wrong")
-            # elif round_number == "2":
-            #     query = {
-            #         "login_key": request.POST.get("login_key"),
-            #         "rounds.round_number": round_number,
-            #         "eligible_student._id": request.POST.get('pnr'),
-            #     }
-            #     doc = collection_drive.find(query)
-            #     id = None
-            #     name = None
-            #     branch = None
-            #     for i in doc:
-            #         print(i)
-            #         for j in i['eligible_student']:
-            #             if j["_id"] == request.POST.get('pnr'):
-            #                 print(j)
-            #                 id = j['_id']
-            #                 name = j['name']
-            #                 branch = j['branch']
-            #
-            #     print(id, name, branch)
-            #     return render(request, 'drive/volunteer_edit.html', {"id": id, 'name': name, 'branch': branch})
-            #
-            # elif round_number == "3":
-            #
-            # elif round_number == "4":
-            #
-            # elif round_number == "5":
-            #
-            # elif round_number == "6":
-            #
-            # elif round_number == "7":
-            #
-            # elif round_number == "8":
+            print(id, name, branch)
+            return render(request, 'drive/volunteer_edit.html', {"id": id, 'name': name, 'branch': branch})
 
 
         except Exception as e:
@@ -352,25 +294,23 @@ def volunteer(request):
 
 def volunteer_edit(request):
     if request.method == 'POST':
+        print("in")
         try:
-            con = MongoClient()
-            db = con["tnp_management"]
-            collection_drive = db["drive_drive"]
-            print("Connection Established")
+            volun= {
+                'id': request.POST.get('id'),
+                'student_name': request.POST.get('name'),
+                'branch': request.POST.get('branch'),
+                'rounds' : request.POST.get('rounds'),
+            }
 
-
-            # volun= {
-            #     'id': request.POST.get('id'),
-            #     'student_name': request.POST.get('name'),
-            #     'branch': request.POST.get('branch'),
-            #     'rounds' : request.POST.get('rounds'),
-            # }
-            #
-            # print(volun)
-
+            print(volun)
         except Exception as e:
             print(e)
             return render(request, 'drive/student_list.html', {"error": 'Some error occured'})
         return render(request, 'drive/drive_upload.html', {})
     else:
         return render(request, 'drive/student_list.html', {})
+
+
+
+
