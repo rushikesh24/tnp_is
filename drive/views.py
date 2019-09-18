@@ -262,12 +262,13 @@ def volunteer(request):
 
             query = {
                 "login_key" : request.POST.get("login_key"),
-                "rounds.round_name" : request.POST.get("round"),
+                "rounds.round_number" : request.POST.get("rounds"),
                 "eligible_student._id": request.POST.get('pnr'),
             }
             doc = collection_drive.find(query)
             id = None
             name = None
+            branch = None
             print("after")
             for i in doc:
                 print(i)
@@ -287,19 +288,19 @@ def volunteer(request):
         return render(request, 'drive/volunteer.html', {})
 
 
-# def volunteer_edit(request):
-#     if request.method == 'POST':
-#         print("in")
-#         try:
-#             volun= {
-#                 'id': request.POST.get('id'),
-#                 'student_name': request.POST.get('name'),
-#                 'branch': request.POST.get('branch'),
-#             }
-#             print(volun)
-#         except Exception as e:
-#             print(e)
-#             return render(request, 'drive/student_list.html', {"error": 'Some error occured'})
-#         return render(request, 'drive/driveupload.html', {})
-#     else:
-#         return render(request, 'drive/student_list.html', {})
+def volunteer_edit(request):
+    if request.method == 'POST':
+        print("in")
+        try:
+            volun= {
+                'id': request.POST.get('id'),
+                'student_name': request.POST.get('name'),
+                'branch': request.POST.get('branch'),
+            }
+            print(volun)
+        except Exception as e:
+            print(e)
+            return render(request, 'drive/student_list.html', {"error": 'Some error occured'})
+        return render(request, 'drive/drive_upload.html', {})
+    else:
+        return render(request, 'drive/student_list.html', {})
