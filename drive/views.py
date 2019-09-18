@@ -23,26 +23,28 @@ def drive_upload(request):
             login_key = randomStringDigits()
 
             round_ls = str(request.POST.get("other")).split(',')
-            round_dict = {}
+            round_dict = []
             if request.POST.get("round1"):
-                round_dict.update({
-                    "round1": request.POST.get("round1"),
+                round_dict.append({
+                    "round_name": request.POST.get("round1"),
+                    "round_number" : "1"
                 })
                 if request.POST.get("round2"):
-                    round_dict.update({
-                        "round2": request.POST.get("round2"),
+                    round_dict.append({
+                        "round_name": request.POST.get("round2"),
+                        "round_number" : "2"
                     })
                     if request.POST.get("round3"):
-                        round_dict.update({
-                            "round3": request.POST.get("round3"),
+                        round_dict.append({
+                            "round_name": request.POST.get("round3"),
+                            "round_number" : "3"
                         })
 
                         j = 3
                         for i in round_ls:
                             if i :
                                 j = j + 1
-                                round_name = "round" + str(j)
-                                round_dict.update({round_name: i})
+                                round_dict.append({"round_name": i, "round_number" : str(j)})
 
             eligible_student = []
             branch_ls = str(request.POST.get("branch")).split(',')
@@ -74,11 +76,11 @@ def drive_upload(request):
                 'rounds': round_dict,
                 'login_key': login_key,
                 'branch': request.POST.get("branch"),
-                'eligibility': {
+                'eligibility': [{
                     'tenth_marks': request.POST.get("tenth"),
                     'diploma_12': request.POST.get("diploma_12"),
-                    'enggineering': request.POST.get("engineering"),
-                },
+                    'engineering': request.POST.get("engineering"),
+                }],
                 'base_package': request.POST.get("package"),
                 'campus_type': request.POST.get("campus"),
                 'eligible_student': eligible_student,
@@ -256,26 +258,27 @@ def volunteer(request):
         try:
             con = MongoClient()
             db = con["tnp_management"]
-            collection_candidate = db["registration_candidate"]
             collection_drive = db["drive_drive"]
+
             query = {
-                "_id": request.POST.get('pnr'),
-                #"primary_mobile": request.POST.get('primary_mobile'),
+                "login_key" : request.POST.get("login_key"),
+                "rounds.round_name" : request.POST.get("round"),
+                "eligible_student._id": request.POST.get('pnr'),
             }
+            doc = collection_drive.find(query)
+            id = None
+            name = None
+            print("after")
+            for i in doc:
+                print(i)
+                for j in i['eligible_student'] :
+                    if j["_id"] == request.POST.get('pnr'):
+                        print(j)
+                        id = j['_id']
+                        name = j['name']
+                        branch = j['branch']
 
-            query1 = {
-                "lkey" : request.POST.get("login_key"),
-                "round" : request.POST.get("rounds")
-            }
-            docs = collection_candidate.find(query)
-            for i in docs:
-                id = i['_id']
-                name = i["name"]
-
-            doc1 = collection_candidate.find(query1)
-            for i in doc1:
-                time =i['time']
-            return render(request, 'drive/volunteer_edit.html', {"id": id, 'name': name})
+            return render(request, 'drive/volunteer_edit.html', {"id": id, 'name': name , 'branch' : branch})
         except Exception as e:
             print(e)
             return render(request, 'drive/volunteer.html', {"error": 'Some error occured'})

@@ -41,6 +41,7 @@ class Candidate(models.Model):
 '''Employee Model'''
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100, null=False, blank=False)
     name = models.CharField(max_length=80, null=False, blank=False)
     gender = models.CharField(max_length=10, default="Male", null=False, blank=False)
     department = models.CharField(max_length=50, null=False, blank=False)

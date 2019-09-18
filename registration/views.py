@@ -30,17 +30,17 @@ def employee_registeration(request):
             user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
+            profile.username = user
             profile.save()
             registered = True
-
             print("profile saved successfully")  # Console log
-            
+            return render(request, 'registration/login.html', {})
         else:
             print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileInfoForm()
-    return render(request, 'registration/signup.html', {
+    return render(request, 'registration/employee_signup.html', {
         'user_form': user_form,
         'profile_form': profile_form,
         'registered': registered
