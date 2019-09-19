@@ -13,7 +13,8 @@ class Candidate(models.Model):
                      ('PROD', 'Production Engineering'),
                      ('INSTRU', 'Instrumentation Engineering'),
                      ('CIVIL', 'Civil Engineering'),
-                     ('MECH', 'Mechanical Engineering'))
+                     ('MECH', 'Mechanical Engineering')
+                    )
 
 
     # personal details

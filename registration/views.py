@@ -160,3 +160,21 @@ def candidate_upload(request):
                 return HttpResponse("Unable to upload the file. Error in file")
     else:
         return render(request, 'registration/candidate_upload.html', {})
+
+def adminView(request):
+    if request.method == "POST" :
+        try:
+            #Create connection between database and user
+            con = MongoClient()
+            db = con["tnp_management"]
+            collection = db["registration_candidate"]
+            collect_drive = db["drive_drive"]
+
+            return HttpResponse("Wrong")
+
+            #return render(request, 'drive/drive_upload.html',{})
+        except Exception as e :
+            return HttpResponse("Wrong")
+    else :
+        #return render(request, 'drive/drive_upload.html', {})
+        return HttpResponse("Wrong")

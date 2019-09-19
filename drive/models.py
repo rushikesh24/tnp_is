@@ -28,13 +28,23 @@ class Attendance(models.Model):
 
 
 class Drive(models.Model):
+    Campus_choice = (('On', 'On'), ('Off', 'Off'), ('Pool', 'Pool'))
+
+
     _id = models.CharField(max_length=60, null=False, blank=False, primary_key=True, unique=True)
     company_name = models.CharField(max_length=50, null=False, blank=False)
     date = models.CharField(max_length=10, null=False, blank=False)
     time = models.CharField(max_length=15, null=False, blank=False)
     venue = models.CharField(max_length=100, blank=False, null=False)
-    campus_type = models.CharField(max_length=10, null=False, blank=False)
-    branch = models.CharField(max_length=100, blank=False, null=False)
+    campus_type = models.CharField(max_length=10, choices=Campus_choice, default='On', null=False, blank=False)
+    #branch = models.CharField(max_length=100, blank=False, null=False)
+    Computer = models.BooleanField(default=False)
+    Civil = models.BooleanField(default=False)
+    Mechanical = models.BooleanField(default=False)
+    IT = models.BooleanField(default=False)
+    Instrumentation = models.BooleanField(default=False)
+    Production = models.BooleanField(default=False)
+    ENTC = models.BooleanField(default=False)
     base_package = models.DecimalField(max_digits=8, decimal_places=3, blank=False, null=False)
     login_key = models.CharField(max_length=15, null=False, blank=False)
     rounds = models.ArrayModelField(model_container=Drive_Rounds)

@@ -18,6 +18,50 @@ def drive_upload(request):
             collection_candidate = db["registration_candidate"]
             collection = db["drive_drive"]
 
+            #---------Branch--------------
+
+            Computer = request.POST.get("Computer")
+            if Computer == None:
+                Computer = False
+            else:
+                Computer = True
+
+            IT = request.POST.get("IT")
+            if IT == None:
+                IT = False
+            else:
+                IT = True
+
+            CIVIL = request.POST.get("CIVIL")
+            if CIVIL == None:
+                CIVIL = False
+            else:
+                CIVIL = True
+
+            MECH = request.POST.get("MECH")
+            if MECH == None:
+                MECH = False
+            else:
+                MECH = True
+
+            INSTRU = request.POST.get("INSTRU")
+            if INSTRU == None:
+                INSTRU = False
+            else:
+                INSTRU = True
+
+            PROD = request.POST.get("PROD")
+            if PROD == None:
+                PROD = False
+            else:
+                PROD = True
+
+            ENTC = request.POST.get("ENTC")
+            if ENTC == None:
+                ENTC = False
+            else:
+                ENTC = True
+
             date_ls = str(request.POST.get("drive_date")).split("-")
             drive_id = str(request.POST.get("name")) + str(date_ls[0])
             login_key = randomStringDigits()
@@ -75,7 +119,14 @@ def drive_upload(request):
                 'time': request.POST.get("drive_time"),
                 'rounds': round_dict,
                 'login_key': login_key,
-                'branch': request.POST.get("branch"),
+                #'branch': request.POST.get("branch"),
+                'Computer' : Computer,
+                'Civil' : CIVIL,
+                'Mechanical' : MECH,
+                'IT' : IT,
+                'Instrumentation' : INSTRU,
+                'Production' : PROD,
+                'ENTC' : ENTC,
                 'eligibility': [{
                     'tenth_marks': request.POST.get("tenth"),
                     'diploma_12': request.POST.get("diploma_12"),

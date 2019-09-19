@@ -127,6 +127,7 @@ STATICFILES_DIRS = [STATIC_DIR]
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
+
 LOGIN_URL = '/registration/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
