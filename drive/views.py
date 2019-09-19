@@ -253,46 +253,66 @@ def report_generation_placed(request):
 
     return HttpResponse("200")
 
+id_ls = []
 def volunteer(request):
+    global id
     if request.method == 'POST':
         try:
             con = MongoClient()
             db = con["tnp_management"]
             collection_drive = db["drive_drive"]
 
-            round_number = request.POST.get("rounds")
-
-            query = {
+            print("Connection established")
+            query_company = {
                 "login_key": request.POST.get("login_key"),
-                "rounds.round_number": round_number,
-                "eligible_student._id": request.POST.get('pnr'),
+                "date" : str(date.today()),
             }
-            doc = collection_drive.find(query)
-            id = None
-            name = None
-            branch = None
-            for i in doc:
-                print(i)
-                for j in i['eligible_student']:
-                    if j["_id"] == request.POST.get('pnr'):
-                        print(j)
-                        id = j['_id']
-                        name = j['name']
-                        branch = j['branch']
+            round_number = 0
+            rec_company = collection_drive.find(query_company)
+            for i in rec_company:
+                company_name = i["company_name"]
+                for j in i['rounds']:
+                    round_number = j['round_number']
 
-            print(id, name, branch)
-            return render(request, 'drive/volunteer_edit.html', {"id": id, 'name': name, 'branch': branch})
+            round_number_html = int(request.POST.get("rounds"))
 
+            print("round_number",round_number_html)
+            if round_number_html <= int(round_number):
+                id_ls.clear()
+                candidates = []
+                print("Condition satisfied")
+                rec_company = collection_drive.find(query_company)
+                if round_number_html == 1:
+                    print("Round1")
+                    for i in rec_company:
+                        print(i)
+                        for j in i['eligible_student']:
+                            id_ls.append(j['_id'])
+                            candidate = dict(id=j["_id"], name=j["name"], branch = j["branch"])
+                            candidates.append(candidate)
+                        print(candidates)
+                else:
+                    print("any Round")
+                    doc_name = "round"+int(round_number_html-1)+"_student"
+                    for i in rec_company:
+                        for j in i[doc_name]:
+                            id_ls.append(j['_id'])
+                            candidate = dict(id=j["_id"], name=j["name"], branch=j["branch"])
+                            candidates.append(candidate)
+                return render(request, 'drive/volunteer_edit.html',
+                                  {"company_name": company_name, "candidates": candidates,"round_number" : round_number_html})
 
+            else:
+                return render(request, 'drive/volunteer.html', {"error": "This round is not available for today's company"})
         except Exception as e:
             print(e)
-            return render(request, 'drive/volunteer.html', {"error": 'Some error occurred'})
+            return render(request, 'drive/volunteer.html', {"error": 'Company not found'})
 
     else:
         return render(request, 'drive/volunteer.html', {})
 
 
-def volunteer_edit(request):
+def volunteer_update(request):
     if request.method == 'POST':
         print("in")
         try:

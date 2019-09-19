@@ -9,5 +9,5 @@ urlpatterns = [
     url('student/list/', views.student_list, name='student_list'),
     url('report/generation/student/placed',views.report_generation_placed,name='report_generation_placed'),
     url('volunteer/', views.volunteer, name='volunteer'),
-    url('volunteer_edit/', views.volunteer_edit, name='volunteer_edit'),
+    url('volunteer/update/', views.volunteer_update, name='volunteer_update'),
 ]

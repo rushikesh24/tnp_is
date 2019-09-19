@@ -226,17 +226,29 @@ input[type="file"] {
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate="Name is required">
 						<span class="label-input100">College Name</span>
-						<input class="input100" id="id_clg_name" maxlength="80" name="clgname"
+						<select name="clgname" maxlength="20" id="id_clg_name" placeholder="Select Clg Name">
+							<option value="DYPCOE">DYPCOE</option>
+							<option value="DYPIEMR">DYPIEMR</option>
+						</select>
+						<!--<input class="input100" id="id_clg_name" maxlength="80" name="clgname"
 							   placeholder="Type your Clg Name"
-							   required type="text">
-						<span class="focus-input100" data-symbol="&#xf206;"></span>
+							   required type="text">-->
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate="Branch Name is required">
 						<span class="label-input100">Branch</span>
-						<input class="input100" id="id_branch" maxlength="50" name="branch" placeholder="Type your Name"
-							   required type="text">
-						<span class="focus-input100" data-symbol="&#xf18d;"></span>
+						<select id="id_branch" maxlength="50" name="branch" placeholder="Select Branch Name">
+							<option value="COMP">Computer Engineering</option>
+							<option value="IT">Information Technology Engineering</option>
+							<option value="E&TC">E&TC Engineering</option>
+							<option value="INSTRU">Instrumentation Engineering</option>
+							<option value="PROD">Production Engineering</option>
+							<option value="CIVIL">Civil Engineering</option>
+							<option value="MECH">Mechanical Engineering</option>
+						</select>
+
+						<!--<input class="input100" id="id_branch" maxlength="50" name="branch" placeholder="Type your Name"
+							   required type="text">-->
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="College name is required">

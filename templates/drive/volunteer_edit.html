@@ -63,12 +63,12 @@
 					{% if error %}
 					{{ error }}
 					{% endif %}
-                    <form action="{% url 'volunteer_edit' %}" class="login100-form validate-form" method="POST">
+                    <form action="{% url 'volunteer_update' %}" class="login100-form validate-form" method="POST">
 						{% csrf_token %}
                         <span class="login100-form-title p-b-49">
 						STUDENT ROUND DETAIL FOR ROUND {{ round_number }}
                         </span>
-						{% if id %}
+						{% if candidates %}
 						<table id="t01" style="width: 100%">
 							<tr>
 								<th>PNR Number </th>
@@ -77,21 +77,20 @@
                                 <th>Next Round</th>
 							</tr>
                             <tr>
-								<td><input hidden name="id" value={{ id }}>{{ id }}</td>
-								<td><input hidden name="name"  value={{ name }}>{{ name }}</td>
-								<td><input hidden name="branch" value={{ branch }}>{{ branch }}</td>
 								<input hidden name="round_number" value={{ round_number }}>
+								{% for i in candidates %}
+								<td><input hidden name="id" value={{ i.id }}>{{ i.id }}</td>
+								<td><input hidden name="name"  value={{ i.name }}>{{ i.name }}</td>
+								<td><input hidden name="branch" value={{ i.branch }}>{{ i.branch }}</td>
                                 <td>
-                                    <span class="label-input100">Status</span>
-									<select id="id_status" name="rounds">
-										<option value="Yes">Selected</option>
-										<option value="No">Not Selected</option>
-									</select>
+                                    <span class="label-input100">Selected</span>
+									<input type="checkbox" id="id_status" name="{{ i.id }}" value="selected">
                                 </td>
 							</tr>
+							{% endfor %}
 						</table>
 						{% else %}
-							No Student Found
+							No round found for {{ company_name }}
 						{% endif %}
 
                         <div class="text-right p-t-8 p-b-31">
