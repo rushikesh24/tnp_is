@@ -48,9 +48,6 @@
             text-align : center;
             padding : 5px;
         }
-
-
-
 	</style>
 </head>
 <body>
@@ -59,41 +56,59 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<div class="login100-form validate-form">
-					{% if error %}
-					{{ error }}
-					{% endif %}
-                    <form action="{% url 'volunteer_update' %}" class="login100-form validate-form" method="POST">
+				{% if error %}
+				{{ error }}
+				{% endif %}
+                <form action="{% url 'student_list' %}" class="login100-form validate-form" method="POST">
 						{% csrf_token %}
                         <span class="login100-form-title p-b-49">
-						STUDENT ROUND DETAIL FOR ROUND {{ round_number }}
+						    PLACED CANDIDATE LIST
                         </span>
-						{% if candidates %}
+						{% if name %}
 						<table id="t01" style="width: 100%">
 							<tr>
-								<th>PNR Number </th>
-								<th>Student Name</th>
+								<th>ID</th>
+								<th>Name</th>
 								<th>Branch</th>
-                                <th>Next Round</th>
 							</tr>
-                            <tr>
-								<input hidden name="round_number" value={{ round_number }}>
-								{% for i in candidates %}
-								<td><input hidden name="id" value={{ i.id }}>{{ i.id }}</td>
-								<td><input hidden name="name"  value={{ i.name }}>{{ i.name }}</td>
-								<td><input hidden name="branch" value={{ i.branch }}>{{ i.branch }}</td>
-                                <td>
-                                    <span class="label-input100">Selected</span>
-									<input type="checkbox" id="id_status" name="{{ i.id }}" value="selected">
-                                </td>
+							<tr>
+								<td><input hidden name="id" value={{ id }}>{{ id }}</td>
+								<td><input hidden name="name"  value={{ name }}>{{ name }}</td>
+								<td><input hidden name="branch" value={{ branch }}>{{ branch }}</td>
 							</tr>
-							{% endfor %}
 						</table>
 						{% else %}
-							No round found for {{ company_name }}
+						No candidate found of matching PNR
 						{% endif %}
 
-                        <div class="text-right p-t-8 p-b-31">
+						<span class="login100-form-title p-b-49">
+						DRIVE DETAILS
+					</span>
+						{% if companies %}
+						<table id="t02" style="width: 100% ">
+							<th>Todays Drive</th>
+							<th>Venue</th>
+							<th>Time of Drive</th>
+							<th>Going?</th>
+							{% for i in companies %}
+							<tr>
+								<td><input hidden name="company_name">{{ i.cname }}</td>
+
+								<td><input hidden name="venue">{{ i.location }}</td>
+
+								<td><input hidden name="time">{{ i.time }}</td>
+
+								<td>
+									<span class="label-input100">Status</span>
+									<select id="id_status" name={{ i.cname }}>
+										<option value="Yes">Going</option>
+										<option value="No">Not Going</option>
+									</select>
+								</td>
+								</tr>
+							{% endfor %}
+						</table>
+						<div class="text-right p-t-8 p-b-31">
 						</div>
 						<div class="container-login100-form-btn">
 							<div class="wrap-login100-form-btn">
@@ -103,15 +118,16 @@
 								</button>
 							</div>
 						</div>
-
-                     </form>
+						{% else %}
+						No company Today
+						{% endif %}
+					</form>
 				</div>
 			</div>
 		</div>
-    </div>
-{% endblock %}
+	</div>
+	{% endblock %}
 </div>
-
 
 <!--===============================================================================================-->
 <script src="{% static 'signup/vendor/jquery/jquery-3.2.1.min.js' %}"></script>

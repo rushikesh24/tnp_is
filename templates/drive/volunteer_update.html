@@ -1,0 +1,135 @@
+{% load static %}
+
+
+<html lang="en">
+<head>
+	<title>Student List</title>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/images/icons/favicon.ico' %}" rel="icon" type="image/png"/>
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/fonts/font-awesome-4.7.0/css/font-awesome.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/fonts/iconic/css/material-design-iconic-font.min.css' %}" rel="stylesheet"
+		  type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/animate/animate.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/animsition/css/animsition.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/select2/select2.min.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/vendor/daterangepicker/daterangepicker.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<link href="{% static 'signup/css/util.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'signup/css/main.css' %}" rel="stylesheet" type="text/css">
+	<!--===============================================================================================-->
+	<style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+
+        }
+        table#t01 {
+          width: 100%;
+          background-color: #f1f1c1;
+        }
+
+        table#t02 {
+          width: 100%;
+          background-color: #f1f1c1;
+        }
+        th, td {
+            text-align : center;
+            padding : 5px;
+        }
+
+
+
+	</style>
+</head>
+<body>
+<div>
+{% block content %}
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<div class="login100-form validate-form">
+					{% if error %}
+					{{ error }}
+					{% endif %}
+                    <form action="{%url 'volunteer_update' %}" class="login100-form validate-form" method="POST">
+						{% csrf_token %}
+                        <span class="login100-form-title p-b-49">
+						DETAIL FOR ROUND {{ round_number }}
+                        </span>
+						{% if candidates %}
+						<table id="t01" style="width: 100%">
+							<tr>
+								<th>PNR Number </th>
+								<th>Student Name</th>
+								<th>Branch</th>
+                                <th>Next Round</th>
+							</tr>
+                            <tr>
+								<input hidden name="round_number" value={{ round_number }}>
+								<input hidden name="login_key" value={{ login_key }}>
+								{% for i in candidates %}
+								<td><input hidden name="id" value={{ i.id }}>{{ i.id }}</td>
+								<td><input hidden name="name"  value={{ i.name }}>{{ i.name }}</td>
+								<td><input hidden name="branch" value={{ i.branch }}>{{ i.branch }}</td>
+                                <td>
+                                    <span class="label-input100">Selected</span>
+									<input type="checkbox" id="id_status" name="{{ i.id }}" value="selected">
+                                </td>
+							</tr>
+							{% endfor %}
+						</table>
+						<div class="text-right p-t-8 p-b-31">
+						</div>
+						<div class="container-login100-form-btn">
+							<div class="wrap-login100-form-btn">
+								<div class="login100-form-bgbtn"></div>
+								<button class="login100-form-btn" type="submit">
+									Submit
+								</button>
+							</div>
+						</div>
+						{% else %}
+							You are accessing wrong round for {{ company_name }}
+						{% endif %}
+
+                     </form>
+				</div>
+			</div>
+		</div>
+    </div>
+{% endblock %}
+</div>
+
+
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'signup/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/daterangepicker/moment.min.js' %}"></script>
+<script src="{% static 'signup/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'signup/js/main.js' %}"></script>
+<!--===============================================================================================-->
+
+</body>
+</html>

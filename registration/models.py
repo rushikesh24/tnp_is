@@ -7,13 +7,13 @@ from djongo import models
 
 class Candidate(models.Model):
     clg_name = (('DYPCOE', 'DYPCOE'), ('DYPIEMR', 'DYPIEMR'))
-    branch_choice = (('COMP', 'Computer Engineering'),
+    branch_choice = (('Computer', 'Computer Engineering'),
                      ('IT', 'Information Engineering'),
-                     ('E&TC', 'E&TC Engineering'),
-                     ('PROD', 'Production Engineering'),
-                     ('INSTRU', 'Instrumentation Engineering'),
-                     ('CIVIL', 'Civil Engineering'),
-                     ('MECH', 'Mechanical Engineering')
+                     ('ENTC', 'E&TC Engineering'),
+                     ('Production', 'Production Engineering'),
+                     ('Instrumentation', 'Instrumentation Engineering'),
+                     ('Civil', 'Civil Engineering'),
+                     ('Mechanical', 'Mechanical Engineering')
                     )
 
 
@@ -29,7 +29,7 @@ class Candidate(models.Model):
     tenth = models.DecimalField(max_digits=5, decimal_places=2)
     diploma_12 = models.DecimalField(max_digits=5, decimal_places=2)
     college_name = models.CharField(max_length=20, choices=clg_name, default='DYPCOE', null=False, blank=False)
-    branch = models.CharField(max_length=50, choices=branch_choice, default='COMP', null=False, blank=False)
+    branch = models.CharField(max_length=50, choices=branch_choice, default='Computer', null=False, blank=False)
     engineering = models.DecimalField(max_digits=5, decimal_places=2)
     live_backlog = models.BooleanField(default=False)
     # placement details

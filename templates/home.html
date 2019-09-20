@@ -2,23 +2,22 @@
 {% load static %}
 
 
-{% block title %}Home{% endblock %}
 <link href="{% static 'signup/images/logo1.png' %}" rel="stylesheet" type="image/png">
 
 {% block content %}
-<h1>
+<h1 align="center">
     WELCOME TO DYPCOE TRAINING
     <br>AND PLACEMENT CELL
 </h1>
-<img src="{% static 'signup/images/logo1.png' %}">
+<p align="center"><img src="{% static 'signup/images/logo1.png' %}"></p>
 <br>
 
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
- <p><a href="{% url 'logout' %}"><button>logout</button></a></p>
+ <p align="center"> Hi {{ user.username }}! </p>
+ <p align="center"><a href="{% url 'logout' %}"><button>logout</button></a></p>
 {% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}"><button>Login
-  </button></a>
+  <p align="center">You are not logged in</p>
+  <p align="center"><a href="{% url 'login' %}"><button>Login
+  </button></a></p>
 {% endif %}
 {% endblock %}

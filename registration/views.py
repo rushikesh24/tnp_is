@@ -135,6 +135,20 @@ def candidate_upload(request):
                     data_dict["tenth"] = fields[7]
                     data_dict["diploma_12"] = fields[8]
                     data_dict["college_name"] = fields[9]
+                    if fields[10] == "Computer Engineering":
+                        fields[10] = "computer"
+                    elif fields[10] == 'Information Engineering':
+                        fields[10] = 'it'
+                    elif fields[10] == 'E&TC Engineering':
+                        fields[10] = 'entc'
+                    elif fields[10] == "Production Engineering":
+                        fields[10] = "production"
+                    elif fields[10] == 'Instrumentation Engineering':
+                        fields[10] = 'instrumentation'
+                    elif fields[10] == 'Civil Engineering':
+                        fields[10] = 'civil'
+                    elif fields[10] == 'Mechanical Engineering':
+                        fields[10] = 'mechanical'
                     data_dict["branch"] = fields[10]
                     data_dict["engineering"] = fields[11]
                     if fields[12]:
@@ -157,7 +171,7 @@ def candidate_upload(request):
                 return HttpResponse("candidate Uploaded Successfully")
             except Exception as e:
                 print({"exception": e})
-                return HttpResponse("Unable to upload the file. Error in file")
+                return HttpResponse("Unable to upload the file. Error in file"+str(e))
     else:
         return render(request, 'registration/candidate_upload.html', {})
 

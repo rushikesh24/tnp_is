@@ -139,8 +139,7 @@ input[type="file"] {
 </style>
 </head>
 <body>
-<div>
-	<div class="split right">
+<div class="split right">
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
@@ -158,7 +157,7 @@ input[type="file"] {
 						<span class="label-input100">PNR</span>
                         <input class="input100" id="id_pnr" maxlength="10" name="pnr" placeholder="Type your PNR"
                                required type="text">
-						<span class="focus-input100" data-symbol="&#xf206;"></span>
+						<span class="focus-input100" data-symbol="&#xf183;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is required">
@@ -217,7 +216,7 @@ input[type="file"] {
 						<span class="focus-input100" data-symbol="&#xf10c;"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Percentage is required">
+					<div class="wrap-input100 validate-input" data-validate="Percentage is required" >
 						<span class="label-input100">XII<sup>th</sup> /diploma Percentage</span>
 						<input class="input100" id="id_percentage1" max="100" maxlength="5" name="percentage1"
 							   placeholder="Type your 12th/Diploma percentage" required type="text">
@@ -226,7 +225,7 @@ input[type="file"] {
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate="Name is required">
 						<span class="label-input100">College Name</span>
-						<select name="clgname" maxlength="20" id="id_clg_name" placeholder="Select Clg Name">
+						<select name="clgname" maxlength="20" id="id_clg_name" placeholder="Select College Name">
 							<option value="DYPCOE">DYPCOE</option>
 							<option value="DYPIEMR">DYPIEMR</option>
 						</select>
@@ -349,7 +348,7 @@ input[type="file"] {
 				<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 					<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 					<span class="login100-form-title p-b-49">
-						MULTIPLE STUDENT
+						CANDIDATE CSV FILE
 					</span>
 
 						<div class="container-login100-form-btn">
@@ -391,7 +390,5 @@ input[type="file"] {
 	<script src="{% static 'signup/js/main.js' %}"></script>
 <!--===============================================================================================-->
 
-
-</div>
 </body>
 </html>

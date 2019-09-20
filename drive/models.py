@@ -30,7 +30,6 @@ class Attendance(models.Model):
 class Drive(models.Model):
     Campus_choice = (('On', 'On'), ('Off', 'Off'), ('Pool', 'Pool'))
 
-
     _id = models.CharField(max_length=60, null=False, blank=False, primary_key=True, unique=True)
     company_name = models.CharField(max_length=50, null=False, blank=False)
     date = models.CharField(max_length=10, null=False, blank=False)
