@@ -7,13 +7,17 @@
 <h1>Login</h1>
 <form method="post">
     <div class = "labelss">
-  {% csrf_token %}
-  {{ form.as_p }}
-        </div>
-          <button type="submit" class="btn btn-primary btn-block btn-large">Log In.</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+    </div>
+            <button type="submit" class="btn btn-primary btn-block btn-large">Log In.</button>
+            <br>
+            <a href="{% url 'employee_signup'%}">
+                <button type="button" class="btn btn-primary btn-block btn-large">Signup</button>
+            </a>
+
 </form>
 </div>
-
 </body>
 
 
