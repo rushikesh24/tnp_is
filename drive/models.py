@@ -36,7 +36,6 @@ class Drive(models.Model):
     time = models.CharField(max_length=15, null=False, blank=False)
     venue = models.CharField(max_length=100, blank=False, null=False)
     campus_type = models.CharField(max_length=10, choices=Campus_choice, default='On', null=False, blank=False)
-    #branch = models.CharField(max_length=100, blank=False, null=False)
     Computer = models.BooleanField(default=False)
     Civil = models.BooleanField(default=False)
     Mechanical = models.BooleanField(default=False)

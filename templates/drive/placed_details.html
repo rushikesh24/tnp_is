@@ -59,58 +59,38 @@
 				{% if error %}
 				{{ error }}
 				{% endif %}
-                <form action="{% url 'student_list' %}" class="login100-form validate-form" method="POST">
+                <form action="{% url 'placed_details' %}" class="login100-form validate-form" method="POST">
 						{% csrf_token %}
-                        <span class="login100-form-title p-b-49">
-						    PLACED CANDIDATE LIST
-                        </span>
-						{% if name %}
+						{% if candidates %}
+						{% if company_name %}
+					<span class="login100-form-title p-b-49">
+						Last round details for {{ company_name }}
+					</span>
 						<table id="t01" style="width: 100%">
 							<tr>
-								<th>ID</th>
-								<th>Name</th>
+								<th>PNR Number </th>
+								<th>Student Name</th>
 								<th>Branch</th>
+                                <th>Next Round</th>
 							</tr>
-							<tr>
-								<td><input hidden name="id" value={{ id }}>{{ id }}</td>
-								<td><input hidden name="name"  value={{ name }}>{{ name }}</td>
-								<td><input hidden name="branch" value={{ branch }}>{{ branch }}</td>
+
+                            <tr>
+								<input hidden name="company_name" value={{ company_name }}>
+								<input hidden name="drive_date" value={{ drive_date }}>
+								{% for i in candidates %}
+								<td><input hidden name="id" value={{ i.id }}>{{ i.id }}</td>
+								<td><input hidden name="name"  value={{ i.name }}>{{ i.name }}</td>
+								<td><input hidden name="branch" value={{ i.branch }}>{{ i.branch }}</td>
+                                <td>
+                                    <span class="label-input100">Selected</span>
+									<input type="checkbox" id="id_status" name="{{ i.id }}" value="selected">
+                                </td>
 							</tr>
-						</table>
-						{% else %}
-						No candidate found of matching PNR
-						{% endif %}
-
-						<span class="login100-form-title p-b-49">
-						DRIVE DETAILS
-					</span>
-						{% if companies %}
-						<table id="t02" style="width: 100% ">
-							<th>Todays Drive</th>
-							<th>Venue</th>
-							<th>Time of Drive</th>
-							<th>Going?</th>
-							{% for i in companies %}
-							<tr>
-								<td><input hidden name="company_name">{{ i.cname }}</td>
-
-								<td><input hidden name="venue">{{ i.location }}</td>
-
-								<td><input hidden name="time">{{ i.time }}</td>
-
-								<td>
-									<span class="label-input100">Status</span>
-									<select id="id_status" name={{ i.cname }}>
-										<option value="Yes">Going</option>
-										<option value="No">Not Going</option>
-									</select>
-								</td>
-								</tr>
 							{% endfor %}
+
 						</table>
-						<div class="text-right p-t-8 p-b-31">
-						</div>
-						<div class="container-login100-form-btn">
+			<div class="text-right p-t-8 p-b-31"></div>
+					<div class="container-login100-form-btn">
 							<div class="wrap-login100-form-btn">
 								<div class="login100-form-bgbtn"></div>
 								<button class="login100-form-btn" type="submit">
@@ -118,9 +98,13 @@
 								</button>
 							</div>
 						</div>
-						{% else %}
-						No company Today
-						{% endif %}
+					{% else %}
+						No candidate found in last round
+					{% endif %}
+
+					{% else %}
+						No company Found
+					{% endif %}
 					</form>
 				</div>
 			</div>

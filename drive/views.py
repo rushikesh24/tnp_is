@@ -19,7 +19,7 @@ def drive_upload(request):
             collection_candidate = db["registration_candidate"]
             collection = db["drive_drive"]
 
-            #---------Branch--------------
+            # ---------Branch--------------
             branch_ls = []
             Computer = request.POST.get("Computer")
             if Computer == None:
@@ -71,7 +71,7 @@ def drive_upload(request):
                 branch_ls.append("entc")
 
             date_ls = str(request.POST.get("drive_date")).split("-")
-            drive_id = str(request.POST.get("name")) + str(date_ls[0])
+            drive_id = str(request.POST.get("name")).lower() + str(date_ls[0])
             login_key = randomStringDigits()
 
             round_ls = str(request.POST.get("other")).split(',')
@@ -79,24 +79,24 @@ def drive_upload(request):
             if request.POST.get("round1"):
                 round_dict.append({
                     "round_name": request.POST.get("round1"),
-                    "round_number" : "1"
+                    "round_number": "1"
                 })
                 if request.POST.get("round2"):
                     round_dict.append({
                         "round_name": request.POST.get("round2"),
-                        "round_number" : "2"
+                        "round_number": "2"
                     })
                     if request.POST.get("round3"):
                         round_dict.append({
                             "round_name": request.POST.get("round3"),
-                            "round_number" : "3"
+                            "round_number": "3"
                         })
 
                         j = 3
                         for i in round_ls:
-                            if i :
+                            if i:
                                 j = j + 1
-                                round_dict.append({"round_name": i, "round_number" : str(j)})
+                                round_dict.append({"round_name": i, "round_number": str(j)})
 
             eligible_student = []
             print(branch_ls)
@@ -120,19 +120,19 @@ def drive_upload(request):
 
             drive_dic = {
                 '_id': drive_id,
-                'company_name': request.POST.get("name"),
+                'company_name': str(request.POST.get("name")).lower(),
                 'date': request.POST.get("drive_date"),
                 'venue': request.POST.get("place"),
                 'time': request.POST.get("drive_time"),
                 'rounds': round_dict,
                 'login_key': login_key,
-                'Computer' : Computer,
-                'Civil' : CIVIL,
-                'Mechanical' : MECH,
-                'IT' : IT,
-                'Instrumentation' : INSTRU,
-                'Production' : PROD,
-                'ENTC' : ENTC,
+                'Computer': Computer,
+                'Civil': CIVIL,
+                'Mechanical': MECH,
+                'IT': IT,
+                'Instrumentation': INSTRU,
+                'Production': PROD,
+                'ENTC': ENTC,
                 'eligibility': [{
                     'tenth_marks': request.POST.get("tenth"),
                     'diploma_12': request.POST.get("diploma_12"),
@@ -168,6 +168,8 @@ def randomStringDigits(stringLength=8):
 
 
 companyname = []
+
+
 def student_attendence(request):
     if request.method == 'POST':
         try:
@@ -203,9 +205,9 @@ def student_attendence(request):
                 cmp = dict(cname=i["company_name"], time=i["time"], location=i["venue"])
                 companies.append(cmp)
 
-            print("comapny",companyname)
+            print("comapny", companyname)
             return render(request, 'drive/student_list.html',
-                          {"id": id, 'name': name, 'branch': branch, 'companies': companies })
+                          {"id": id, 'name': name, 'branch': branch, 'companies': companies})
         except Exception as e:
             print(e)
             return render(request, 'drive/student_attendance.html', {"error": 'Some error occured'})
@@ -237,7 +239,8 @@ def student_list(request):
             for i in companyname:
                 print(i, request.POST.get(str(i)))
                 if request.POST.get(str(i)) == 'Yes':
-                    rec = collection_drive.find({"$and" : [{"_id": str(i) + year},{"round1_student._id" : request.POST.get('id')}]})
+                    rec = collection_drive.find(
+                        {"$and": [{"_id": str(i) + year}, {"round1_student._id": request.POST.get('id')}]})
                     flag = True
 
                     for i in rec:
@@ -269,44 +272,51 @@ def student_list(request):
         return render(request, 'drive/student_list.html', {})
 
 
-
 def report_generation_placed(request):
     try:
         con = MongoClient()
         db = con["tnp_management"]
-        collection_candidate = db["registration_candidate"]
+        collection_drive = db["drive_drive"]
 
     except Exception as e:
         print({"exception": e})  # Console log
         return render(request, 'drive/student_list.html', {"error": "Connection Failed"})
 
-    eligible = []
-    round1 = []
-    round2 = []
-    round3 = []
-    round4 = []
-    round5 = []
-    round6 = []
-    round7 = []
-    round8 = []
-    placed = []
-    student_details = collection_candidate.find()
-    for i in student_details:
-        print(i)
-        eligible.append(int(i["eligible"]))
-        round1.append(int(i["round1"]))
-        round2.append(int(i["round2"]))
-        round3.append(int(i["round3"]))
-        round4.append(int(i["round4"]))
-        round5.append(int(i["round5"]))
-        round6.append(int(i["round6"]))
-        round7.append(int(i["round7"]))
-        round8.append(int(i["round8"]))
-        placed.append(int(i["placed"]))
+    try:
+        query_company = {
+            "company_name": "zensar",
+            "date": "2019-09-20",
+        }
 
-    plt.hist([eligible, placed], bins=round(1 + 3.322 * math.log(len(eligible))), label=['Eligible', 'Placed'])
-    plt.savefig('templates/drive/graphs/result.png')
+        print("Connection established")
+        company_record = collection_drive.find(query_company)
+        round_number = []
+        labels = ['Eligible']
+        for i in company_record:
+            for j in i["rounds"]:
+                print(j)
+                round_number.append("round"+j["round_number"]+"_student")
+                labels.append("Round "+j["round_number"])
+            labels.append('Placed')
 
+        company_record = collection_drive.find(query_company)
+        print("round number",round_number)
+        sizes = []
+        for i in company_record:
+            print("company record",i)
+            sizes.append(len(i["eligible_student"]))
+            for j in round_number:
+                print(j)
+                sizes.append(len(i[j]))
+            sizes.append(len(i["placed_student"]))
+
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes,  labels=labels, shadow=True, startangle=90)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        plt.savefig('static/drive/graphs/result_round.png')
+    except Exception as e:
+        print({"exception": e})  # Console log
+        return render(request, 'drive/student_list.html', {"error": "Connection Failed"})
     return HttpResponse("200")
 
 
@@ -320,7 +330,7 @@ def volunteer_search(request):
             print("Connection established")
             query_company = {
                 "login_key": request.POST.get("login_key"),
-                "date" : str(date.today()),
+                "date": str(date.today()),
             }
             round_number = 0
             rec_company = collection_drive.find(query_company)
@@ -331,12 +341,12 @@ def volunteer_search(request):
 
             round_number_html = int(request.POST.get("rounds"))
 
-            print("round_number",round_number_html)
+            print("round_number", round_number_html)
             if round_number_html <= int(round_number):
                 id_ls = []
                 candidates = []
                 rec_company = collection_drive.find(query_company)
-                doc_name = "round"+str(round_number_html)+"_student"
+                doc_name = "round" + str(round_number_html) + "_student"
                 for i in rec_company:
                     for j in i[doc_name]:
                         id_ls.append(j['_id'])
@@ -344,10 +354,12 @@ def volunteer_search(request):
                         candidates.append(candidate)
                 print("Done")
                 return render(request, 'drive/volunteer_update.html',
-                                  {"company_name": company_name, "candidates": candidates,"round_number" : round_number_html,"login_key": request.POST.get("login_key")})
+                              {"company_name": company_name, "candidates": candidates,
+                               "round_number": round_number_html, "login_key": request.POST.get("login_key")})
 
             else:
-                return render(request, 'drive/volunteer.html', {"error": "This round is not available for today's company"})
+                return render(request, 'drive/volunteer.html',
+                              {"error": "This round is not available for today's company"})
         except Exception as e:
             print(e)
             return render(request, 'drive/volunteer.html', {"error": 'Company not found'})
@@ -378,37 +390,36 @@ def volunteer_update(request):
                     round_number = int(j["round_number"])
 
             if round_number > int(request.POST.get("round_number")):
-
-                round_name = "round"+str(request.POST.get("round_number"))+"_student"
+                round_name = "round" + str(request.POST.get("round_number")) + "_student"
                 next_rounud_name = "round" + str(int(request.POST.get("round_number")) + 1) + "_student"
                 next_id = []
                 id = []
 
                 company_record = collection_drive.find(query_company)
-                print("rounds",round_name,next_rounud_name)
+                print("rounds", round_name, next_rounud_name)
                 for i in company_record:
                     for k in i[next_rounud_name]:
                         next_id.append(str(k["_id"]))
-                    print("next id " ,next_id)
+                    print("next id ", next_id)
                     for j in i[round_name]:
                         print(j)
                         can_id = str(j["_id"])
                         if can_id not in next_id and request.POST.get(j["_id"]) == 'selected':
                             id.append(can_id)
 
-                print("id list" , id)
+                print("id list", id)
                 if id:
                     company_record = collection_drive.find(query_company)
                     for i in company_record:
                         company_id = i["_id"]
-                        print("company id : ",company_id)
+                        print("company id : ", company_id)
                         for j in id:
-                            candidate_record = collection_candidate.find({"_id" : j})
+                            candidate_record = collection_candidate.find({"_id": j})
                             for k in candidate_record:
-                                print("candidate id : ",k["_id"])
-                                round = "round"+str(int(request.POST.get("round_number"))+1)
+                                print("candidate id : ", k["_id"])
+                                round = "round" + str(int(request.POST.get("round_number")) + 1)
                                 round_value = int(k[round]) + 1
-                                collection_candidate.update({"_id": k["_id"]}, {"$set": { round: round_value}})
+                                collection_candidate.update({"_id": k["_id"]}, {"$set": {round: round_value}})
                                 collection_drive.update({"_id": company_id}, {"$push": {next_rounud_name: {
                                     '_id': k["_id"],
                                     'name': k['name'],
@@ -425,6 +436,10 @@ def volunteer_update(request):
     else:
         return render(request, 'drive/volunteer_update.html', {})
 
+
+candidates = []
+
+
 @login_required
 def company_search(request):
     if request.method == 'POST':
@@ -434,8 +449,8 @@ def company_search(request):
             collection_drive = db["drive_drive"]
 
             query_company = {
-                "company_name" : request.POST.get("name") ,
-                "date": request.POST.get("drive_date") ,
+                "company_name": request.POST.get("name"),
+                "date": request.POST.get("drive_date"),
             }
 
             company_record = collection_drive.find(query_company)
@@ -447,24 +462,74 @@ def company_search(request):
                     round_number = j["round_number"]
 
             candidate_ls = []
-            print('last round : ',round_number)
+            candidates.clear()
+            print('last round : ', round_number)
             company_record = collection_drive.find(query_company)
             for i in company_record:
                 print(i)
-                for j in i["round"+round_number+"_student"]:
-                    candidate_ls.append(dict(id=j["_id"],name=j["name"],branch=j["branch"]))
+                for j in i["round" + round_number + "_student"]:
+                    candidate_ls.append(dict(id=j["_id"], name=j["name"], branch=j["branch"]))
+                    candidates.append(j["_id"])
 
             print(candidate_ls)
-            return render(request,'drive/placed_details.html',{"candidates" : candidate_ls,"company_name" : request.POST.get("name")})
+            return render(request, 'drive/placed_details.html',
+                          {"candidates": candidate_ls, "company_name": request.POST.get("name"),
+                           "drive_date": request.POST.get("drive_date")})
         except Exception as e:
-            print("exception",e)
+            print("exception", e)
             return HttpResponse('Some error occurred')
     else:
-        return render(request,"drive/company_search.html",{})
+        return render(request, "drive/company_search.html", {})
+
 
 @login_required
 def placed_details(request):
+    if request.method:
+        try:
+            con = MongoClient()
+            db = con["tnp_management"]
+            collection_drive = db["drive_drive"]
+            collection_candidate = db['registration_candidate']
+            query_company = {
+                "company_name": str(request.POST.get("company_name")).lower(),
+                "date": request.POST.get("drive_date"),
+            }
 
-    return HttpResponse("You are on placed")
+            print("Connection established in placed",query_company)
+            company_record = collection_drive.find(query_company)
+            placed_ls = []
+            for i in company_record:
+                for j in i['placed_student']:
+                    placed_ls.append(j["_id"])
 
+            print("placed list",placed_ls)
+            company_record = collection_drive.find(query_company)
+            error = None
+            for i in company_record:
+                company_id = i['_id']
+                print('company id', company_id)
+                for j in candidates:
+                    print("candidate list", j)
+                    if j not in placed_ls and request.POST.get(j) == 'selected':
+                        candidate_record = collection_candidate.find({"_id": j})
+                        for k in candidate_record:
+                            print("candidate id : ", k["_id"])
+                            placed = int(k['placed']) + 1
+                            collection_candidate.update({"_id": k["_id"]}, {"$set": {"placed": placed}})
+                            collection_drive.update({"_id": company_id}, {"$push": {"placed_student": {
+                                '_id': k["_id"],
+                                'name': k['name'],
+                                'branch': k['branch'] }}
+                            })
+                        error = 'Data uploaded successfully'
+                    else:
+                        error = 'Data already uploaded'
+            return HttpResponse(error)
+        except Exception as e:
+            print("exception in placed details", e)
+            return HttpResponse('Some error occurred')
+    else:
+        return render(request, "drive/company_search.html", {})
 
+def placed_analysis(request) :
+    return HttpResponse("200")
