@@ -24,6 +24,7 @@ def employee_registeration(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileInfoForm(data=request.POST)
+        # print('rushi',profile_form.designation)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
@@ -49,6 +50,7 @@ def employee_registeration(request):
 
 
 # Candidate_upload
+@login_required
 def candidate_upload(request):
     if request.method == 'POST':
         collection = None
@@ -138,7 +140,7 @@ def candidate_upload(request):
                     if fields[10] == "Computer Engineering":
                         fields[10] = "computer"
                     elif fields[10] == 'Information Engineering':
-                        fields[10] = 'it'
+                        fields[10] = 'information technology'
                     elif fields[10] == 'E&TC Engineering':
                         fields[10] = 'entc'
                     elif fields[10] == "Production Engineering":
@@ -175,6 +177,7 @@ def candidate_upload(request):
     else:
         return render(request, 'registration/candidate_upload.html', {})
 
+@login_required
 def adminView(request):
     if request.method == "POST" :
         try:

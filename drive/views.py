@@ -11,6 +11,7 @@ from pymongo import MongoClient
 
 
 # Drive Upload
+@login_required
 def drive_upload(request):
     if request.method == 'POST':
         try:
@@ -21,11 +22,11 @@ def drive_upload(request):
 
             # ---------Branch--------------
             branch_ls = []
-            Computer = request.POST.get("Computer")
-            if Computer == None:
-                Computer = False
+            computer = request.POST.get("Computer")
+            if computer == None:
+                computer = False
             else:
-                Computer = True
+                computer = True
                 branch_ls.append("computer")
 
             IT = request.POST.get("IT")
@@ -33,7 +34,7 @@ def drive_upload(request):
                 IT = False
             else:
                 IT = True
-                branch_ls.append("it")
+                branch_ls.append("information technology")
 
             CIVIL = request.POST.get("CIVIL")
             if CIVIL == None:
@@ -126,7 +127,7 @@ def drive_upload(request):
                 'time': request.POST.get("drive_time"),
                 'rounds': round_dict,
                 'login_key': login_key,
-                'Computer': Computer,
+                'Computer': computer,
                 'Civil': CIVIL,
                 'Mechanical': MECH,
                 'IT': IT,
@@ -270,54 +271,6 @@ def student_list(request):
 
     else:
         return render(request, 'drive/student_list.html', {})
-
-
-def report_generation_placed(request):
-    try:
-        con = MongoClient()
-        db = con["tnp_management"]
-        collection_drive = db["drive_drive"]
-
-    except Exception as e:
-        print({"exception": e})  # Console log
-        return render(request, 'drive/student_list.html', {"error": "Connection Failed"})
-
-    try:
-        query_company = {
-            "company_name": "zensar",
-            "date": "2019-09-20",
-        }
-
-        print("Connection established")
-        company_record = collection_drive.find(query_company)
-        round_number = []
-        labels = ['Eligible']
-        for i in company_record:
-            for j in i["rounds"]:
-                print(j)
-                round_number.append("round"+j["round_number"]+"_student")
-                labels.append("Round "+j["round_number"])
-            labels.append('Placed')
-
-        company_record = collection_drive.find(query_company)
-        print("round number",round_number)
-        sizes = []
-        for i in company_record:
-            print("company record",i)
-            sizes.append(len(i["eligible_student"]))
-            for j in round_number:
-                print(j)
-                sizes.append(len(i[j]))
-            sizes.append(len(i["placed_student"]))
-
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes,  labels=labels, shadow=True, startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        plt.savefig('static/drive/graphs/result_round.png')
-    except Exception as e:
-        print({"exception": e})  # Console log
-        return render(request, 'drive/student_list.html', {"error": "Connection Failed"})
-    return HttpResponse("200")
 
 
 def volunteer_search(request):
@@ -495,7 +448,7 @@ def placed_details(request):
                 "date": request.POST.get("drive_date"),
             }
 
-            print("Connection established in placed",query_company)
+            print("Connection established in placed", query_company)
             company_record = collection_drive.find(query_company)
             placed_ls = []
             for i in company_record:
@@ -503,6 +456,7 @@ def placed_details(request):
                     placed_ls.append(j["_id"])
 
             print("placed list",placed_ls)
+            print("candidates list", candidates)
             company_record = collection_drive.find(query_company)
             error = None
             for i in company_record:
@@ -525,11 +479,189 @@ def placed_details(request):
                     else:
                         error = 'Data already uploaded'
             return HttpResponse(error)
+            #return render(request, "drive/placed_analysis.html", {})
         except Exception as e:
             print("exception in placed details", e)
             return HttpResponse('Some error occurred')
     else:
         return render(request, "drive/company_search.html", {})
 
+@login_required
 def placed_analysis(request) :
-    return HttpResponse("200")
+    if request.method == "POST":
+        try:
+            con = MongoClient()
+            db = con["tnp_management"]
+            collection_drive = db["drive_drive"]
+
+            query_company = {
+                "company_name": str(request.POST.get("name")).lower(),
+                "date": request.POST.get("drive_date"),
+            }
+
+            print("Connection established")
+            company_record = collection_drive.find(query_company)
+            round_number = []
+            labels = ['Eligible']
+            for i in company_record:
+                for j in i["rounds"]:
+                    print("j in ", j)
+                    round_number.append("round"+j["round_number"]+"_student")
+                    labels.append("Round "+j["round_number"])
+                labels.append('Placed')
+
+            company_record = collection_drive.find(query_company)
+            print("round number", round_number)
+            sizes = []
+            for i in company_record:
+                print("company record", i)
+                sizes.append(len(i["eligible_student"]))
+                for j in round_number:
+                    print(j)
+                    sizes.append(len(i[j]))
+                sizes.append(len(i["placed_student"]))
+
+            fig1, ax1 = plt.subplots()
+            ax1.pie(sizes,  labels=labels, shadow=True, startangle=90)
+            ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+            plt.savefig('static/drive/graphs/result_round.png')
+            return render(request, 'drive/placed_graph.html', {"company_name": request.POST.get("name")})
+        except Exception as e:
+            print({"exception": e})  # Console log
+            return render(request, 'drive/placed_analysis.html', {"error": "Connection Failed"})
+    else:
+        return render(request, 'drive/placed_analysis.html', {})
+
+@login_required
+def college_analysis(request) :
+    if request.method == "POST":
+        try:
+            con = MongoClient()
+            db = con["tnp_management"]
+            collection_drive = db["drive_drive"]
+            collection_candidate = db["registration_candidate"]
+
+            query_company = {
+                "company_name": str(request.POST.get("name")).lower(),
+                "date": request.POST.get("drive_date"),
+            }
+
+            query_candidate = {
+                'college_name' : request.POST.get('clgname')
+            }
+
+            dypcoe = 0
+            dypiemr = 0
+            record_drive = collection_drive.find(query_company)
+            cmp = []
+            for x in record_drive:
+                cmp.append(x)
+            cmp = cmp[0]
+            students = cmp['placed_student']
+            colleges = []
+            for x in students:
+                college = collection_candidate.find({'_id': x['_id']})
+
+                cmp = []
+                for x in college:
+                    cmp.append(x)
+                cmp = cmp[0]
+
+                colleges.append(cmp)
+            for college in colleges:
+                if college['college_name'] == 'dypcoe':
+                    dypcoe += 1
+                elif college['college_name'] == 'dypiemr':
+                    dypiemr += 1
+            print("dypcoe = "+ str(dypcoe))
+            print("dypiemr = " + str(dypiemr))
+
+
+           # print(int(str(total_placed_candidate_dypcoe)) , int(str(total_placed_candidate_dypcoe)))
+            labels = ["DYPCOE = {}".format(dypcoe), "DYPIEMR = {}".format(dypiemr)]
+
+            #fig1, ax1 = plt.subplots()
+            plt.pie([dypcoe, dypiemr],  labels=labels, shadow=True, startangle = 90)
+            plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+            plt.savefig('static/drive/graphs/result_college.png')
+            return render(request, 'drive/college_graph.html', {"company_name": request.POST.get("name")})
+        except Exception as e:
+            print({"exception": e})  # Console log
+            return render(request, 'drive/college_analysis.html', {"error": "Connection Failed"})
+    else:
+        return render(request, 'drive/college_analysis.html', {})
+
+
+@login_required
+def total_analysis(request):
+    try:
+        client = MongoClient()
+        db = client['tnp_management']
+        collection_drive = db['drive_drive']
+        collection_student = db['registration_candidate']
+
+        total_companies = 0
+        record_drive = collection_drive.find()
+        for i in record_drive:
+            total_companies += 1
+
+        total_eligible_candidates = 0
+        total_placed_candidates = 0
+
+        record_candidate = collection_student.find()
+        for i in record_candidate:
+            if int(i["eligible"])>0:
+                total_eligible_candidates += 1
+            if int(i["placed"])>0:
+                total_placed_candidates += 1
+
+        fig1, ax1 = plt.subplots()
+        ax1.pie([total_eligible_candidates,total_placed_candidates],
+                labels=["Eligible ("+str(total_eligible_candidates)+")","Placed ("+str(total_placed_candidates)+")"],
+                shadow=True, startangle=90)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        plt.savefig('static/drive/graphs/result_total_analysis.png')
+    except Exception as e:
+        print("exception",e)
+        return HttpResponse("Error occurred")
+    return HttpResponse("Done")
+
+@login_required
+def company_analysis(request):
+    try:
+        client = MongoClient()
+        db = client['tnp_management']
+        collection_drive = db['drive_drive']
+
+        total_companies = 0
+        companies = dict(computer=0, it=0, entc=0, production=0, instrumentation=0, civil=0, mechanical=0)
+        record_drive = collection_drive.find()
+        for i in record_drive:
+            total_companies += 1
+            if i["Computer"]:
+                companies['computer'] += 1
+            if i["Civil"]:
+                companies['civil'] += 1
+            if i["ENTC"]:
+                companies['entc'] +=1
+            if i["IT"]:
+                companies['it'] += 1
+            if i["Instrumentation"]:
+                companies['instrumentation'] +=1
+            if i["Mechanical"]:
+                companies['mechanical'] += 1
+            if i["Production"]:
+                companies['production'] += 1
+
+        print(companies)
+        print(list(companies.values()),list(companies))
+        fig1, ax1 = plt.subplots()
+        ax1.pie(list(companies.values()),
+                labels=list(companies),
+                shadow=True, startangle=90)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        plt.savefig('static/drive/graphs/result_company_analysis.png')
+    except Exception as e:
+        print("exception", e)
+        return HttpResponse("Error occurred")
+    return HttpResponse("Done")

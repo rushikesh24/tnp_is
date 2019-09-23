@@ -199,7 +199,7 @@ input[type="file"] {
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form action="{% url 'placed_analysis' %}" class="login100-form validate-form" method="POST">
+				<form action="{% url 'college_analysis' %}" class="login100-form validate-form" method="POST">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
 						DRIVE UPLOAD
@@ -219,9 +219,9 @@ input[type="file"] {
 							   type="date">
 						<span class="focus-input100"></span>
 					</div>
-
 					<div class="text-right p-t-8 p-b-31">
 					</div>
+
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>

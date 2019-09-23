@@ -6,14 +6,14 @@ from djongo import models
 '''Candidate Model'''
 
 class Candidate(models.Model):
-    clg_name = (('DYPCOE', 'DYPCOE'), ('DYPIEMR', 'DYPIEMR'))
-    branch_choice = (('Computer', 'Computer Engineering'),
-                     ('IT', 'Information Engineering'),
-                     ('ENTC', 'E&TC Engineering'),
-                     ('Production', 'Production Engineering'),
-                     ('Instrumentation', 'Instrumentation Engineering'),
-                     ('Civil', 'Civil Engineering'),
-                     ('Mechanical', 'Mechanical Engineering')
+    clg_name = (('dypcoe', 'DYPCOE'), ('dypiemr', 'DYPIEMR'))
+    branch_choice = (('computer', 'Computer Engineering'),
+                     ('information technology', 'Information Engineering'),
+                     ('entc', 'E&TC Engineering'),
+                     ('production', 'Production Engineering'),
+                     ('instrumentation', 'Instrumentation Engineering'),
+                     ('civil', 'Civil Engineering'),
+                     ('mechanical', 'Mechanical Engineering')
                     )
 
 

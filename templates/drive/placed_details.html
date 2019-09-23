@@ -61,7 +61,7 @@
 				{% endif %}
                 <form action="{% url 'placed_details' %}" class="login100-form validate-form" method="POST">
 						{% csrf_token %}
-						{% if candidates %}
+					{% if candidates %}
 						{% if company_name %}
 					<span class="login100-form-title p-b-49">
 						Last round details for {{ company_name }}
@@ -89,9 +89,9 @@
 							{% endfor %}
 
 						</table>
-			<div class="text-right p-t-8 p-b-31"></div>
-					<div class="container-login100-form-btn">
-							<div class="wrap-login100-form-btn">
+						<div class="text-right p-t-8 p-b-31"></div>
+								<div class="container-login100-form-btn">
+								<div class="wrap-login100-form-btn">
 								<div class="login100-form-bgbtn"></div>
 								<button class="login100-form-btn" type="submit">
 									Submit

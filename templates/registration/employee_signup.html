@@ -30,40 +30,40 @@
 
 	<style>
 		/*-----------------------------------------For Department-----------------------------*/
-.multiselect {
-  width: 200px;
-}
+		.multiselect {
+		  width: 200px;
+		}
 
-.selectBox {
-  position: relative;
-}
+		.selectBox {
+		  position: relative;
+		}
 
-.selectBox select {
-  width: 100%;
+		.selectBox select {
+		  width: 100%;
 
-}
+		}
 
-.overSelect {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
+		.overSelect {
+		  position: absolute;
+		  left: 0;
+		  right: 0;
+		  top: 0;
+		  bottom: 0;
+		}
 
-#checkboxes {
-  display: none;
-  border: 1px #dadada solid;
-}
+		#checkboxes {
+		  display: none;
+		  border: 1px #dadada solid;
+		}
 
-#checkboxes label {
-  display: block;
-}
+		#checkboxes label {
+		  display: block;
+		}
 
-#checkboxes label:hover {
-  background-color: #1e90ff;
-}
-/*--------------------------------------------------------------------*/
+		#checkboxes label:hover {
+		  background-color: #1e90ff;
+		}
+		/*--------------------------------------------------------------------*/
 	</style>
 </head>
 <body>
@@ -149,7 +149,8 @@
 						<span class="focus-input100" data-symbol="&#xf15a;"></span>
 					</div>
 
-					
+					<div class="text-right p-t-8 p-b-31">
+					</div>
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
@@ -192,6 +193,7 @@
     			x.style.display = "block";
   			} else {
     			x.style.display = "none";
+				document.getElementById("id_designation").value = "TPO Head";
   			}
 		}
 	</script>
