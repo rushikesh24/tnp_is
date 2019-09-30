@@ -52,7 +52,7 @@ def employee_registeration(request):
 # Candidate_upload
 @login_required
 def candidate_upload(request):
-    if request.method == 'POST':
+    if request.method == 'get':
         collection = None
         try:
             #Create connection between database and user
@@ -176,22 +176,3 @@ def candidate_upload(request):
                 return HttpResponse("Unable to upload the file. Error in file"+str(e))
     else:
         return render(request, 'registration/candidate_upload.html', {})
-
-@login_required
-def adminView(request):
-    if request.method == "POST" :
-        try:
-            #Create connection between database and user
-            con = MongoClient()
-            db = con["tnp_management"]
-            collection = db["registration_candidate"]
-            collect_drive = db["drive_drive"]
-
-            return HttpResponse("Wrong")
-
-            #return render(request, 'drive/drive_upload.html',{})
-        except Exception as e :
-            return HttpResponse("Wrong")
-    else :
-        #return render(request, 'drive/drive_upload.html', {})
-        return HttpResponse("Wrong")

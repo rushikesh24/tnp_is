@@ -219,30 +219,6 @@ input[type="file"] {
 						<span class="focus-input100" data-symbol="&#xf1a8;"></span>
 					</div>
 
-
-					<!--<div class="multiselect">
-                        <div class="selectBox" onclick="showCheckboxes()">
-                            <div class="wrap-input100 validate-input" data-validate="Time is required">
-                                    <span class="label-input100">Rounds</span>
-                                <select>
-                                        <option>Select Rounds</option>
-                                      </select>
-                                  <div class="overSelect"></div>
-                                  </div>
-                                  <div id="checkboxes">
-                                  <label for="MCQ_Round">
-                                      <input id="MCQ_Round" type="checkbox"/>Aptitude Round</label>
-                                  <label for="Technical_Round">
-                                      <input id="Technical_Round" type="checkbox"/>Technical Interview Round</label>
-                                  <label for="HR_Round">
-                                      <input id="HR_Round" type="checkbox"/>HR Interview Round</label>
-                                      <label for="Other">
-                                          <input checked id="Other" name="Other" onchange="onOtherClick()"
-                                                 type="checkbox"/>Other Round</label>
-                            </div>
-                         </div>
-                     </div>-->
-
 					<div class="wrap-input100 validate-input" data-validate="Campus Type is required">
 						<span class="label-input100">Round1</span>
 						<input class="input100" id="id_round1" maxlength="100" name="round1"
@@ -370,30 +346,26 @@ input[type="file"] {
 	<!--===============================================================================================-->
 	<script src="{% static 'signup/js/main.js' %}"></script>
 	<!--===============================================================================================-->
-	<!-----------------------For CheckBOX of Rounds------------------------------->
-	<!--<script type="text/javascript">
-		var expanded = false;
-
-		function showCheckboxes() {
-		  var checkboxes = document.getElementById("checkboxes");
-		  if (!expanded) {
-			checkboxes.style.display = "block";
-			expanded = true;
-		  } else {
-			checkboxes.style.display = "none";
-			expanded = false;
-		  }
-		}
-
-		function onOtherClick() {
-    		var x = document.getElementById("other_div");
-    		if (x.style.display === "none") {
-    			x.style.display = "block";
-  			} else {
-    			x.style.display = "none";
-  			}
-		}
-	</script>-->
+	<!-----------------------For Date Field------------------------------->
+	<script type="text/javascript">
+		var dtToday = new Date();
+		var month = dtToday.getMonth() + 1;
+		var mmonth = dtToday.getMonth() + 2;
+		var day = dtToday.getDate();
+		var year = dtToday.getFullYear();
+		if(month < 10)
+			month = '0' + month.toString();
+		if(mmonth < 10)
+			mmonth = '0' + mmonth.toString();
+		if(day < 10)
+			day = '0' + day.toString();
+		var minDate= year + '-' + month + '-' + day;
+		var maxDate= year + '-' + mmonth + '-' + day;
+		var dateControl = document.querySelector('input[type="date"]');
+		dateControl.value = minDate;
+		dateControl.min = minDate;
+		dateControl.max = maxDate;
+	</script>
 	<!--===============================================================================================-->
 
 </div>

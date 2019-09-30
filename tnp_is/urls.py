@@ -22,5 +22,6 @@ urlpatterns = [
     path('registration/', include('django.contrib.auth.urls')),
     path('registration/', include('registration.urls')),
     path('drive/',include('drive.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home')  # new
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('all/report', TemplateView.as_view(template_name='all_report.html'), name='all_report')# new
 ]

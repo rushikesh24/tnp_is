@@ -21,7 +21,7 @@
 
 <html lang="en">
 <head>
-	<title>Drive Upload</title>
+	<title>Round Wise Details</title>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<!--===============================================================================================-->
@@ -153,42 +153,6 @@ input[type="file"] {
      padding: 20px 50px;
      line-height: 1.2;
 }
-/*-----------------------------------------For Rounds-----------------------------*/
-.multiselect {
-  width: 200px;
-}
-
-.selectBox {
-  position: relative;
-}
-
-.selectBox select {
-  width: 100%;
-  font-weight: bold;
-}
-
-.overSelect {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-
-#checkboxes {
-  display: none;
-  border: 1px #dadada solid;
-}
-
-#checkboxes label {
-  display: block;
-}
-
-#checkboxes label:hover {
-  background-color: #1e90ff;
-}
-/*--------------------------------------------------------------------*/
-
 
 	</style>
 </head>
@@ -202,7 +166,7 @@ input[type="file"] {
 				<form action="{% url 'placed_analysis' %}" class="login100-form validate-form" method="POST">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
-						DRIVE UPLOAD
+						ROUND WISE DETAILS
 					</span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate="Name is required">

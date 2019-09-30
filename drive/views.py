@@ -4,6 +4,7 @@ import string
 from datetime import date
 
 import matplotlib.pyplot as plt
+import numpy as np
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -402,7 +403,7 @@ def company_search(request):
             collection_drive = db["drive_drive"]
 
             query_company = {
-                "company_name": request.POST.get("name"),
+                "company_name": str(request.POST.get("name")).lower(),
                 "date": request.POST.get("drive_date"),
             }
 
@@ -455,7 +456,7 @@ def placed_details(request):
                 for j in i['placed_student']:
                     placed_ls.append(j["_id"])
 
-            print("placed list",placed_ls)
+            print("placed list", placed_ls)
             print("candidates list", candidates)
             company_record = collection_drive.find(query_company)
             error = None
@@ -514,16 +515,19 @@ def placed_analysis(request) :
             print("round number", round_number)
             sizes = []
             for i in company_record:
-                print("company record", i)
+                company_name = i['company_name']
                 sizes.append(len(i["eligible_student"]))
                 for j in round_number:
                     print(j)
                     sizes.append(len(i[j]))
                 sizes.append(len(i["placed_student"]))
 
-            fig1, ax1 = plt.subplots()
-            ax1.pie(sizes,  labels=labels, shadow=True, startangle=90)
-            ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+            index = np.arange(len(labels))
+            plt.bar(index, sizes)
+            plt.xlabel('Rounds', fontsize=7)
+            plt.ylabel('No of Students', fontsize=15)
+            plt.xticks(index, labels, fontsize=7, rotation=30)
+            plt.title('Students Placed In ' + company_name)
             plt.savefig('static/drive/graphs/result_round.png')
             return render(request, 'drive/placed_graph.html', {"company_name": request.POST.get("name")})
         except Exception as e:
@@ -621,10 +625,10 @@ def total_analysis(request):
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
         plt.savefig('static/drive/graphs/result_total_analysis.png')
+        return render(request, 'drive/total_graph.html', {})
     except Exception as e:
         print("exception",e)
         return HttpResponse("Error occurred")
-    return HttpResponse("Done")
 
 @login_required
 def company_analysis(request):
@@ -653,15 +657,26 @@ def company_analysis(request):
             if i["Production"]:
                 companies['production'] += 1
 
-        print(companies)
-        print(list(companies.values()),list(companies))
-        fig1, ax1 = plt.subplots()
-        ax1.pie(list(companies.values()),
-                labels=list(companies),
-                shadow=True, startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        print(list(companies.values()), list(companies))
+        companies_ls = list(companies)
+        it = companies_ls.index("it")
+        entc = companies_ls.index("entc")
+
+        if it >= 0:
+            companies_ls[it] = "IT"
+        if entc >= 0:
+            companies_ls[entc] = 'E&TC'
+
+        index = np.arange(len(list(companies_ls)))
+        plt.bar(index, list(companies.values()))
+        plt.xlabel('Rounds', fontsize=7)
+        plt.ylabel('No of Students', fontsize=15)
+        plt.xticks(index, (list(companies_ls)), fontsize=7)
+        plt.title('Students Placed In ' + str(request.POST.get("name")))
+        # plt.figure(figsize=(10,10))
         plt.savefig('static/drive/graphs/result_company_analysis.png')
+        #return HttpResponse("done")
+        return render(request,'drive/company_graph.html',{})
     except Exception as e:
         print("exception", e)
         return HttpResponse("Error occurred")
-    return HttpResponse("Done")

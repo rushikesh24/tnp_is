@@ -21,7 +21,7 @@
 
 <html lang="en">
 <head>
-	<title>Drive Upload</title>
+	<title>Analysis</title>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<!--===============================================================================================-->
@@ -199,10 +199,13 @@ input[type="file"] {
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url({% static 'signup/images/bg-01.jpg' %});">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				{% if error %}
+				{{ error }}
+				{% endif %}
 				<form action="{% url 'college_analysis' %}" class="login100-form validate-form" method="POST">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-49">
-						DRIVE UPLOAD
+						ANALYSIS
 					</span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate="Name is required">
@@ -231,15 +234,13 @@ input[type="file"] {
 						</div>
 					</div>
 				</form>
-				{% if error %}
-				{{ error }}
-				{% endif %}
+
 			</div>
 		</div>
 	</div>
 
 	{% endblock %}
-
+</div>
 
 	<!--===============================================================================================-->
 	<script src="{% static 'signup/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
@@ -259,7 +260,7 @@ input[type="file"] {
 	<script src="{% static 'signup/js/main.js' %}"></script>
 	<!--===============================================================================================-->
 
-</div>
+
 
 
 </body>
