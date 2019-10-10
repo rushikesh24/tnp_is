@@ -1,3 +1,6 @@
+import csv
+
+import pymongo
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -52,7 +55,7 @@ def employee_registeration(request):
 # Candidate_upload
 @login_required
 def candidate_upload(request):
-    if request.method == 'get':
+    if request.method == 'POST':
         collection = None
         try:
             #Create connection between database and user
@@ -112,6 +115,7 @@ def candidate_upload(request):
                               {"error": "PNR number is already registered"})
 
         elif 'multiple' in request.POST:
+            error_data= []
             try:
                 print("multiple student data upload")
                 csv_file = request.FILES["csv_file"]
@@ -120,59 +124,108 @@ def candidate_upload(request):
 
                 file_data = csv_file.read().decode("UTF-8")
                 lines = file_data.split("\n")
-                print(lines)
                 # loop over the lines and save them in db. If error , store as string and then display
                 for line in lines:
-                    if line == '':
-                        continue
-                    fields = line.split(",")
-                    data_dict = {}
-                    data_dict["_id"] = fields[0]
-                    data_dict["name"] = fields[1]
-                    data_dict["gender"] = fields[2]
-                    data_dict["aadhar_number"] = fields[3]
-                    data_dict["email"] = fields[4]
-                    data_dict["primary_mobile"] = fields[5]
-                    data_dict["secondary_mobile"] = fields[6]
-                    data_dict["tenth"] = fields[7]
-                    data_dict["diploma_12"] = fields[8]
-                    data_dict["college_name"] = fields[9]
-                    if fields[10] == "Computer Engineering":
-                        fields[10] = "computer"
-                    elif fields[10] == 'Information Engineering':
-                        fields[10] = 'information technology'
-                    elif fields[10] == 'E&TC Engineering':
-                        fields[10] = 'entc'
-                    elif fields[10] == "Production Engineering":
-                        fields[10] = "production"
-                    elif fields[10] == 'Instrumentation Engineering':
-                        fields[10] = 'instrumentation'
-                    elif fields[10] == 'Civil Engineering':
-                        fields[10] = 'civil'
-                    elif fields[10] == 'Mechanical Engineering':
-                        fields[10] = 'mechanical'
-                    data_dict["branch"] = fields[10]
-                    data_dict["engineering"] = fields[11]
-                    if fields[12]:
-                        data_dict["live_backlog"] = True
-                    else:
-                        data_dict["live_backlog"] = False
-                    data_dict["placed"] = fields[13]
-                    data_dict["eligible"] = fields[13]
-                    data_dict["round1"] = fields[13]
-                    data_dict["round2"] = fields[13]
-                    data_dict["round3"] = fields[13]
-                    data_dict["round4"] = fields[13]
-                    data_dict["round5"] = fields[13]
-                    data_dict["round6"] = fields[13]
-                    data_dict["round7"] = fields[13]
-                    data_dict["round8"] = fields[13]
-                    rec = collection.insert_one(data_dict)
-                    print("inserted_record")
-                    print(rec)
-                return HttpResponse("candidate Uploaded Successfully")
+                    try:
+                        if line == '':
+                            continue
+                        fields = line.split(",")
+                        data_dict = {}
+                        data_dict["_id"] = fields[0]
+                        data_dict["name"] = fields[1]
+                        data_dict["gender"] = fields[2]
+                        data_dict["aadhar_number"] = fields[3]
+                        data_dict["email"] = fields[4]
+                        data_dict["primary_mobile"] = fields[5]
+                        data_dict["secondary_mobile"] = fields[6]
+                        data_dict["tenth"] = fields[7]
+                        data_dict["diploma_12"] = fields[8]
+                        data_dict["college_name"] = fields[9]
+                        if fields[10] == "Computer Engineering":
+                            fields[10] = "computer"
+                        elif fields[10] == 'Information Engineering':
+                            fields[10] = 'information technology'
+                        elif fields[10] == 'E&TC Engineering':
+                            fields[10] = 'entc'
+                        elif fields[10] == "Production Engineering":
+                            fields[10] = "production"
+                        elif fields[10] == 'Instrumentation Engineering':
+                            fields[10] = 'instrumentation'
+                        elif fields[10] == 'Civil Engineering':
+                            fields[10] = 'civil'
+                        elif fields[10] == 'Mechanical Engineering':
+                            fields[10] = 'mechanical'
+                        data_dict["branch"] = fields[10]
+                        data_dict["engineering"] = fields[11]
+                        if fields[12]:
+                            data_dict["live_backlog"] = True
+                        else:
+                            data_dict["live_backlog"] = False
+                        data_dict["placed"] = fields[13]
+                        data_dict["eligible"] = fields[13]
+                        data_dict["round1"] = fields[13]
+                        data_dict["round2"] = fields[13]
+                        data_dict["round3"] = fields[13]
+                        data_dict["round4"] = fields[13]
+                        data_dict["round5"] = fields[13]
+                        data_dict["round6"] = fields[13]
+                        data_dict["round7"] = fields[13]
+                        data_dict["round8"] = fields[13]
+                        rec = collection.insert_one(data_dict)
+                        print("inserted_record")
+                        print(rec)
+                    except pymongo.errors.DuplicateKeyError as ex:
+                        data_list = []
+                        data_list.append(fields[0])
+                        data_list.append(fields[1])
+                        data_list.append(fields[2])
+                        data_list.append(fields[3])
+                        data_list.append(fields[4])
+                        data_list.append(fields[5])
+                        data_list.append(fields[6])
+                        data_list.append(fields[7])
+                        data_list.append(fields[8])
+                        data_list.append(fields[9])
+                        if fields[10] == "Computer Engineering":
+                            fields[10] = "computer"
+                        elif fields[10] == 'Information Engineering':
+                            fields[10] = 'information technology'
+                        elif fields[10] == 'E&TC Engineering':
+                            fields[10] = 'entc'
+                        elif fields[10] == "Production Engineering":
+                            fields[10] = "production"
+                        elif fields[10] == 'Instrumentation Engineering':
+                            fields[10] = 'instrumentation'
+                        elif fields[10] == 'Civil Engineering':
+                            fields[10] = 'civil'
+                        elif fields[10] == 'Mechanical Engineering':
+                            fields[10] = 'mechanical'
+                        data_list.append(fields[10])
+                        data_list.append(fields[11])
+                        if fields[12]:
+                            data_list.append(True)
+                        else:
+                            data_list.append(False)
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        data_list.append(fields[13])
+                        error_data.append(data_list)
+                with open('other_files/Duplicate Record.csv', 'w') as f:
+                    writer = csv.writer(f)
+                    for row in error_data:
+                        writer.writerow(row)
+                f.close()
+                return HttpResponse("Candidate Uploaded Successfully. <br>Duplicate PRN stored in Duplicate Record.csv.<br> No. of Duplicate records are "+str(len(error_data)))
             except Exception as e:
-                print({"exception": e})
+                print("exception",e,type(e))
                 return HttpResponse("Unable to upload the file. Error in file"+str(e))
+
     else:
         return render(request, 'registration/candidate_upload.html', {})

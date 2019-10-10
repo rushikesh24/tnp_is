@@ -80,12 +80,11 @@ img.icon {
 </style>
 </head>
 <body>
-<br><br>
+<div class="container" >
 <h1 align="center">
     REPORT GENERATION
 </h1>
-<div class="container" >
-
+    <br>
       <div class="tile mint" id="placed_analysis">
             <a href="{% url 'placed_analysis' %}">
                   <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
@@ -100,7 +99,7 @@ img.icon {
             </a>
       </div>
 
-    <div class="tile purple" id="total_analysis">
+    <div class="tile blue" id="total_analysis">
                 <a href="{% url 'total_analysis' %}">
 				      <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
       				<span class="title">Total Analysis</span>

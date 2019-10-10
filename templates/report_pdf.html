@@ -1,0 +1,119 @@
+{% load static %}
+<html>
+<head>
+    <title>Report Generation PDF</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+
+        }
+        table#t01 {
+          width: 100%;
+          background-color: #f1f1c1;
+        }
+
+        table#t02 {
+          width: 100%;
+          background-color: #f1f1c1;
+        }
+        th, td {
+            text-align : center;
+            padding : 5px;
+        }
+	</style>
+</head>
+<body>
+    <h1>
+        D.Y.PATIL COLLEGE OF ENGINEERING, AKURDI PUNE-411044
+    </h1>
+    <h2>
+        Training & Placement Cell
+    </h2>
+
+<p style="text-align:left">DYPCE/T&P/
+    <label style="float:right">Date : {{ today_date }}<br></label>
+</p>
+Submitted,
+<br>
+<b>Subject : Report of Campus Recruitment Drive of "{{ company_name }}" -{{ year }} GRADUATING BATCH</b>
+<br><br>
+Respected Sir/Madam,<br>
+"{{ company_name }}" was invited for Campus Recruitment of {{ year }} Graduating Batch. Campus Recruitment Drive was conducted on {{ date }} at Corporate Relation & Placement Cell.
+The details of the same are as below:
+    <ol type="1">
+        <li>
+            <b>Eligible Branches :</b> {{ branches }}
+        </li>
+        <li>
+            <b>Eligibility Criteria :</b> {{ criteria }}
+        </li>
+        <li>
+            <b>Procedure :</b> {{ procedure }}
+        </li>
+        <li>
+            <b>Total Number of Students Appear for the Process :</b> {{ total_candidate }}
+        </li>
+        <li>
+            <b>Final Selected :{{ placed_candidate }}</b>
+        </li>
+        <li>
+            <b>Department wise details are as below :</b>
+        </li>
+    </ol>
+    <table id="t01" style="width: 100%">
+							<tr>
+								<th>Sr No. </th>
+								<th>Department</th>
+								<th>Eligible Students</th>
+                                <th>Students present & appear for {{ round1 }}</th>
+                                {% for i in rounds %}
+                                <th>Students present & appear for {{ i }}</th>
+                                {% endfor %}
+                                <th>Final Selects</th>
+                                <th>Students Absent for Process</th>
+							</tr>
+
+                            <tr>
+								{% for i in branches %}
+								{% endfor %}
+							</tr>
+							{% endfor %}
+
+						</table>
+    <p align="left">
+    <div style="text-align:left">
+        {{ asst_placement}}
+        </div>
+    <div style="float:center">
+        {{ tpo }}
+    </div>
+    <div style="float:right">
+        {{ dean_placement}}
+    </div>
+    </p>
+    <div align="left">
+        Assistant Dean Placement
+    </div>
+    <div align="center">
+        TPO
+    </div>
+    <div align="right">
+        Dean Placement
+    </div>
+    Prepared By:<br><br>
+    Cc to :-
+    <ol type="1">
+            <li>
+                The Principal : For Information Please
+            </li>
+            <li>
+                The Vice Principal : For Information Please
+            </li>
+            <li>
+                H.O.D.({{ branches }}) : For Information Please
+            </li>
+    </ol>
+    <br>
+    <b>Encls : Feed Back from Comapny HR</b>
+</body>

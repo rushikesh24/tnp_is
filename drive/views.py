@@ -203,6 +203,7 @@ def student_attendence(request):
             companies = []
 
             for i in eligible_companies:
+                print(i)
                 companyname.append(i["company_name"])
                 cmp = dict(cname=i["company_name"], time=i["time"], location=i["venue"])
                 companies.append(cmp)
@@ -588,6 +589,7 @@ def college_analysis(request) :
             plt.pie([dypcoe, dypiemr],  labels=labels, shadow=True, startangle = 90)
             plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
             plt.savefig('static/drive/graphs/result_college.png')
+            #return HttpResponse("done")
             return render(request, 'drive/college_graph.html', {"company_name": request.POST.get("name")})
         except Exception as e:
             print({"exception": e})  # Console log
@@ -614,21 +616,23 @@ def total_analysis(request):
 
         record_candidate = collection_student.find()
         for i in record_candidate:
-            if int(i["eligible"])>0:
+            if int(i["eligible"]) > 0:
                 total_eligible_candidates += 1
-            if int(i["placed"])>0:
+            if int(i["placed"]) > 0:
                 total_placed_candidates += 1
 
         fig1, ax1 = plt.subplots()
-        ax1.pie([total_eligible_candidates,total_placed_candidates],
-                labels=["Eligible ("+str(total_eligible_candidates)+")","Placed ("+str(total_placed_candidates)+")"],
+        ax1.pie([total_eligible_candidates, total_placed_candidates],
+                labels=["Eligible (" + str(total_eligible_candidates) + ")",
+                        "Placed (" + str(total_placed_candidates) + ")"],
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
         plt.savefig('static/drive/graphs/result_total_analysis.png')
         return render(request, 'drive/total_graph.html', {})
     except Exception as e:
-        print("exception",e)
+        print("exception", e)
         return HttpResponse("Error occurred")
+
 
 @login_required
 def company_analysis(request):
@@ -669,13 +673,11 @@ def company_analysis(request):
 
         index = np.arange(len(list(companies_ls)))
         plt.bar(index, list(companies.values()))
-        plt.xlabel('Rounds', fontsize=7)
+        plt.xlabel('Departments', fontsize=7)
         plt.ylabel('No of Students', fontsize=15)
         plt.xticks(index, (list(companies_ls)), fontsize=7)
-        plt.title('Students Placed In ' + str(request.POST.get("name")))
-        # plt.figure(figsize=(10,10))
+        plt.title('Students Placed Branch wise')
         plt.savefig('static/drive/graphs/result_company_analysis.png')
-        #return HttpResponse("done")
         return render(request,'drive/company_graph.html',{})
     except Exception as e:
         print("exception", e)
