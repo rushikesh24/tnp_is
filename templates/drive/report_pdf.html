@@ -1,0 +1,147 @@
+    {% load static %}
+<html>
+<head>
+
+    <title>Report Generation PDF</title>
+    <style>
+        .box{
+        text-align: center;
+        padding-left: 148px;
+        border-bottom: 1px solid black;
+        }
+        #t01 {
+          width: 100%;
+          background-color: #f1f1c1;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        #t01 th{
+          border: 1px solid black;
+          border-collapse: collapse;
+          }
+        #t01 td{
+            border: 1px solid black;
+            border-collapse: collapse;
+            }
+
+        table#t02 {
+          width: 100%;
+          background-color: #f1f1c1;
+        }
+        th, td {
+            text-align : center;
+            padding : 5px;
+        }
+	</style>
+</head>
+<body>
+
+<table width="75%">
+    <col width="10">
+    <col width="100">
+    <tr>
+        <td >
+<img src="{% static 'signup/images/newlogo.png' %}" align="left"></td>
+        <td align="left">
+    <h1 align="center" >
+        D.Y.PATIL COLLEGE OF ENGINEERING, AKURDI PUNE-411044
+        <br>
+        Training & Placement Cell
+    </h1>
+        </td>
+    </tr>
+</table>
+<table width="100%" style="border-top:1px solid black;">
+    <tr>
+        <td align="left">
+DYPCE/T&P/</td>
+   <td align="right"> <label style="float:right">Date : {{ today_date }}<br></label></td>
+
+    </tr>
+</table>
+Submitted,
+<br>
+<b>Subject : Report of Campus Recruitment Drive of "{{ company_name }}" -{{ year }} GRADUATING BATCH</b>
+<br><br>
+Respected Sir/Madam,<br>
+"{{ company_name }}" was invited for Campus Recruitment of {{ year }} Graduating Batch. Campus Recruitment Drive was conducted on {{ date }} at Corporate Relation & Placement Cell.
+The details of the same are as below:
+    <ol type="1">
+        <li>
+            <b>Eligible Branches :</b> {{ branches }}
+        </li>
+        <li>
+            <b>Eligibility Criteria :</b> {{ criteria }}
+        </li>
+        <li>
+            <b>Procedure :</b> {{ procedure }}
+        </li>
+        <li>
+            <b>Total Number of Students Appear for the Process :</b> {{ total_candidate }}
+        </li>
+        <li>
+            <b>Final Selected :{{ placed_candidate }}</b>
+        </li>
+        <li>
+            <b>Department wise details are as below :</b>
+        </li>
+    </ol>
+    <table id="t01" style="width: 100%;">
+        <tr>
+            <!--<th>Sr No. </th>-->
+            <th>Department</th>
+            <th>Eligible Students</th>
+            {% for i in rounds %}
+            <th>Students present & appear for {{ i }}</th>
+            {% endfor %}
+            <th>Final Selects</th>
+            <th>Students Absent for Process</th>
+        </tr>
+
+
+            {% for i in branch_wise_data %}
+                <tr>
+                {% for j in i %}
+                    <td>{{ j }}</td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+
+        <tr>
+            {% for i in total_row %}
+            <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+
+    </table>
+<br><br><br><br>
+
+    <table id="#t02" style=" width:100%">
+        <tr class="bord">
+            <th>Mrs.Sandhya Ingale</th>
+            <th>Mr.Heeresh Khatri</th>
+            <th>Jasmita Kaur</th>
+        </tr>
+
+        <tr>
+            <td>Assistant Dean Placement</td>
+            <td>TPO</td>
+            <td>Dean Placement</td>
+        </tr>
+    </table>
+    Prepared By:<br><br>
+    Cc to :-
+    <ol type="1">
+            <li>
+                The Principal : For Information Please
+            </li>
+            <li>
+                The Vice Principal : For Information Please
+            </li>
+            <li>
+                H.O.D.({{ branches }}) : For Information Please
+            </li>
+    </ol>
+    <br>
+    <b>Encls : Feed Back from Comapny HR</b>
+</body>

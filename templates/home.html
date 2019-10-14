@@ -95,17 +95,17 @@ h1 {
 
 .container {
 	width: calc(3*170px);
-	/*height: calc(2*170px);
-	box-shadow: 0 0 10px rgba(0,0,0,.6);*/
-	margin: 100px auto;
+	height: calc(2*170px);
+	box-shadow: 0 0 10px rgba(0,0,0,.6);
+	/*margin: 100px auto;*/
 
 }
 
 .container1 {
-	width: calc(170px);
-	/*height: calc(2*170px);
-	box-shadow: 0 0 10px rgba(0,0,0,.6);*/
-	margin: 100px auto;
+	width: calc(3*170px);
+	height: calc(170px);
+	box-shadow: 0 0 10px rgba(0,0,0,.6);
+	/*margin: 100px auto;*/
 
 }
 
@@ -155,10 +155,10 @@ img.icon {
 	display: block;
 }
 .boxPad{
-    padding-left : 60px;
+    padding-left : 140px;
 }
 .boxPadd{
-    padding-left : 313px;
+    padding-left : 160px;
 }
 * {
 	-webkit-touch-callout: none;
@@ -195,7 +195,8 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
 </h1>
 {% if user.is_authenticated %}
     <h1> Hi {{ user.username }}! </h1>
-        <div class="boxPad">
+    <div class="boxPad">
+        <div class="container">
             <div class="tile pink" id="candidateupload">
                 <a href="{% url 'candidate_upload' %}">
                 <img src="{% static 'signup/images/icons/upload-64.png' %}" class="icon" />
@@ -215,8 +216,21 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
                 <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
                 <span class="title">Report Generation</span>
                 </a>
+                </div>
+
+            <div class="tile purple" id="placed_student">
+                <a href="{% url 'company_search' %}">
+                <img src="{% static 'signup/images/icons/logout-64.png' %}" class="icon" />
+                <span class="title">Placed Student</span>
+                </a>
             </div>
 
+            <div class="tile pink" id="pdf_report">
+            <a href="{% url 'report_pdf' %}">
+                  <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
+                  <span class="title">PDF Report</span>
+            </a>
+            </div>
             <div class="tile purple" id="logout">
                 <a href="{% url 'logout' %}">
                 <img src="{% static 'signup/images/icons/logout-64.png' %}" class="icon" />
@@ -224,17 +238,37 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
                 </a>
             </div>
         </div>
+    </div>
 {% else %}
+
     <h2 align="center">You are not logged in</h2>
         <div class="boxPadd">
-            <div class="tile purple" id="login">
-                <a href="{% url 'login' %}">
-                <img src="{% static 'signup/images/icons/login-64.png' %}" class="icon" />
-                <span class="title">Login</span>
+            <div class="container1">
+
+
+                 <div class="tile mint" id="volunteer_serch">
+                <a href="{% url 'volunteer_search' %}">
+                <img src="{% static 'signup/images/icons/logout-64.png' %}" class="icon" />
+                <span class="title">Volunteer</span>
                 </a>
             </div>
-        </div>
 
+
+                <div class="tile pink" id="student_attendance">
+                <a href="{% url 'student_attendance' %}">
+                <img src="{% static 'signup/images/icons/logout-64.png' %}" class="icon" />
+                <span class="title">Student Attendance</span>
+                </a>
+            </div>
+
+                <div class="tile purple" id="login">
+                    <a href="{% url 'login' %}">
+                    <img src="{% static 'signup/images/icons/login-64.png' %}" class="icon" />
+                    <span class="title">Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
         {% endif %}
         </div>
 

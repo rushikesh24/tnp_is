@@ -1,14 +1,18 @@
-import math
+import os
 import random
 import string
 from datetime import date
+from io import BytesIO
 
 import matplotlib.pyplot as plt
 import numpy as np
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template.loader import get_template
 from pymongo import MongoClient
+from xhtml2pdf import pisa
 
 
 # Drive Upload
@@ -251,6 +255,7 @@ def student_list(request):
                         break
 
                     if flag:
+
                         collection_drive.update({"_id": str(i) + year}, {"$push": {"round1_student": {
                             '_id': request.POST.get('id'),
                             'name': request.POST.get('name'),
@@ -528,8 +533,10 @@ def placed_analysis(request) :
             plt.xlabel('Rounds', fontsize=7)
             plt.ylabel('No of Students', fontsize=15)
             plt.xticks(index, labels, fontsize=7, rotation=30)
+            plt.title("Analysis of Placed Students in as per company")
             plt.title('Students Placed In ' + company_name)
             plt.savefig('static/drive/graphs/result_round.png')
+            plt.close()
             return render(request, 'drive/placed_graph.html', {"company_name": request.POST.get("name")})
         except Exception as e:
             print({"exception": e})  # Console log
@@ -587,8 +594,10 @@ def college_analysis(request) :
 
             #fig1, ax1 = plt.subplots()
             plt.pie([dypcoe, dypiemr],  labels=labels, shadow=True, startangle = 90)
+            plt.title("Analysis Report as per the College")
             plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
             plt.savefig('static/drive/graphs/result_college.png')
+            plt.close()
             #return HttpResponse("done")
             return render(request, 'drive/college_graph.html', {"company_name": request.POST.get("name")})
         except Exception as e:
@@ -626,8 +635,10 @@ def total_analysis(request):
                 labels=["Eligible (" + str(total_eligible_candidates) + ")",
                         "Placed (" + str(total_placed_candidates) + ")"],
                 shadow=True, startangle=90)
+        plt.title("Analysis of Total Students - Eligible and Placed")
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
         plt.savefig('static/drive/graphs/result_total_analysis.png')
+        plt.close(fig1)
         return render(request, 'drive/total_graph.html', {})
     except Exception as e:
         print("exception", e)
@@ -678,7 +689,255 @@ def company_analysis(request):
         plt.xticks(index, (list(companies_ls)), fontsize=7)
         plt.title('Students Placed Branch wise')
         plt.savefig('static/drive/graphs/result_company_analysis.png')
+        plt.close()
         return render(request,'drive/company_graph.html',{})
     except Exception as e:
         print("exception", e)
         return HttpResponse("Error occurred")
+#----------------------------------------------------------------------------------
+
+def link_callback(uri, rel):
+    """
+    Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+    resources
+    """
+    print("callback")
+    # use short variable names
+    sUrl = settings.STATIC_URL      # Typically /static/
+    sRoot = settings.STATIC_ROOT    # Typically /home/userX/project_static/
+    mUrl = settings.MEDIA_URL       # Typically /static/media/
+    mRoot = settings.MEDIA_ROOT     # Typically /home/userX/project_static/media/
+
+    # convert URIs to absolute system paths
+    if uri.startswith(mUrl):
+        path = os.path.join(mRoot, uri.replace(mUrl, ""))
+    elif uri.startswith(sUrl):
+        path = os.path.join(sRoot, uri.replace(sUrl, ""))
+    else:
+        return uri  # handle absolute uri (ie: http://some.tld/foo.png)
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+    return path
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result,link_callback=link_callback)
+    if not pdf.err:
+        print("Successful")
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    else:
+        print("Unuccessful")
+        return None
+
+
+
+def report_pdf(request):
+    if request.method == "POST":
+        try:
+            client = MongoClient()
+            db = client['tnp_management']
+            collection_drive = db['drive_drive']
+
+            query = {
+                "company_name":request.POST.get("name").lower(),
+                "date" : request.POST.get("drive_date"),
+            }
+
+            company_cur = collection_drive.find(query)
+            company = {}
+            for i in company_cur:
+                company = i
+
+            company_name = company['company_name'].upper()
+            drive_date = company['date']
+            year = drive_date.split("-")[0]
+            criteria = "10th : " + str(company['eligibility'][0]['tenth_marks']) + ", 12th or Diploma : "+ str(company['eligibility'][0]['diploma_12']) + ", Engineering : " + str(company['eligibility'][0]['engineering'])
+            today_date =  str(date.today())
+            branch_ls = []
+            if company['Computer']:
+                branch_ls.append("Computer")
+            if company['Civil']:
+                branch_ls.append("Civil")
+            if company['Mechanical']:
+                branch_ls.append("Mechanical")
+            if company['IT']:
+                branch_ls.append("IT")
+            if company['Instrumentation']:
+                branch_ls.append("Instrumentation")
+            if company['Production']:
+                branch_ls.append("Production")
+            if company['ENTC']:
+                branch_ls.append("E&TC")
+
+            branches = ""
+            for i in branch_ls:
+                branches = branches + i + "/"
+            branches = branches[:-1]
+
+            total_row = ['Total']
+            comp_ls =['computer']
+            it_ls = ['Information Technology']
+            civil_ls = ['civil']
+            mech_ls = ['Mechanical']
+            prod_ls = ['Production']
+            instru_ls = ["Instrumentation"]
+            entc_ls = ['E&TC']
+
+            #eligiblity count
+
+            comp = it = civil = mech = prod = instru = entc = 0
+            for j in company['eligible_student']:
+                if j['branch'] == "computer":
+                    comp = comp + 1
+                if j['branch'] == "information technology":
+                    it = it + 1
+                if j['branch'] == "entc":
+                    entc = entc + 1
+                if j['branch'] == "mechanical engineering":
+                    mech = mech + 1
+                if j['branch'] == "civil engineering":
+                    civil = civil + 1
+                if j['branch'] == "production engineering":
+                    prod = prod + 1
+                if j['branch'] == "instrumentation engineering":
+                    instru = instru + 1
+            total_row.append(comp + it + civil + mech + prod + instru + entc)
+
+
+            comp_ls.append(comp)
+            it_ls.append(it)
+            civil_ls.append(civil)
+            mech_ls.append(mech)
+            prod_ls.append(prod)
+            instru_ls.append(instru)
+            entc_ls.append(entc)
+
+            #round count
+            procedure = ""
+            rounds = []
+            for i in company['rounds']:
+                procedure = procedure + i['round_name'] +"/"
+                rounds.append(i['round_name'])
+                attr_name = "round"+i['round_number']+"_student"
+                comp = it = civil = mech = prod = instru = entc = 0
+                for j in company[attr_name]:
+                    if j['branch'] == "computer":
+                        comp = comp + 1
+                    if j['branch'] == "information technology" or j['branch'] == 'information' :
+                        it = it + 1
+                    if j['branch'] == "entc":
+                        entc = entc + 1
+                    if j['branch'] == "mechanical engineering":
+                        mech = mech + 1
+                    if j['branch'] == "civil engineering":
+                        civil = civil + 1
+                    if j['branch'] == "production engineering":
+                        prod = prod + 1
+                    if j['branch'] == "instrumentation engineering":
+                        instru = instru + 1
+
+                comp_ls.append(comp)
+                it_ls.append(it)
+                civil_ls.append(civil)
+                mech_ls.append(mech)
+                prod_ls.append(prod)
+                instru_ls.append(instru)
+                entc_ls.append(entc)
+                total_row.append(comp + it + civil + mech + prod + instru + entc)
+
+            #placed count
+            comp = it = civil = mech = prod = instru = entc = 0
+            for j in company['placed_student']:
+                if j['branch'] == "computer":
+                    comp = comp + 1
+                if j['branch'] == "information technology":
+                    it = it + 1
+                if j['branch'] == "entc":
+                    entc = entc + 1
+                if j['branch'] == "mechanical engineering":
+                    mech = mech + 1
+                if j['branch'] == "civil engineering":
+                    civil = civil + 1
+                if j['branch'] == "production engineering":
+                    prod = prod + 1
+                if j['branch'] == "instrumentation engineering":
+                    instru = instru + 1
+            total_row.append(comp + it + civil + mech + prod + instru + entc)
+            comp_ls.append(comp)
+            it_ls.append(it)
+            civil_ls.append(civil)
+            mech_ls.append(mech)
+            prod_ls.append(prod)
+            instru_ls.append(instru)
+            entc_ls.append(entc)
+
+            # absent data
+            comp = comp_ls[1]-comp_ls[2]
+            it = it_ls[1]-it_ls[2]
+            civil = civil_ls[1]-civil_ls[2]
+            mech = mech_ls[1]-mech_ls[2]
+            prod = prod_ls[1]-prod_ls[2]
+            instru = instru_ls[1]-instru_ls[2]
+            entc = entc_ls[1]-entc_ls[2]
+
+            comp_ls.append(comp)
+            it_ls.append(it)
+            civil_ls.append(civil)
+            mech_ls.append(mech)
+            prod_ls.append(prod)
+            instru_ls.append(instru)
+            entc_ls.append(entc)
+            total_row.append(comp + it + civil + mech + prod + instru + entc)
+
+            branc_wise_data = []
+            if comp_ls[1] > 0:
+                branc_wise_data.append(comp_ls)
+            if it_ls[1] > 0:
+                branc_wise_data.append(it_ls)
+            if civil_ls[1] > 0:
+                branc_wise_data.append(civil_ls)
+            if mech_ls[1] > 0:
+                branc_wise_data.append(mech_ls)
+            if prod_ls[1] > 0:
+                branc_wise_data.append(prod_ls)
+            if instru_ls[1] > 0:
+                branc_wise_data.append(instru_ls)
+            if entc_ls[1] > 0:
+                branc_wise_data.append(entc_ls)
+            procedure = procedure[:-1]
+
+            total_candidate = len(company["round1_student"])
+            placed_candidate = len(company["placed_student"])
+
+
+
+            data = {
+                "today_date": today_date,
+                "company_name": company_name,
+                "date": drive_date,
+                "year": year,
+                "branches": branches,
+                "criteria": criteria,
+                "procedure": procedure,
+                "total_candidate": total_candidate,
+                "placed_candidate": placed_candidate,
+                "branch_wise_data": branc_wise_data,
+                "rounds": rounds,
+                "total_row": total_row
+            }
+
+            print(data)
+            pdf = render_to_pdf('drive/report_pdf.html', data)
+            return HttpResponse(pdf,content_type='application/pdf')
+
+        except Exception as e:
+            print("exception", e)
+            return HttpResponse("Error occurred")
+    else:
+        return render(request, 'drive/pdf_report_generate.html', {})

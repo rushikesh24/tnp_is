@@ -14,5 +14,6 @@ urlpatterns = [
     url('placed/analysis', views.placed_analysis, name='placed_analysis'),
     url('college/analysis', views.college_analysis, name='college_analysis'),
     url('total/analysis', views.total_analysis, name='total_analysis'),
-    url('company/analysis', views.company_analysis, name='company_analysis')
+    url('company/analysis', views.company_analysis, name='company_analysis'),
+    url('report/pdf',views.report_pdf,name='report_pdf'),
 ]
