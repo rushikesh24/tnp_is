@@ -4,22 +4,23 @@
 <style>
 @import url(https://fonts.googleapis.com/css?family=Lato);
 
-html {
-	background: #000 url("{% static 'signup/images/bg.jpg' %}") no-repeat fixed center center;
-	background-size: cover;
-}
+
 
 body {
 	font-family: 'Lato', sans-serif;
 	color: #fff;
 	font-size: 16px;
+	background-image: url("{% static 'signup/images/icons/graphbg.png' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size:100% 100%;
 }
-
 .container {
 	width: calc(4*170px);
 	/*height: calc(2*170px);
 	box-shadow: 0 0 10px rgba(0,0,0,.6);*/
 	margin: 100px auto;
+	padding-top: 90px;
 
 }
 
@@ -50,6 +51,11 @@ body {
 	color: #fff;
 	text-decoration: none !important;
 }
+
+.col1 { background-color: #ff6699; }
+.col2 { background-color: #cc66ff; }
+.col3 { background-color: #ff6666; }
+.col4 { background-color: #ff8080; }
 
 .blue { background-color: #00c0e4; }
 .mint { background-color: #2ecc71; }
@@ -85,29 +91,29 @@ img.icon {
     REPORT GENERATION
 </h1>
     <br>
-      <div class="tile mint" id="placed_analysis">
+      <div class="tile col1" id="placed_analysis">
             <a href="{% url 'placed_analysis' %}">
-                  <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
+                  <img src="{% static 'signup/images/icons/bar.png' %}" class="icon" />
                   <span class="title">Placed Analysis</span>
             </a>
       </div>
 
-      <div class="tile purple" id="college_analysis">
+      <div class="tile col2" id="college_analysis">
             <a href="{% url 'college_analysis' %}">
-                  <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
+                  <img src="{% static 'signup/images/icons/pie.png' %}" class="icon" />
                 <span class="title">College Analysis</span>
             </a>
       </div>
 
-    <div class="tile blue" id="total_analysis">
+    <div class="tile col3" id="total_analysis">
                 <a href="{% url 'total_analysis' %}">
-				      <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
+				      <img src="{% static 'signup/images/icons/pie.png' %}" class="icon" />
       				<span class="title">Total Analysis</span>
     			</a>
     </div>
-    <div class="tile mint" id="company_analysis">
+    <div class="tile col4" id="company_analysis">
             <a href="{% url 'company_analysis' %}">
-                  <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
+                  <img src="{% static 'signup/images/icons/bar.png' %}" class="icon" />
                   <span class="title">Company Analysis</span>
             </a>
     </div>

@@ -15,7 +15,11 @@ h1 {
   font-size:48px;
 }
 
-
+.an {
+    display: inline-block;
+    border: none;
+    outline:none;
+}
 .header {
   position:relative;
   text-align:center;
@@ -135,7 +139,7 @@ h1 {
 	color: #fff;
 	text-decoration: none !important;
 }
-/*660066 	660099 	6600CC 	6600FF*/
+
 
 .blue { background-color: #00c0e4; }
 .mint { background-color: #2ecc71; }
@@ -206,7 +210,7 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
 
             <div class="tile blue" id="driveupload">
                 <a href="{% url 'drive_upload' %}">
-                <img src="{% static 'signup/images/icons/upload-64.png' %}" class="icon" />
+                <img src="{% static 'signup/images/icons/upload-2-64.png' %}" class="icon" />
                 <span class="title">Drive Upload</span>
                 </a>
             </div>
@@ -220,14 +224,14 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
 
             <div class="tile purple" id="placed_student">
                 <a href="{% url 'company_search' %}">
-                <img src="{% static 'signup/images/icons/logout-64.png' %}" class="icon" />
+                <img src="{% static 'signup/images/icons/arrow-24-64.png' %}" class="icon" />
                 <span class="title">Placed Student</span>
                 </a>
             </div>
 
             <div class="tile pink" id="pdf_report">
             <a href="{% url 'report_pdf' %}">
-                  <img src="{% static 'signup/images/icons/report-2-64.png' %}" class="icon" />
+                  <img src="{% static 'signup/images/icons/pdf-file-64.png' %}" class="icon" />
                   <span class="title">PDF Report</span>
             </a>
             </div>
@@ -248,7 +252,7 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
 
                  <div class="tile mint" id="volunteer_serch">
                 <a href="{% url 'volunteer_search' %}">
-                <img src="{% static 'signup/images/icons/logout-64.png' %}" class="icon" />
+                <img src="{% static 'signup/images/icons/group-64.png' %}" class="icon" />
                 <span class="title">Volunteer</span>
                 </a>
             </div>
@@ -256,7 +260,7 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
 
                 <div class="tile pink" id="student_attendance">
                 <a href="{% url 'student_attendance' %}">
-                <img src="{% static 'signup/images/icons/logout-64.png' %}" class="icon" />
+                <img src="{% static 'signup/images/icons/text-file-4-64.png' %}" class="icon" />
                 <span class="title">Student Attendance</span>
                 </a>
             </div>
@@ -295,7 +299,45 @@ viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
 <!--Content starts-->
 <div class="content flex">
     <p>CREATED BY <br>
-    MAYUR NAGARE | RUSHIKESH ZANWAR</p>
+    MAYUR NAGARE | RUSHIKESH ZANWAR<br>
+    <a class="an" href="https://www.facebook.com/mayur.nagare.378" >
+        <img src="{% static 'signup/images/icons/fb.png' %}" class="pad" >
+    </a>
+    <a class="an" href="https://instagram.com/mayur_o_graphy?igshid=9sq64dg6nehf">
+        <img src="{% static 'signup/images/icons/insta.png' %}">
+    </a>
+    <a class="an" href="https://www.linkedin.com/in/mayur-nagare-7a2551170/">
+        <img src="{% static 'signup/images/icons/linkedin.png' %}">
+    </a>
+    <a class="an" href="https://github.com/mayur2139">
+        <img src="{% static 'signup/images/icons/github.png' %}">
+    </a>
+
+        <img src="{% static 'signup/images/icons/line.png' %}">
+    <a class="an" href="https://www.facebook.com/ZRushikesh24">
+        <img src="{% static 'signup/images/icons/fb.png' %}">
+    </a>
+
+    <a class="an" href="https://www.instagram.com/rushi_zawar/?igshid=9s29pncrm1jg">
+        <img src="{% static 'signup/images/icons/insta.png' %}">
+    </a>
+
+    <a class="an" href="https://www.linkedin.com/in/rushikesh-zanwar-29341b117/">
+        <img src="{% static 'signup/images/icons/linkedin.png' %}">
+    </a>
+
+    <a class="an" href="https://github.com/rushikesh24">
+        <img src="{% static 'signup/images/icons/github.png' %}">
+    </a>
+
+
+
+
+
+
+
+
+    </p>
 </div>
 <!--Content ends-->
 </body>
