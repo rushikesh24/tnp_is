@@ -688,6 +688,7 @@ def company_analysis(request):
         plt.ylabel('No of Students', fontsize=15)
         plt.xticks(index, (list(companies_ls)), fontsize=7)
         plt.title('Students Placed Branch wise')
+
         plt.savefig('static/drive/graphs/result_company_analysis.png')
         plt.close()
         return render(request,'drive/company_graph.html',{})
